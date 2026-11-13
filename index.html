@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L’abeille voyageuse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f4e7; --ink:#142b05; --sapin:#1f4d3a; --rose:#f4a6b8; --barbie:#d16fd6;
+  --abeille:#f7dc5b; --miel:#f7c531; --aile:#00dcf9; --line:rgba(20,43,5,.18);
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#142b05;--ink:#f3f4e7;--sapin:#f4a6b8;--line:rgba(243,244,231,.22)}
+}
+:root[data-theme="dark"]{--bg:#142b05;--ink:#f3f4e7;--sapin:#f4a6b8;--line:rgba(243,244,231,.22)}
+*{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:"Libre Baskerville",Georgia,serif;line-height:1.75;font-size:1.0625rem}
+h1,h2{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);line-height:1.1;margin:0}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem 1.5rem;max-width:62rem;margin:0 auto;padding:1.25rem 1.25rem 0}
+.brand{font-family:Poppins,Arial,sans-serif;font-weight:700;color:var(--sapin);text-decoration:none;font-size:1.05rem}
+nav{display:flex;gap:.4rem;flex-wrap:wrap}
+nav a{font-family:Poppins,Arial,sans-serif;font-weight:700;font-size:.9rem;color:var(--ink);text-decoration:none;padding:.45rem 1rem;border-radius:999px;border:2px solid var(--line)}
+nav a:hover{border-color:var(--rose)}
+nav a[aria-current="page"]{background:var(--rose);border-color:var(--rose);color:#142b05}
+a:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+main{max-width:62rem;margin:0 auto;padding:0 1.25rem 4rem}
+section{display:none}
+section.on{display:block}
+.hero h1{font-size:clamp(2.4rem,8vw,5rem);margin-top:2rem;max-width:12ch}
+.hero .sub{font-style:italic;font-size:1.2rem;max-width:34rem;margin:1rem 0 0}
+.flight{width:100%;height:auto;display:block;margin:1.5rem 0 0;overflow:visible}
+.msg{max-width:36rem;margin:1rem 0 0;padding-left:1.25rem;border-left:6px solid var(--abeille)}
+.page h2{font-size:clamp(1.9rem,6vw,3rem);margin-top:2.5rem}
+.page p{max-width:36rem;margin:1.25rem 0 0}
+.empty{max-width:36rem;margin-top:2rem;padding:1.5rem;border:2px dashed var(--rose);border-radius:1.25rem}
+footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:.9rem;font-style:italic;opacity:.8}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="#accueil">L’abeille voyageuse</a>
+  <nav aria-label="Navigation principale">
+    <a href="#accueil" data-t="accueil">Accueil</a>
+    <a href="#theatre" data-t="theatre">Pièce de théâtre</a>
+    <a href="#archives" data-t="archives">Archives Mails</a>
+  </nav>
+</header>
+<main>
+  <section id="accueil" class="hero on">
+    <h1>Un message à la fois.</h1>
+    <p class="sub">Ici, l’abeille voyageuse transmet ce que je n’ai pas su dire assez bien.</p>
+    <svg class="flight" viewBox="0 0 800 300" role="img" aria-label="Le trajet de l’abeille voyageuse">
+      <path id="trajet" d="M40 240 C160 40 260 280 380 150 S600 20 760 120" fill="none" stroke="#d16fd6" stroke-width="3" stroke-dasharray="2 12" stroke-linecap="round"/>
+      <g id="bee">
+        <g transform="translate(-26 -22)">
+          <path d="M36 14 q-14 6-6 20 q10 4 14-8z" fill="#00dcf9" opacity=".85" stroke="#142b05" stroke-width="1.5"/>
+          <path d="M26 12 q-8-14-22-8 q-2 14 14 18z" fill="#00dcf9" opacity=".85" stroke="#142b05" stroke-width="1.5"/>
+          <ellipse cx="24" cy="30" rx="20" ry="13" fill="#f7dc5b" stroke="#142b05" stroke-width="2"/>
+          <path d="M18 18v24M28 17v26" stroke="#142b05" stroke-width="5"/>
+          <circle cx="41" cy="28" r="2.2" fill="#142b05"/>
+          <path d="M42 20c3-6 8-6 9-2-1 3-5 3-5 0" fill="none" stroke="#142b05" stroke-width="1.6" stroke-linecap="round"/>
+        </g>
+        <animateMotion id="vol" dur="9s" begin="0.4s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.45 0 0.2 1"><mpath href="#trajet"/></animateMotion>
+      </g>
+    </svg>
+    <p class="msg">Ce site grandira doucement, au fil des semaines. Reviens quand tu veux : l’abeille aura peut-être déposé quelque chose de nouveau.</p>
+  </section>
+
+  <section id="theatre" class="page">
+    <h2>Pièce de théâtre</h2>
+    <p>Cet espace accueillera la pièce. Elle arrive bientôt.</p>
+    <div class="empty">Rien à lire pour l’instant. Les premières scènes seront publiées ici.</div>
+  </section>
+
+  <section id="archives" class="page">
+    <h2>Archives Mails</h2>
+    <p>Tous les mails que l’abeille a transportés seront rassemblés ici, du plus récent au plus ancien.</p>
+    <div class="empty">Aucun mail archivé pour l’instant.</div>
+  </section>
+</main>
+<footer>Fait avec patience, sincérité et tendresse.</footer>
+<script>
+(function(){
+  var ids=["accueil","theatre","archives"];
+  function show(){
+    var h=(location.hash||"").replace("#","");
+    if(ids.indexOf(h)<0)h="accueil";
+    ids.forEach(function(i){document.getElementById(i).classList.toggle("on",i===h)});
+    document.querySelectorAll("nav a").forEach(function(a){
+      if(a.dataset.t===h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+    });
+    document.title=(h==="accueil"?"":document.querySelector('#'+h+' h2').textContent+" · ")+"L’abeille voyageuse";
+    window.scrollTo(0,0);
+  }
+  window.addEventListener("hashchange",show);show();
+  if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches){
+    var v=document.getElementById("vol");if(v)v.remove();
+    document.getElementById("bee").setAttribute("transform","translate(760 120)");
+  }
+})();
+</script>
+</body>
+</html>
