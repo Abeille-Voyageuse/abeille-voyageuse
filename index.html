@@ -72,6 +72,9 @@ nav a{font-size:clamp(.85rem,.8rem + .2vw,1rem)}
 .n{font-size:.9em}
 .scene p.dir{font-size:.95em}
 footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85rem,.82rem + .12vw,1rem);font-style:italic;opacity:.8}
+.acte-nav{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1.5rem;border-top:2px solid var(--line)}
+.acte-nav a{display:inline-flex;align-items:center;min-height:2.75rem;padding:.3rem 1.1rem;border-radius:999px;border:2px solid var(--line);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);text-decoration:none}
+.acte-nav a:hover{border-color:var(--rose)}
 </style>
 </head>
 <body>
@@ -94,7 +97,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
         <animateMotion id="vol" dur="9s" begin="0.4s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.45 0 0.2 1"><mpath href="#trajet"/></animateMotion>
       </g>
     </svg>
-    <p class="msg">Ce site grandira doucement, au fil des semaines. Reviens quand tu veux : l’abeille aura peut-être déposé quelque chose de nouveau.</p>
+    <p class="msg">Ce site grandira doucement, au fil du temps. Reviens quand tu veux : l’abeille aura peut-être déposé quelque chose de nouveau.</p>
   </section>
 
   <section id="theatre" class="page">
@@ -102,6 +105,8 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     <p>Chaque acte a sa propre page. Choisis celui que tu veux lire.</p>
     <ul class="liste-actes">
       <li><a class="carte-acte" href="#acte-1"><b>Acte I : Le retour</b><span>Un balcon du château, la nuit.</span></a></li>
+      <li><a class="carte-acte" href="#acte-2"><b>Acte II : À venir</b><span>À venir.</span></a></li>
+      <li><a class="carte-acte" href="#acte-3"><b>Acte III : À venir</b><span>À venir.</span></a></li>
     </ul>
   </section>
 
@@ -193,6 +198,20 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     <p class="suite"><a class="back" href="#theatre">← Retour à la pièce</a></p>
   </section>
 
+  <section id="acte-2" class="page acte">
+    <p><a class="back" href="#theatre">← Pièce de théâtre</a></p>
+    <h2>Acte II : À venir</h2>
+    <p>Cet acte arrive bientôt.</p>
+    <p class="suite"><a class="back" href="#theatre">← Retour à la pièce</a></p>
+  </section>
+
+  <section id="acte-3" class="page acte">
+    <p><a class="back" href="#theatre">← Pièce de théâtre</a></p>
+    <h2>Acte III : À venir</h2>
+    <p>Cet acte arrive bientôt.</p>
+    <p class="suite"><a class="back" href="#theatre">← Retour à la pièce</a></p>
+  </section>
+
   <section id="archives" class="page">
     <h2>Archives Mails</h2>
     <p>Tous les mails que l’abeille a transportés seront rassemblés ici, du plus récent au plus ancien.</p>
@@ -202,15 +221,30 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 <footer>Fait avec patience, sincérité et tendresse.</footer>
 <script>
 (function(){
-  var ids=["accueil","theatre","acte-1","archives"];
+  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "archives"];
+  var actes=ids.filter(function(i){return i.indexOf("acte-")===0;});
+  function fleches(h){
+    document.querySelectorAll(".acte-nav").forEach(function(n){n.remove();});
+    var k=actes.indexOf(h);
+    if(k<0)return;
+    var nav=document.createElement("div");
+    nav.className="acte-nav";
+    nav.setAttribute("role","navigation");
+    nav.setAttribute("aria-label","Navigation entre les actes");
+    nav.innerHTML=
+      (k>0 ? '<a href="#'+actes[k-1]+'">← Acte précédent</a>' : '<span></span>')+
+      (k<actes.length-1 ? '<a href="#'+actes[k+1]+'">Acte suivant →</a>' : '<span></span>');
+    document.getElementById(h).appendChild(nav);
+  }
   function show(){
     var h=(location.hash||"").replace("#","");
     if(ids.indexOf(h)<0)h="accueil";
-    ids.forEach(function(i){document.getElementById(i).classList.toggle("on",i===h)});
+    ids.forEach(function(i){var el=document.getElementById(i);if(el)el.classList.toggle("on",i===h)});
     document.querySelectorAll("nav a").forEach(function(a){
       if(a.dataset.t===(h.indexOf("acte-")===0?"theatre":h))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
     });
     document.title=(h==="accueil"?"":document.querySelector('#'+h+' h2').textContent+" · ")+"L’abeille voyageuse";
+    fleches(h);
     window.scrollTo(0,0);
   }
   window.addEventListener("hashchange",show);show();
