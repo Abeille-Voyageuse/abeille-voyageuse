@@ -77,6 +77,21 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 .acte-nav a:hover{border-color:var(--rose)}
 /* Espacement des actes dans la liste « Pièce de théâtre » */
 .liste-actes{display:grid;gap:clamp(1.25rem,1rem + 1.2vw,2.25rem)}
+/* Menu déroulant sur mobile (aux couleurs du site) */
+.menu-mobile{display:none}
+@media (max-width:640px){
+  nav{display:none}
+  .menu-mobile{display:block;flex:1 0 100%;position:relative}
+  .menu-btn{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:2.75rem;padding:.3rem 1.1rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(16px,1rem);color:#142b05;background:var(--rose);border:2px solid var(--rose);border-radius:999px;cursor:pointer;text-align:left}
+  .menu-btn::after{content:"";width:.6rem;height:.6rem;border-right:3px solid #142b05;border-bottom:3px solid #142b05;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+  .menu-btn[aria-expanded="true"]::after{transform:rotate(-135deg) translateY(-2px)}
+  .menu-btn:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+  .menu-liste{position:absolute;z-index:20;left:0;right:0;top:calc(100% + .5rem);margin:0;padding:.5rem;list-style:none;background:var(--bg);border:2px solid var(--rose);border-radius:1.25rem;box-shadow:0 .75rem 2rem rgba(20,43,5,.18)}
+  .menu-liste[hidden]{display:none}
+  .menu-liste a{display:flex;align-items:center;min-height:2.75rem;padding:.4rem 1rem;border-radius:999px;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(16px,1rem);color:var(--ink);text-decoration:none}
+  .menu-liste a:hover{background:rgba(244,166,184,.35)}
+  .menu-liste a[aria-current="page"]{background:var(--rose);color:#142b05}
+}
 </style>
 </head>
 <body>
@@ -87,6 +102,14 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     <a href="#theatre" data-t="theatre">Pièce de théâtre</a>
     <a href="#archives" data-t="archives">Archives Mails</a>
   </nav>
+  <div class="menu-mobile">
+    <button type="button" id="menu-btn" class="menu-btn" aria-expanded="false" aria-controls="menu-liste"><span id="menu-label">Accueil</span></button>
+    <ul id="menu-liste" class="menu-liste" hidden>
+      <li><a href="#accueil" data-t="accueil">Accueil</a></li>
+      <li><a href="#theatre" data-t="theatre">Pièce de théâtre</a></li>
+      <li><a href="#archives" data-t="archives">Archives Mails</a></li>
+    </ul>
+  </div>
 </header>
 <main>
   <section id="accueil" class="hero on">
@@ -224,6 +247,18 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 <script>
 (function(){
   var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "archives"];
+  var mBtn=document.getElementById("menu-btn"),mListe=document.getElementById("menu-liste"),mLabel=document.getElementById("menu-label");
+  function mFermer(){if(!mBtn)return;mListe.hidden=true;mBtn.setAttribute("aria-expanded","false");}
+  if(mBtn){
+    mBtn.addEventListener("click",function(){
+      var ouvert=mBtn.getAttribute("aria-expanded")==="true";
+      mListe.hidden=ouvert;
+      mBtn.setAttribute("aria-expanded",ouvert?"false":"true");
+    });
+    mListe.addEventListener("click",function(e){if(e.target.closest("a"))mFermer();});
+    document.addEventListener("click",function(e){if(!e.target.closest(".menu-mobile"))mFermer();});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape"&&mBtn.getAttribute("aria-expanded")==="true"){mFermer();mBtn.focus();}});
+  }
   var actes=ids.filter(function(i){return i.indexOf("acte-")===0;});
   function fleches(h){
     document.querySelectorAll(".acte-nav").forEach(function(n){n.remove();});
@@ -246,6 +281,14 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
       if(a.dataset.t===(h.indexOf("acte-")===0?"theatre":h))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
     });
     document.title=(h==="accueil"?"":document.querySelector('#'+h+' h2').textContent+" · ")+"L’abeille voyageuse";
+    if(mBtn){
+      var cle=(h.indexOf("acte-")===0?"theatre":h);
+      document.querySelectorAll("#menu-liste a").forEach(function(a){
+        if(a.dataset.t===cle){a.setAttribute("aria-current","page");mLabel.textContent=a.textContent;}
+        else a.removeAttribute("aria-current");
+      });
+      mFermer();
+    }
     fleches(h);
     window.scrollTo(0,0);
   }
