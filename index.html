@@ -182,6 +182,11 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 .sn-pts{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-variant-numeric:tabular-nums}
 .sn-vide{margin:0;padding:1rem;border:2px dashed var(--rose);border-radius:1rem;font-size:.95em}
 .sn-note{margin:.75rem 0 0;font-size:.85em;opacity:.8}
+@media (min-width:62rem){
+  .sn-cols{display:flex;align-items:flex-start;gap:3rem}
+  .sn-jeu{flex:none;width:var(--sn-w)}
+  .sn-tableau{flex:1 1 0;min-width:0;max-width:24rem;width:auto;margin-top:1.25rem}
+}
 </style>
 </head>
 <body>
@@ -419,6 +424,8 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   <section id="snake" class="page jeu">
     <p><a class="back" href="#jeux">← Jeux</a></p>
     <h2>La Ruche</h2>
+    <div class="sn-cols">
+    <div class="sn-jeu">
     <div class="jeu-score" role="group" aria-label="Score"><span>Fleurs <b id="sn-score">0</b></span><span>Record <b id="sn-best">0</b></span></div>
     <div class="sn-pseudo"><label for="sn-pseudo">Pseudo</label><input type="text" id="sn-pseudo" maxlength="16" placeholder="Abeille" autocomplete="nickname" autocapitalize="words" spellcheck="false"></div>
     <div class="sn-plateau">
@@ -430,11 +437,13 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
       </div>
     </div>
     <p class="sn-aide">Flèches du clavier (ou Z, Q, S, D) pour diriger l’abeille, espace pour faire une pause. Sur téléphone, glisse le doigt sur le jeu.</p>
+    </div>
     <div class="sn-tableau">
       <h3 id="sn-tab-titre">Meilleurs scores</h3>
       <ol id="sn-liste" aria-labelledby="sn-tab-titre"></ol>
       <p class="sn-vide" id="sn-vide">Aucun score pour l’instant. Sois la première à butiner !</p>
       <p class="sn-note" id="sn-note">Chargement du classement…</p>
+    </div>
     </div>
     <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
   </section>
