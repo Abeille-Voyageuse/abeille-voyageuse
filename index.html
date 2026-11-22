@@ -153,7 +153,8 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 @media (prefers-reduced-motion:reduce){#transition{display:none!important}}
 /* Jeu : La Ruche (l’abeille récolte les fleurs, le miel est sa traînée) */
 #snake{--sn-w:min(100%,32rem,max(16rem,calc(100vh - 17rem)))}
-@supports (height:100svh){#snake{--sn-w:min(100%,32rem,max(16rem,calc(100svh - 17rem)))}}
+#sudoku{--sn-w:min(100%,32rem,max(16rem,calc(100vh - 25rem)))}
+@supports (height:100svh){#snake{--sn-w:min(100%,32rem,max(16rem,calc(100svh - 17rem)))}#sudoku{--sn-w:min(100%,32rem,max(16rem,calc(100svh - 25rem)))}}
 .jeu-score{display:flex;flex-wrap:wrap;gap:.25rem 1.75rem;width:var(--sn-w);margin-top:1.25rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:clamp(.95rem,.9rem + .25vw,1.1rem)}
 .jeu-score b{color:var(--ink);font-variant-numeric:tabular-nums}
 .sn-plateau{position:relative;width:var(--sn-w);aspect-ratio:1/1;margin-top:.75rem;border:2px solid var(--line);border-radius:1.25rem;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
@@ -182,6 +183,26 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 .sn-pts{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-variant-numeric:tabular-nums}
 .sn-vide{margin:0;padding:1rem;border:2px dashed var(--rose);border-radius:1rem;font-size:.95em}
 .sn-note{margin:.75rem 0 0;font-size:.85em;opacity:.8}
+.sd-actions{display:flex;flex-wrap:wrap;gap:.5rem;width:var(--sn-w);margin-top:.75rem}
+.sd-btn,.sd-select{min-height:2.75rem;padding:.3rem 1rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(16px,1rem);color:var(--ink);background:transparent;border:2px solid var(--line);border-radius:999px;cursor:pointer}
+.sd-btn:hover,.sd-select:hover{border-color:var(--rose)}
+.sd-btn:focus-visible,.sd-select:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+.sd-select option{background:var(--bg);color:var(--ink)}
+.sd-plateau{position:relative;width:var(--sn-w);margin-top:.75rem;border-radius:.75rem;overflow:hidden}
+.sd-grille{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));width:100%;aspect-ratio:1/1;border:3px solid var(--sapin);border-radius:.75rem;overflow:hidden}
+.sd-c{display:flex;align-items:center;justify-content:center;min-width:0;margin:0;padding:0;border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:clamp(1rem,4.2vw,1.7rem);line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sd-c.c3{border-right:2px solid var(--sapin)}
+.sd-c.l3{border-bottom:2px solid var(--sapin)}
+.sd-c.f{color:var(--sapin);background:rgba(244,166,184,.16);cursor:default}
+.sd-c.ind{color:var(--barbie)}
+.sd-c.sel{background:rgba(247,197,49,.4)}
+.sd-c:focus-visible{outline:3px solid var(--barbie);outline-offset:-3px}
+.sd-pave{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.4rem;width:var(--sn-w);margin-top:.75rem}
+.sd-pave .sd-btn{padding:.3rem 0}
+.sd-total{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:2.6rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.sd-jauge{height:.9rem;margin-top:.5rem;border:2px solid var(--line);border-radius:999px;overflow:hidden}
+.sd-jauge i{display:block;width:0;height:100%;background:var(--miel);transition:width .5s}
+@media (prefers-reduced-motion:reduce){.sd-jauge i{transition:none}}
 @media (min-width:62rem){
   .sn-cols{display:flex;align-items:flex-start;gap:3rem}
   .sn-jeu{flex:none;width:var(--sn-w)}
@@ -415,7 +436,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     <p>L’abeille adore les énigmes. Elle y rangera bientôt ses jeux préférés.</p>
     <ul class="liste-actes">
       <li><a class="carte-acte" href="#snake"><b>La Ruche</b><span>L’abeille récolte les fleurs.</span></a></li>
-      <li><div class="carte-acte"><b>Sudoku</b><span>Bientôt disponible.</span></div></li>
+      <li><a class="carte-acte" href="#sudoku"><b>Sudoku</b><span>Des grilles à l’infini, du facile à l’expert.</span></a></li>
       <li><div class="carte-acte"><b>Mots Fléchés</b><span>Bientôt disponible.</span></div></li>
       <li><div class="carte-acte"><b>Juste Prix</b><span>Bientôt disponible.</span></div></li>
     </ul>
@@ -448,6 +469,41 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
   </section>
 
+  <section id="sudoku" class="page jeu">
+    <p><a class="back" href="#jeux">← Jeux</a></p>
+    <h2>Sudoku</h2>
+    <div class="sn-cols">
+    <div class="sn-jeu">
+    <div class="jeu-score" role="group" aria-label="Partie en cours"><span>Temps <b id="sd-temps">0:00</b></span><span>Indices <b id="sd-nb">0</b></span></div>
+    <div class="sn-pseudo"><label for="sd-pseudo">Pseudo</label><input type="text" id="sd-pseudo" maxlength="16" placeholder="Abeille" autocomplete="nickname" autocapitalize="words" spellcheck="false"></div>
+    <div class="sd-actions">
+      <select class="sd-select" id="sd-niveau" aria-label="Niveau de difficulté"><option value="facile">Facile</option><option value="moyen" selected>Moyen</option><option value="difficile">Difficile</option><option value="expert">Expert</option></select>
+      <button type="button" class="sd-btn" id="sd-indice">Indice</button>
+      <button type="button" class="sd-btn" id="sd-nouv">Nouvelle grille</button>
+    </div>
+    <div class="sd-plateau">
+      <div class="sd-grille" id="sd-grille" role="group" aria-label="Grille de sudoku"></div>
+      <div class="sn-voile" id="sd-voile" aria-live="polite" hidden>
+        <div class="sn-titre" id="sd-vtitre"></div>
+        <div class="sn-texte" id="sd-vtexte"></div>
+        <button type="button" class="sn-btn" id="sd-vbtn">Grille suivante</button>
+      </div>
+    </div>
+    <div class="sd-pave" id="sd-pave"></div>
+    <p class="sn-aide" id="sd-statut" aria-live="polite"></p>
+    <p class="sn-aide">Choisis une case, puis tape un chiffre ou utilise le pavé. Flèches pour te déplacer, 0 ou Retour arrière pour effacer. L’indice remplit la case choisie, ou une case au hasard.</p>
+    </div>
+    <div class="sn-tableau">
+      <h3>Grilles complétées</h3>
+      <div class="sd-total" id="sd-n">0</div>
+      <div class="sd-jauge" id="sd-jauge" role="progressbar" aria-label="Progression vers le prochain palier" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><i id="sd-barre"></i></div>
+      <p class="sn-note" id="sd-palier"></p>
+      <p class="sn-note" id="sd-qui"></p>
+    </div>
+    </div>
+    <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
+  </section>
+
   <section id="archives" class="page">
     <h2>Archives Mails</h2>
     <p>Tous les mails que l’abeille a transportés seront rassemblés ici, du plus récent au plus ancien.</p>
@@ -463,7 +519,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 <footer>Fait avec patience, sincérité et tendresse.</footer>
 <script>
 (function(){
-  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "jeux", "snake", "archives", "a-venir"];
+  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "jeux", "snake", "sudoku", "archives", "a-venir"];
   var premier=true;
   var mBtn=document.getElementById("menu-btn"),mListe=document.getElementById("menu-liste"),mLabel=document.getElementById("menu-label");
   function mFermer(){if(!mBtn)return;mListe.hidden=true;mBtn.setAttribute("aria-expanded","false");}
@@ -553,11 +609,11 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     var avant=!premier&&preparer();
     ids.forEach(function(i){var el=document.getElementById(i);if(el)el.classList.toggle("on",i===h)});
     document.querySelectorAll("nav a").forEach(function(a){
-      if(a.dataset.t===(h.indexOf("acte-")===0?"theatre":(h==="snake"?"jeux":h)))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+      if(a.dataset.t===(h.indexOf("acte-")===0?"theatre":((h==="snake"||h==="sudoku")?"jeux":h)))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
     });
     document.title=(h==="accueil"?"":document.querySelector('#'+h+' h2').textContent+" · ")+"L’abeille voyageuse";
     if(mBtn){
-      var cle=(h.indexOf("acte-")===0?"theatre":(h==="snake"?"jeux":h));
+      var cle=(h.indexOf("acte-")===0?"theatre":((h==="snake"||h==="sudoku")?"jeux":h));
       document.querySelectorAll("#menu-liste a").forEach(function(a){
         if(a.dataset.t===cle){a.setAttribute("aria-current","page");mLabel.textContent=a.textContent;}
         else a.removeAttribute("aria-current");
@@ -947,9 +1003,199 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 
   /* Cycle de vie : le jeu repart à zéro à chaque arrivée, se met en pause si l’onglet est masqué */
   document.addEventListener("visibilitychange",function(){if(document.hidden)pauser();});
-  window.addEventListener("hashchange",function(){if(actif()){reset();taille();planifier();charger();}});
+  window.addEventListener("hashchange",function(){if(actif()){try{inPseudo.value=nettoyer(localStorage.getItem(CLE_PSEUDO));}catch(e){}reset();taille();planifier();charger();}});
   if(window.ResizeObserver)new ResizeObserver(taille).observe(cv);else window.addEventListener("resize",taille);
   reset();taille();if(actif())planifier();
+})();
+</script>
+<script>
+/* Sudoku : grilles générées dans le navigateur (solution unique), chronomètre, indices, compteur par pseudo */
+(function(){
+  var sec=document.getElementById("sudoku");if(!sec)return;
+  var $=function(i){return document.getElementById(i);},
+      elG=$("sd-grille"),elTemps=$("sd-temps"),elNb=$("sd-nb"),elStatut=$("sd-statut"),selN=$("sd-niveau"),
+      voile=$("sd-voile"),vTitre=$("sd-vtitre"),vTexte=$("sd-vtexte"),vBtn=$("sd-vbtn"),inP=$("sd-pseudo"),
+      elN=$("sd-n"),elBarre=$("sd-barre"),elJauge=$("sd-jauge"),elPalier=$("sd-palier"),elQui=$("sd-qui");
+  var CIBLE={facile:42,moyen:34,difficile:29,expert:25},CP="abeille-pseudo",CC="abeille-sudoku-grilles",CN="abeille-sudoku-niveau";
+  var SB="https://tsdilkupupyrmihbaqgm.supabase.co/rest/v1/scores_sudoku",SB_CLE="sb_publishable_orPfv1AkysgjGulNNSTREQ_Q1LFCo-4";
+  var sol=null,grille=[],fixe=[],aide=[],cases=[],sel=-1,nInd=0,ecoule=0,debut=0,tourne=false,fini=false,
+      distant=null,reqId=0,idFin=0,delai=0;   /* distant : total en ligne du pseudo (null si indisponible) */
+
+  /*GEN*/
+  function melange(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function possible(g,i,v){
+    var r=(i/9)|0,c=i%9,b=r-r%3,d=c-c%3,k;
+    for(k=0;k<9;k++)if(g[r*9+k]===v||g[k*9+c]===v||g[(b+((k/3)|0))*9+d+k%3]===v)return false;
+    return true;
+  }
+  function candidats(g,i){var c=[],v;for(v=1;v<10;v++)if(possible(g,i,v))c.push(v);return c;}
+  function remplir(g){
+    var b=-1,bc=null,i,c;
+    for(i=0;i<81;i++){if(g[i])continue;c=candidats(g,i);if(!c.length)return false;if(!bc||c.length<bc.length){bc=c;b=i;}}
+    if(b<0)return true;
+    melange(bc);
+    for(i=0;i<bc.length;i++){g[b]=bc[i];if(remplir(g))return true;}
+    g[b]=0;return false;
+  }
+  function compter(g,lim){
+    var b=-1,bc=null,i,c,n=0;
+    for(i=0;i<81;i++){if(g[i])continue;c=candidats(g,i);if(!c.length)return 0;if(!bc||c.length<bc.length){bc=c;b=i;if(c.length===1)break;}}
+    if(b<0)return 1;
+    for(i=0;i<bc.length&&n<lim;i++){g[b]=bc[i];n+=compter(g,lim-n);}
+    g[b]=0;return n;
+  }
+  function creer(cible){
+    var g=[],i,v,ordre=[],reste=81;
+    for(i=0;i<81;i++){g.push(0);ordre.push(i);}
+    remplir(g);var s=g.slice();melange(ordre);
+    for(i=0;i<81&&reste>cible;i++){v=g[ordre[i]];g[ordre[i]]=0;if(compter(g,2)===1)reste--;else g[ordre[i]]=v;}
+    return {sol:s,grille:g};
+  }
+  /*FINGEN*/
+
+  /* Pseudo partagé avec La Ruche, compteur de grilles par pseudo */
+  function nettoyer(v){return String(v||"").replace(/\s+/g," ").trim().slice(0,16);}
+  function pseudo(){return nettoyer(inP.value)||"Abeille";}
+  function lirePseudo(){try{inP.value=nettoyer(localStorage.getItem(CP));}catch(e){}}
+  function comptes(){try{var o=JSON.parse(localStorage.getItem(CC)||"{}");return o&&typeof o==="object"?o:{};}catch(e){return {};}}
+  function nbGrilles(){return +comptes()[pseudo().toLowerCase()]||0;}
+  function ajouter(){
+    var o=comptes(),k=pseudo().toLowerCase();o[k]=(+o[k]||0)+1;
+    try{localStorage.setItem(CC,JSON.stringify(o));}catch(e){}
+    return o[k];
+  }
+  function jauge(){
+    var n=distant!==null?distant:nbGrilles(),r=n%10,plein=n>0&&r===0;
+    elN.textContent=n;elBarre.style.width=(plein?100:r*10)+"%";elJauge.setAttribute("aria-valuenow",plein?10:r);
+    elPalier.textContent=plein?"Palier de "+n+" grilles atteint !":"Encore "+(10-r)+(10-r>1?" grilles":" grille")+" avant le palier de "+(n-r+10)+".";
+    elQui.textContent=distant!==null?"Compteur de "+pseudo()+", enregistré en ligne sous ce pseudo."
+      :"Compteur de "+pseudo()+", gardé dans ce navigateur (connexion au serveur impossible pour le moment).";
+  }
+  function compteDistant(){
+    var id=++reqId;
+    return fetch(SB+"?select=id&pseudo=eq."+encodeURIComponent(pseudo().toLowerCase()),{method:"HEAD",headers:{apikey:SB_CLE,Prefer:"count=exact"}}).then(function(r){
+      var m=/\/(\d+)$/.exec(r.headers.get("Content-Range")||"");
+      if(!r.ok||!m)throw 0;
+      if(id===reqId){distant=+m[1];jauge();}
+    }).catch(function(){if(id===reqId){distant=null;jauge();}});
+  }
+
+  /* Chronomètre */
+  function fmt(ms){var s=Math.floor(ms/1000),m=Math.floor(s/60),h=Math.floor(m/60);s%=60;m%=60;return (h?h+":"+(m<10?"0":""):"")+m+":"+(s<10?"0":"")+s;}
+  function maj(){elTemps.textContent=fmt(ecoule+(tourne?performance.now()-debut:0));}
+  function demarrer(){if(tourne||fini||!sol)return;tourne=true;debut=performance.now();}
+  function arreter(){if(!tourne)return;ecoule+=performance.now()-debut;tourne=false;}
+  setInterval(function(){if(tourne)maj();},250);
+  function actif(){return location.hash==="#sudoku";}
+
+  /* Grille */
+  var i,b;
+  for(i=0;i<81;i++){
+    b=document.createElement("button");b.type="button";b.dataset.i=i;
+    b.className="sd-c"+(i%9%3===2&&i%9<8?" c3":"")+(((i/9)|0)%3===2&&i<72?" l3":"");
+    elG.appendChild(b);cases.push(b);
+  }
+  var pave=$("sd-pave");
+  for(i=1;i<=10;i++){
+    b=document.createElement("button");b.type="button";b.className="sd-btn";b.dataset.n=i%10;
+    b.textContent=i<10?i:"✕";if(i===10)b.setAttribute("aria-label","Effacer la case");pave.appendChild(b);
+  }
+  function bloque(i){return fixe[i]||aide[i];}
+  function rendre(){
+    for(var i=0;i<81;i++){
+      var c=cases[i],v=grille[i];
+      c.textContent=v||"";c.classList.toggle("f",!!fixe[i]);c.classList.toggle("ind",!!aide[i]);c.classList.toggle("sel",i===sel);
+      c.setAttribute("aria-label","Ligne "+((i/9|0)+1)+", colonne "+(i%9+1)+", "+(v||"vide")+(fixe[i]?", donnée":aide[i]?", indice":""));
+    }
+    elNb.textContent=nInd;
+  }
+  function nouvelle(){
+    var r=creer(CIBLE[selN.value]||34),i;
+    sol=r.sol;grille=r.grille;fixe=[];aide=[];
+    for(i=0;i<81;i++){fixe.push(grille[i]?1:0);aide.push(0);}
+    nInd=0;ecoule=0;tourne=false;fini=false;sel=-1;voile.hidden=true;elStatut.textContent="";
+    rendre();maj();if(actif())demarrer();
+  }
+  function choisir(i){sel=i;rendre();demarrer();}
+  function verifier(){
+    var i,plein=true;
+    for(i=0;i<81;i++){if(!grille[i])plein=false;}
+    if(!plein){elStatut.textContent="";return;}
+    for(i=0;i<81;i++)if(grille[i]!==sol[i]){elStatut.textContent="La grille est pleine, mais elle contient des erreurs.";return;}
+    gagner();
+  }
+  function poser(v){
+    if(sel<0||fini||bloque(sel))return;
+    grille[sel]=v;rendre();demarrer();verifier();
+  }
+  function indice(){
+    if(fini)return;
+    var i=sel,t=[],k;
+    if(i<0||fixe[i]||aide[i]||grille[i]===sol[i]){
+      for(k=0;k<81;k++)if(!fixe[k]&&!aide[k]&&grille[k]!==sol[k])t.push(k);
+      if(!t.length)return;i=t[Math.floor(Math.random()*t.length)];
+    }
+    grille[i]=sol[i];aide[i]=1;nInd++;sel=i;rendre();demarrer();
+    elStatut.textContent="Indice : ligne "+((i/9|0)+1)+", colonne "+(i%9+1)+".";
+    verifier();
+  }
+  function texteFin(n){
+    return pseudo()+", tu as fini en "+fmt(ecoule)+(nInd?" avec "+nInd+(nInd>1?" indices":" indice"):" sans indice")+". C’est ta grille n°"+n+".";
+  }
+  function gagner(){
+    arreter();maj();fini=true;
+    var local=ajouter(),mon=++idFin,corps=JSON.stringify({
+      pseudo:pseudo().toLowerCase(),difficulte:selN.value,
+      temps:Math.max(15,Math.min(86400,Math.round(ecoule/1000))),indices:nInd});
+    if(distant!==null)distant++;
+    jauge();
+    vTitre.textContent="Grille terminée !";
+    vTexte.textContent=texteFin(distant!==null?distant:local);
+    elStatut.textContent="";voile.hidden=false;vBtn.focus({preventScroll:true});
+    fetch(SB,{method:"POST",headers:{apikey:SB_CLE,"Content-Type":"application/json",Prefer:"return=minimal"},body:corps})
+      .then(function(r){if(!r.ok)throw 0;})
+      .then(compteDistant,function(){distant=null;jauge();})
+      .then(function(){if(fini&&mon===idFin&&distant!==null)vTexte.textContent=texteFin(distant);});
+  }
+
+  /* Entrées */
+  elG.addEventListener("click",function(e){var c=e.target.closest(".sd-c");if(c)choisir(+c.dataset.i);});
+  pave.addEventListener("click",function(e){var c=e.target.closest("button");if(c)poser(+c.dataset.n);});
+  $("sd-indice").addEventListener("click",indice);
+  $("sd-nouv").addEventListener("click",nouvelle);
+  vBtn.addEventListener("click",nouvelle);
+  selN.addEventListener("change",function(){try{localStorage.setItem(CN,selN.value);}catch(e){}nouvelle();});
+  document.addEventListener("keydown",function(e){
+    if(!actif()||e.ctrlKey||e.metaKey||e.altKey)return;
+    if(e.target&&e.target.closest&&e.target.closest("input,select"))return;
+    var k=e.key,d;
+    if(k.length===1&&k>="1"&&k<="9"){e.preventDefault();poser(+k);}
+    else if(k==="0"||k==="Backspace"||k==="Delete"){e.preventDefault();poser(0);}
+    else if((d={ArrowUp:-9,ArrowDown:9,ArrowLeft:-1,ArrowRight:1}[k])){
+      e.preventDefault();
+      if(sel<0){choisir(0);cases[0].focus();return;}
+      if((k==="ArrowLeft"&&sel%9===0)||(k==="ArrowRight"&&sel%9===8)||sel+d<0||sel+d>80)return;
+      choisir(sel+d);cases[sel].focus();
+    }
+  });
+  inP.addEventListener("input",function(){
+    try{localStorage.setItem(CP,nettoyer(inP.value));}catch(e){}
+    distant=null;jauge();clearTimeout(delai);delai=setTimeout(compteDistant,600);
+  });
+  inP.addEventListener("change",function(){
+    inP.value=nettoyer(inP.value);try{localStorage.setItem(CP,inP.value);}catch(e){}
+    clearTimeout(delai);jauge();compteDistant();
+  });
+  inP.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();inP.blur();}});
+  inP.addEventListener("focus",arreter);
+  inP.addEventListener("blur",function(){if(actif())demarrer();});
+
+  /* Cycle de vie : le chronomètre ne tourne que page visible, la grille en cours est conservée tant qu’on reste sur le site */
+  function entrer(){lirePseudo();jauge();compteDistant();if(!sol)nouvelle();else demarrer();}
+  window.addEventListener("hashchange",function(){if(actif())entrer();else arreter();});
+  document.addEventListener("visibilitychange",function(){if(document.hidden)arreter();else if(actif()&&document.activeElement!==inP)demarrer();});
+  try{var nv=localStorage.getItem(CN);if(CIBLE[nv])selN.value=nv;}catch(e){}
+  lirePseudo();jauge();if(actif())entrer();
 })();
 </script>
 </body>
