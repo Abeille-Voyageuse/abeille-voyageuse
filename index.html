@@ -1348,7 +1348,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 /* Juste Miel : le juste prix, avec des prix en pots de miel */
 (function(){
   var sec=document.getElementById("juste-miel");if(!sec)return;
-  var MIN=1,MAX=250,ESSAIS=7,CLE="abeille-juste-miel";
+  var MIN=1,MAX=500,ESSAIS=7,CLE="abeille-juste-miel";
   var SB="https://tsdilkupupyrmihbaqgm.supabase.co/rest/v1/objets_juste_miel",SB_CLE="sb_publishable_orPfv1AkysgjGulNNSTREQ_Q1LFCo-4";
   /* Liste de secours : utilisée seulement si la table Supabase « objets_juste_miel » ne répond pas */
   var SECOURS=[
@@ -1521,7 +1521,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     inp.disabled=true;btn.disabled=true;msg("Chargement des objets…");
     chargerObjets().then(null,function(){return SECOURS;}).then(function(o){
       objets=o;
-      MAX=Math.max(250,o.reduce(function(m,x){return Math.max(m,x[2]);},0));
+      MAX=Math.max(500,o.reduce(function(m,x){return Math.max(m,x[2]);},0));
       sac=[];etat=2;nouvelle();
     });
   }
