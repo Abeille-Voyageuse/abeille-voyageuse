@@ -180,9 +180,11 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 .sn-rang{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-variant-numeric:tabular-nums}
 .sn-nom{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;overflow-wrap:anywhere}
 .sn-nom small{display:block;font-family:"Libre Baskerville",Georgia,serif;font-weight:400;font-size:.8em;opacity:.7}
-.sn-pts{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-variant-numeric:tabular-nums}
+.sn-pts{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sn-pts small{margin-left:.45rem;font-family:"Libre Baskerville",Georgia,serif;font-weight:400;font-size:.75em;opacity:.7}
 .sn-vide{margin:0;padding:1rem;border:2px dashed var(--rose);border-radius:1rem;font-size:.95em}
 .sn-note{margin:.75rem 0 0;font-size:.85em;opacity:.8}
+.sn-tableau h3.sd-sous{margin-top:2.25rem}
 .sd-actions{display:flex;flex-wrap:nowrap;align-items:stretch;gap:.5rem;width:var(--sn-w);margin-top:.75rem}
 .sd-btn{min-height:2.75rem;padding:.3rem 1rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(16px,1rem);color:var(--ink);background:transparent;border:2px solid var(--line);border-radius:999px;cursor:pointer}
 .sd-btn:hover{border-color:var(--rose)}
@@ -519,6 +521,10 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
       <div class="sd-jauge" id="sd-jauge" role="progressbar" aria-label="Progression vers le prochain palier" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><i id="sd-barre"></i></div>
       <p class="sn-note" id="sd-palier"></p>
       <p class="sn-note" id="sd-qui"></p>
+      <h3 class="sd-sous" id="sd-top-titre">Meilleurs temps</h3>
+      <ol id="sd-top" aria-labelledby="sd-top-titre"></ol>
+      <p class="sn-vide" id="sd-top-vide" hidden></p>
+      <p class="sn-note">Seules les grilles terminées avec moins de 10 indices entrent au classement, niveau par niveau.</p>
     </div>
     </div>
     <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
@@ -1035,11 +1041,11 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   var $=function(i){return document.getElementById(i);},
       elG=$("sd-grille"),elTemps=$("sd-temps"),elNb=$("sd-nb"),elStatut=$("sd-statut"),btnNiv=$("sd-niveau-btn"),listeNiv=$("sd-niveau-liste"),labNiv=$("sd-niveau-label"),
       voile=$("sd-voile"),vTitre=$("sd-vtitre"),vTexte=$("sd-vtexte"),vBtn=$("sd-vbtn"),inP=$("sd-pseudo"),
-      elN=$("sd-n"),elBarre=$("sd-barre"),elJauge=$("sd-jauge"),elPalier=$("sd-palier"),elQui=$("sd-qui");
+      elN=$("sd-n"),elBarre=$("sd-barre"),elJauge=$("sd-jauge"),elPalier=$("sd-palier"),elQui=$("sd-qui"),elTop=$("sd-top"),elTopVide=$("sd-top-vide"),elTopTitre=$("sd-top-titre");
   var CIBLE={facile:42,moyen:34,difficile:29,expert:25},CP="abeille-pseudo",CC="abeille-sudoku-grilles",CN="abeille-sudoku-niveau";
   var SB="https://tsdilkupupyrmihbaqgm.supabase.co/rest/v1/scores_sudoku",SB_CLE="sb_publishable_orPfv1AkysgjGulNNSTREQ_Q1LFCo-4";
   var sol=null,grille=[],fixe=[],aide=[],cases=[],sel=-1,nInd=0,ecoule=0,debut=0,tourne=false,fini=false,
-      distant=null,reqId=0,idFin=0,delai=0,niveau="moyen";   /* distant : total en ligne du pseudo (null si indisponible) */
+      distant=null,reqId=0,idFin=0,delai=0,niveau="moyen",tops=[],topOk=true,reqT=0,dernier=null;   /* distant : total en ligne du pseudo (null si indisponible) */
 
   /*GEN*/
   function melange(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
@@ -1133,7 +1139,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     var r=creer(CIBLE[niveau]||34),i;
     sol=r.sol;grille=r.grille;fixe=[];aide=[];
     for(i=0;i<81;i++){fixe.push(grille[i]?1:0);aide.push(0);}
-    nInd=0;ecoule=0;tourne=false;fini=false;sel=-1;voile.hidden=true;elStatut.textContent="";
+    nInd=0;ecoule=0;tourne=false;fini=false;dernier=null;sel=-1;voile.hidden=true;elStatut.textContent="";
     rendre();maj();if(actif())demarrer();
   }
   function choisir(i){sel=i;rendre();demarrer();}
@@ -1159,12 +1165,41 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     elStatut.textContent="Indice : ligne "+((i/9|0)+1)+", colonne "+(i%9+1)+".";
     verifier();
   }
+  /* Classement : 10 meilleurs temps (moins de 10 indices), pour le niveau choisi */
+  function joli(p){return p.charAt(0).toUpperCase()+p.slice(1);}
+  function afficherTemps(){
+    elTopTitre.textContent="Meilleurs temps · "+NOMS[niveau];
+    elTop.textContent="";
+    tops.forEach(function(x,i){
+      var li=document.createElement("li"),r=document.createElement("span"),n=document.createElement("span"),pt=document.createElement("span");
+      r.className="sn-rang";r.textContent=(i+1)+".";
+      n.className="sn-nom";n.appendChild(document.createTextNode(joli(x.p)));
+      if(x.t>0){var sm=document.createElement("small");sm.textContent=new Date(x.t).toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});n.appendChild(sm);}
+      pt.className="sn-pts";pt.appendChild(document.createTextNode(fmt(x.s*1000)));
+      var ni=document.createElement("small");ni.textContent=x.n?x.n+(x.n>1?" indices":" indice"):"sans indice";pt.appendChild(ni);
+      if(dernier!==null&&x.k===dernier)li.className="moi";
+      li.appendChild(r);li.appendChild(n);li.appendChild(pt);elTop.appendChild(li);
+    });
+    elTopVide.hidden=tops.length>0&&topOk;
+    elTopVide.textContent=topOk?"Aucun temps pour ce niveau. Sois la première !":"Classement indisponible pour le moment.";
+  }
+  function chargerTemps(){
+    var id=++reqT;
+    return fetch(SB+"?select=id,pseudo,temps,indices,created_at&difficulte=eq."+niveau+"&indices=lt.10&order=temps.asc,created_at.asc&limit=10",{headers:{apikey:SB_CLE}})
+      .then(function(r){if(!r.ok)throw 0;return r.json();})
+      .then(function(a){
+        if(id!==reqT)return;
+        tops=a.map(function(x){return {p:String(x.pseudo),s:x.temps,n:+x.indices||0,t:Date.parse(x.created_at)||0,k:x.id};});
+        topOk=true;afficherTemps();
+      },function(){if(id===reqT){tops=[];topOk=false;afficherTemps();}});
+  }
+  function rangDe(id){for(var i=0;i<tops.length;i++)if(tops[i].k===id)return i+1;return 0;}
   function texteFin(n){
     return pseudo()+", tu as fini en "+fmt(ecoule)+(nInd?" avec "+nInd+(nInd>1?" indices":" indice"):" sans indice")+". C’est ta grille n°"+n+".";
   }
   function gagner(){
-    arreter();maj();fini=true;
-    var local=ajouter(),mon=++idFin,corps=JSON.stringify({
+    arreter();maj();fini=true;dernier=null;
+    var local=ajouter(),mon=++idFin,sans=nInd<10,corps=JSON.stringify({
       pseudo:pseudo().toLowerCase(),difficulte:niveau,
       temps:Math.max(15,Math.min(86400,Math.round(ecoule/1000))),indices:nInd});
     if(distant!==null)distant++;
@@ -1172,10 +1207,15 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     vTitre.textContent="Grille terminée !";
     vTexte.textContent=texteFin(distant!==null?distant:local);
     elStatut.textContent="";voile.hidden=false;vBtn.focus({preventScroll:true});
-    fetch(SB,{method:"POST",headers:{apikey:SB_CLE,"Content-Type":"application/json",Prefer:"return=minimal"},body:corps})
-      .then(function(r){if(!r.ok)throw 0;})
-      .then(compteDistant,function(){distant=null;jauge();})
-      .then(function(){if(fini&&mon===idFin&&distant!==null)vTexte.textContent=texteFin(distant);});
+    fetch(SB+"?select=id",{method:"POST",headers:{apikey:SB_CLE,"Content-Type":"application/json",Prefer:"return=representation"},body:corps})
+      .then(function(r){if(!r.ok)throw 0;return r.json();})
+      .then(function(a){dernier=a&&a[0]?a[0].id:null;return Promise.all([compteDistant(),sans?chargerTemps():0]);},function(){distant=null;jauge();})
+      .then(function(){
+        if(!fini||mon!==idFin)return;
+        if(distant!==null)vTexte.textContent=texteFin(distant);
+        var rang=sans?rangDe(dernier):0;
+        if(rang)vTexte.textContent+=" Tu es n°"+rang+" du classement des temps.";
+      });
   }
 
   /* Entrées */
@@ -1194,7 +1234,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   function ouvrirMenu(){menu(true);var c=listeNiv.querySelector('[aria-selected="true"]');if(c)c.focus();}
   function choisirNiveau(li){
     menu(false);btnNiv.focus();
-    if(li.dataset.v!==niveau){setNiveau(li.dataset.v);try{localStorage.setItem(CN,niveau);}catch(e){}nouvelle();}
+    if(li.dataset.v!==niveau){setNiveau(li.dataset.v);try{localStorage.setItem(CN,niveau);}catch(e){}nouvelle();chargerTemps();}
   }
   btnNiv.addEventListener("click",function(){if(listeNiv.hidden)ouvrirMenu();else menu(false);});
   btnNiv.addEventListener("keydown",function(e){if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();ouvrirMenu();}});
@@ -1237,7 +1277,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   inP.addEventListener("blur",function(){if(actif())demarrer();});
 
   /* Cycle de vie : le chronomètre ne tourne que page visible, la grille en cours est conservée tant qu’on reste sur le site */
-  function entrer(){lirePseudo();jauge();compteDistant();if(!sol)nouvelle();else demarrer();}
+  function entrer(){lirePseudo();jauge();compteDistant();chargerTemps();if(!sol)nouvelle();else demarrer();}
   window.addEventListener("hashchange",function(){menu(false);if(actif())entrer();else arreter();});
   document.addEventListener("visibilitychange",function(){if(document.hidden)arreter();else if(actif()&&document.activeElement!==inP)demarrer();});
   try{var nv=localStorage.getItem(CN);if(CIBLE[nv])setNiveau(nv);}catch(e){}
