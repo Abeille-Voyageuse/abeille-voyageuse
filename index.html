@@ -252,17 +252,19 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 /* Jeu : Miel Fléché (mots fléchés générés au hasard) */
 #miel-fleche{--sn-w:min(100%,34rem)}
 .mf-def{width:var(--sn-w);min-height:2.7em;margin:.75rem 0 0;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:clamp(.95rem,.9rem + .25vw,1.1rem);line-height:1.35}
-.mf-grille{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));width:100%;aspect-ratio:9/10;border:3px solid var(--sapin);border-radius:.75rem;overflow:hidden}
+.mf-grille{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));grid-template-rows:repeat(10,minmax(0,1fr));width:100%;aspect-ratio:9/10;border:3px solid var(--sapin);border-radius:.75rem;overflow:hidden}
 .mf-c,.mf-d{min-width:0;min-height:0;margin:0;padding:0;border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
-.mf-c{display:flex;align-items:center;justify-content:center;background:transparent;color:var(--ink);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:clamp(.95rem,.55rem + 2.4vw,1.6rem);line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mf-c{overflow:hidden;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--ink);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:clamp(.95rem,.55rem + 2.4vw,1.6rem);line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .mf-c.mot{background:rgba(244,166,184,.28)}
 .mf-c.sel{background:rgba(247,197,49,.55)}
 .mf-c.ind{color:var(--barbie)}
 .mf-c.faux{color:#d9534f;text-decoration:line-through}
 .mf-c:focus-visible{outline:3px solid var(--barbie);outline-offset:-3px}
-.mf-d{display:flex;flex-direction:column;justify-content:center;gap:1px;overflow:hidden;background:rgba(247,197,49,.22);color:var(--ink);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:clamp(.4rem,.3rem + .6vw,.56rem);line-height:1.05;text-align:center;overflow-wrap:anywhere}
+.mf-d{display:flex;flex-direction:column;justify-content:center;gap:1px;overflow:hidden;background:rgba(247,197,49,.22);color:var(--ink);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:clamp(.46rem,.32rem + .7vw,.64rem);line-height:1.05;text-align:center;overflow-wrap:anywhere}
 .mf-d span{flex:1 1 0;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .mf-d.vide{background:var(--line)}
+.mf-d:not(.vide){cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mf-d:not(.vide) span:hover{background:rgba(247,197,49,.5)}
 .mf-clavier{display:grid;gap:.35rem;width:var(--sn-w);margin-top:.75rem}
 .mf-clavier div{display:flex;justify-content:center;gap:.3rem}
 .mf-clavier .sd-btn{flex:0 0 calc((100% - 2.7rem)/10);min-height:2.6rem;padding:.3rem 0;font-size:max(16px,.95rem)}
@@ -1575,17 +1577,15 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 })();
 </script>
 <script>
-/* Miel Fléché : mots fléchés générés au hasard à partir de Supabase (avec liste de secours) */
+/* Miel Fléché : mots fléchés générés au hasard à partir de Supabase uniquement */
 (function(){
   var sec=document.getElementById("miel-fleche");if(!sec)return;
   var R=10,C=9;
   var SB="https://tsdilkupupyrmihbaqgm.supabase.co/rest/v1/mots_miel_fleche",
       SB_CLE="sb_publishable_orPfv1AkysgjGulNNSTREQ_Q1LFCo-4";
 
-  /* Liste de secours si la table Supabase est inaccessible ou contient trop peu de mots */
-  var SECOURS="ABEILLE|Insecte butineur;MIEL|Nectar transformé;RUCHE|Maison des abeilles;CIRE|Produit des alvéoles;FLEUR|Elle attire l’abeille;NECTAR|Boisson du butineur;POLLEN|Poussière jaune;REINE|Chef de la ruche;BOURDON|Gros butineur velu;GUEPE|Rayée et piquante;ESSAIM|Nuée d’abeilles;ALVEOLE|Cellule de cire;PROPOLIS|Mastic de la ruche;TOURNESOL|Fleur du soleil;TULIPE|Fleur de printemps;ROSE|Fleur à épines;LILAS|Arbuste parfumé;LAVANDE|Fleur de Provence;THYM|Plante aromatique;MENTHE|Herbe fraîche;SAUGE|Herbe médicinale;TILLEUL|Arbre à tisane;CHENE|Arbre à glands;SAPIN|Arbre de Noël;ORME|Arbre ou bois;PIN|Conifère;IF|Arbre toxique;HETRE|Arbre à faînes;ARBRE|Il a un tronc;BOIS|Matière de l’arbre;FORET|Grand bois;PRE|Herbe à brouter;CHAMP|Terre cultivée;VERGER|Il compte des pommiers;POMME|Fruit du pommier;POIRE|Fruit en cloche;FIGUE|Fruit du figuier;CERISE|Petit fruit rouge;FRAISE|Fruit rouge du jardin;CITRON|Agrume acide;ORANGE|Agrume rond;RAISIN|Fruit de la vigne;VIGNE|Elle donne le vin;THE|Boisson chaude;CAFE|Boisson du matin;LAIT|Blanc et nourrissant;BEURRE|Il tartine le pain;PAIN|Aliment de base;TARTE|Dessert en pâte;GATEAU|Dessert d’anniversaire;SUCRE|Il adoucit;SEL|Il assaisonne;RIZ|Céréale asiatique;BLE|Il donne la farine;AVOINE|Céréale du cheval;SOLEIL|Étoile du jour;LUNE|Astre de la nuit;CIEL|Il est bleu;NUAGE|Il flotte là-haut;PLUIE|Elle mouille;VENT|Il souffle;NEIGE|Flocons blancs;ORAGE|Tonnerre et éclairs;ETE|Saison chaude;HIVER|Saison froide;AUTOMNE|Saison des feuilles;MAI|Mois du muguet;JUIN|Mois de l’été;ROUGE|Couleur de la tomate;BLEU|Couleur du ciel;VERT|Couleur de l’herbe;JAUNE|Couleur du miel;NOIR|Absence de lumière;OR|Métal précieux;ARGENT|Métal blanc;FER|Métal des clous;CHAT|Il ronronne;CHIEN|Meilleur ami;OURS|Il aime le miel;LOUP|Il hurle;RENARD|Rusé et roux;LAPIN|Il aime les carottes;OISEAU|Il vole;MERLE|Oiseau noir;HIBOU|Oiseau de nuit;ANE|Il brait;VACHE|Elle donne du lait;MOUTON|Il bêle;COQ|Il chante à l’aube;POULE|Elle pond;CANARD|Il fait coin-coin;RAT|Petit rongeur;MOUCHE|Elle bourdonne;FOURMI|Petite travailleuse;PAPILLON|Ex-chenille;LIBELLULE|Insecte aux ailes fines;AILE|Elle sert à voler;LIVRE|Il se lit;ROMAN|Récit long;PAGE|Feuille d’un livre;ECOLE|On y apprend;CLASSE|Groupe d’élèves;JEU|On y joue;CARTE|Elle se bat;DE|Il se lance;BALLON|On le fait rebondir;VELO|Deux roues;TRAIN|Il roule sur rails;AVION|Il traverse le ciel;BATEAU|Il flotte;MER|Grande étendue d’eau;LAC|Eau douce;RIVIERE|Elle coule;PLAGE|Sable au bord de l’eau;SABLE|Il tombe dans le sablier;ILE|Terre dans l’eau;MAISON|Elle abrite;PORTE|On la ferme;TOIT|Il couvre la maison;LIT|On y dort;LAMPE|Elle éclaire;CLE|Elle ouvre la porte;MUR|Il sépare;ROI|Il porte la couronne;AMI|Compagnon fidèle;AMOUR|Sentiment tendre;JOIE|Bonheur;RIRE|Il est contagieux;CHANT|Mélodie vocale;DANSE|Elle suit un rythme;MUSIQUE|Art des sons;PIANO|Instrument à touches;SOIR|Fin du jour;NUIT|Il fait noir;JOUR|Il fait clair;ETOILE|Elle brille la nuit;REVE|Il vient en dormant;PAIX|Contraire de guerre;TERRE|Notre planète;EAU|Elle coule;FEU|Il brûle;AIR|On le respire".split(";").map(function(x){var p=x.split("|");return {m:p[0],d:p[1]};});
 
-  var W=SECOURS;
+  var W=[];
 
   /*GEN*/
   function melanger(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
@@ -1613,12 +1613,12 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
       mots.push({r:r,c:c,dir:dir,L:L,m:w.m,d:w.d});used[w.m]=1;
     }
     while(echecs<30&&mots.length<30){
-      var cand=melanger(W).filter(function(w){return !used[w.m];}).slice(0,35),bw=null,bx=mots.length?0:-1,br=0,bc=0,bd=0,j,d,r,c,w,x;
+      var cand=melanger(W).filter(function(w){return !used[w.m];}).slice(0,35),bw=null,bx=mots.length?0:-1,ties=0,br=0,bc=0,bd=0,j,d,r,c,w,x;
       for(j=0;j<cand.length;j++){
         w=cand[j];if(!mots.length&&w.m.length<6)continue;
         for(d=0;d<2;d++)for(r=0;r<R;r++)for(c=0;c<C;c++){
           x=test(w,r,c,d);
-          if(x>bx||(x===bx&&bw&&Math.random()<.15)){bw=w;bx=x;br=r;bc=c;bd=d;}
+          if(x>bx){bw=w;bx=x;br=r;bc=c;bd=d;ties=1;}else if(x===bx&&bw){ties++;if(Math.random()<1/ties){bw=w;br=r;bc=c;bd=d;}}
         }
       }
       if(!bw){echecs++;continue;}
@@ -1632,20 +1632,21 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 
   var $=function(i){return document.getElementById(i);};
   var elG=$("mf-grille"),elDef=$("mf-def"),elNb=$("mf-nb"),elInd=$("mf-ind"),elV=$("mf-voile"),elVx=$("mf-vtexte"),elS=$("mf-statut");
-  var g=null,ent,btns,fautes,inds,sel,dir,indices,total,fini;
+  var g=null,ent,btns,fautes,inds,sel,dir,indices,total,fini,defs;
   function actif(){return location.hash==="#miel-fleche";}
   function motDe(i,d){var c=g.cell[i],id=d?c.v:c.h;return id>=0?g.mots[id]:null;}
   function dansMot(m,i){var r=Math.floor(i/C),c=i%C;return m.dir?(c===m.c&&r>=m.r&&r<m.r+m.L):(r===m.r&&c>=m.c&&c<m.c+m.L);}
   function nouvelle(){
-    if(etat!==2)return;
-    g=generer();ent=[];btns=[];fautes=[];inds=[];sel=-1;dir=0;indices=0;total=0;fini=false;
+    if(etat!==2){entrer();return;}
+    g=generer();ent=[];btns=[];fautes=[];inds=[];sel=-1;dir=0;indices=0;total=0;fini=false;defs={};
+    g.mots.forEach(function(m){defs[(m.r-m.dir)*C+(m.c-(1-m.dir))+"_"+m.dir]=m;});
     elG.innerHTML="";elV.hidden=true;elS.textContent="";
     g.cell.forEach(function(c,i){
       var e;
       if(c.t===1){e=document.createElement("button");e.type="button";e.className="mf-c";e.dataset.i=i;total++;}
       else{
         e=document.createElement("div");e.className="mf-d"+(c.cl[0]||c.cl[1]?"":" vide");
-        [0,1].forEach(function(d){if(c.cl[d]){var s=document.createElement("span");s.textContent=c.cl[d]+(d?" ↓":" →");e.appendChild(s);}});
+        [0,1].forEach(function(d){if(c.cl[d]){var s=document.createElement("span");s.textContent=c.cl[d]+(d?" ↓":" →");s.title=c.cl[d];s.dataset.d=d;e.appendChild(s);}});
       }
       ent.push("");btns.push(e);elG.appendChild(e);
     });
@@ -1670,6 +1671,11 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     sel=i;var m=motDe(i,dir);
     elDef.textContent=m?(dir?"↓ ":"→ ")+m.d+" ("+m.L+" lettres)":"";
     maj();btns[i].focus();
+  }
+  function allerMot(m){
+    sel=m.r*C+m.c;dir=m.dir;
+    elDef.textContent=(dir?"↓ ":"→ ")+m.d+" ("+m.L+" lettres)";
+    maj();btns[sel].focus();
   }
   function saisir(ch){
     if(sel<0||fini)return;
@@ -1705,22 +1711,33 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     return "<div>"+r.split("").map(function(k){return '<button type="button" class="sd-btn" data-k="'+k+'"'+(k==="⌫"?' aria-label="Effacer"':'')+">"+k+"</button>";}).join("")+"</div>";
   }).join("");
   $("mf-clavier").addEventListener("click",function(e){var b=e.target.closest("button");if(b)b.dataset.k==="⌫"?effacer():saisir(b.dataset.k);});
-  elG.addEventListener("click",function(e){var b=e.target.closest(".mf-c");if(b)choisir(+b.dataset.i);});
+  elG.addEventListener("click",function(e){
+    var b=e.target.closest(".mf-c");if(b){choisir(+b.dataset.i);return;}
+    var d=e.target.closest(".mf-d");if(!d||!g||fini)return;
+    var i=btns.indexOf(d),sp=e.target.closest("span"),m=sp?defs[i+"_"+sp.dataset.d]:(defs[i+"_0"]||defs[i+"_1"]);
+    if(m)allerMot(m);
+  });
   $("mf-indice").addEventListener("click",indice);
   $("mf-verif").addEventListener("click",verifier);
   $("mf-nouv").addEventListener("click",nouvelle);
   $("mf-vbtn").addEventListener("click",nouvelle);
+  function dansGrille(){var a=document.activeElement;return !a||a===document.body||!!a.closest(".mf-grille");}
+  document.addEventListener("keyup",function(e){
+    if(actif()&&g&&e.key===" "&&sel>=0&&dansGrille())e.preventDefault();
+  });
   document.addEventListener("keydown",function(e){
     if(!actif()||!g||e.ctrlKey||e.metaKey||e.altKey)return;
-    var k=e.key,d={ArrowLeft:-1,ArrowRight:1,ArrowUp:-C,ArrowDown:C}[k],l;
-    if(k==="Backspace"||k==="Delete"){e.preventDefault();effacer();}
-    else if(k===" "&&sel>=0){e.preventDefault();choisir(sel);}
-    else if(d){
+    var a=document.activeElement;
+    if(a&&a!==document.body&&!a.closest(".mf-grille")&&a.closest("input,textarea,select,[contenteditable]"))return;
+    var k=e.key,dv={ArrowLeft:[0,-1],ArrowRight:[0,1],ArrowUp:[-1,0],ArrowDown:[1,0]}[k],l;
+    if(k==="Backspace"||k==="Delete"){if(!dansGrille()&&k==="Backspace"&&sel<0)return;e.preventDefault();effacer();}
+    else if(k===" "){if(sel>=0&&dansGrille()){e.preventDefault();choisir(sel);}}
+    else if(dv){
       e.preventDefault();
       if(sel<0){for(var f=0;f<g.cell.length;f++)if(g.cell[f].t===1){choisir(f);break;}return;}
-      var j=sel+d;
-      if((k==="ArrowLeft"&&sel%C===0)||(k==="ArrowRight"&&sel%C===C-1)||!g.cell[j]||g.cell[j].t!==1)return;
-      choisir(j);
+      var r=Math.floor(sel/C)+dv[0],c=sel%C+dv[1];
+      while(r>=0&&r<R&&c>=0&&c<C&&g.cell[r*C+c].t!==1){r+=dv[0];c+=dv[1];}
+      if(r>=0&&r<R&&c>=0&&c<C)choisir(r*C+c);
     }else{
       l=k.length===1?k.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase():"";
       if(/^[A-Z]$/.test(l)){e.preventDefault();saisir(l);}
@@ -1753,10 +1770,13 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     if(etat===1)return;
     etat=1;
     elDef.textContent="Chargement du dictionnaire…";
-    chargerMots().then(null,function(){return SECOURS;}).then(function(liste){
+    chargerMots().then(function(liste){
       W=liste;
       etat=2;
       nouvelle();
+    },function(){
+      etat=0;
+      elDef.textContent="Impossible de charger le dictionnaire de mots. Vérifie ta connexion, puis touche « Nouvelle grille » pour réessayer.";
     });
   }
 
