@@ -291,17 +291,14 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 .calendrier .case button{display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:0;border:0;border-radius:inherit;background:transparent;color:inherit;font:inherit;cursor:pointer}
 .calendrier .case button:hover{background:rgba(244,166,184,.35)}
 .calendrier .case button:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
-.dev-bandeau{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin:0 0 1rem;padding:.5rem .9rem;border:2px solid var(--barbie);border-radius:.75rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-size:.9rem;font-weight:700;color:var(--ink)}
-.dev-bandeau button,.dev-dlg button{font:inherit;font-weight:700;padding:.35rem .9rem;border:2px solid var(--rose);border-radius:999px;background:transparent;color:var(--ink);cursor:pointer}
-.dev-bandeau button:hover,.dev-dlg button:hover{background:var(--rose);color:#142b05}
-.dev-dlg{max-width:22rem;width:calc(100% - 2rem);padding:1.25rem;border:2px solid var(--rose);border-radius:1rem;background:var(--bg);color:var(--ink);font-family:Poppins,"Helvetica Neue",Arial,sans-serif}
-.dev-dlg::backdrop{background:rgba(20,43,5,.55)}
-.dev-dlg label{display:block;font-weight:700;margin-bottom:.5rem}
-.dev-dlg input{box-sizing:border-box;width:100%;padding:.6rem .75rem;border:2px solid var(--line);border-radius:.6rem;background:transparent;color:var(--ink);font:inherit}
-.dev-dlg input:focus-visible{outline:3px solid var(--barbie);outline-offset:2px}
-.dev-dlg .dev-err{min-height:1.4em;margin:.5rem 0 0;font-size:.9rem;color:#b3261e}
-:root:not([data-theme="light"]) .dev-dlg .dev-err{color:#ffb4ab}
-.dev-dlg .dev-btns{display:flex;gap:.5rem;justify-content:flex-end;margin-top:.75rem}
+.devinette{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;max-width:36rem;margin:1.25rem 0 0;font-family:Poppins,"Helvetica Neue",Arial,sans-serif}
+.devinette[hidden]{display:none}
+.devinette input{flex:1 1 12rem;min-width:0;box-sizing:border-box;padding:.6rem .9rem;border:2px solid var(--line);border-radius:999px;background:transparent;color:var(--ink);font:inherit}
+.devinette input:focus-visible{outline:3px solid var(--barbie);outline-offset:2px}
+.devinette button{font:inherit;font-weight:700;padding:.6rem 1.2rem;border:2px solid var(--rose);border-radius:999px;background:transparent;color:var(--ink);cursor:pointer}
+.devinette button:hover{background:var(--rose);color:#142b05}
+.devinette .dev-err{flex:1 0 100%;min-height:1.4em;margin:0;font-size:.9rem;color:#b3261e}
+:root:not([data-theme="light"]) .devinette .dev-err{color:#ffb4ab}
 </style>
 </head>
 <body>
@@ -1869,7 +1866,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   if(actif())entrer();
 })();
 
-/* Calendrier de l’Avent : chaque case n devient cliquable à minuit (heure de Paris) le n décembre 2026, puis s’ouvre au clic. Le calendrier est caché : un mot de passe (5 clics rapides sur la devinette de Bzzz) l’affiche et active un mode développeur.
+/* Calendrier de l’Avent : chaque case n devient cliquable à minuit (heure de Paris) le n décembre 2026, puis s’ouvre au clic. Le calendrier est caché : la bonne réponse à la devinette de Bzzz l’affiche, sans rien ouvrir avant la date.
    L’heure vient du serveur Supabase (l’horloge de l’appareil ne sert qu’en secours). */
 (function(){
   var DEBUT=Date.parse("2026-12-01T00:00:00+01:00"),JOUR=864e5,VALIDITE=6e5;
@@ -1888,22 +1885,23 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     });
     return ref;
   }
-  /* Mode développeur : un mot de passe permet d’ouvrir toutes les cases sans attendre leur date.
-     On ne stocke que l’empreinte SHA-256 (sel + mot de passe). Pour changer le mot de passe, ouvre la console
-     du navigateur sur ta page et exécute :  devHash("nouveau mot de passe")  puis recopie le résultat dans MDP_HASH.
-     (Garde-fou côté navigateur : il ne remplace pas un vrai contrôle serveur.) */
-  var SEL="bzzz-avent-de56af5d08c97060",MDP_HASH="cda43dfe6bae12660c83a91c9f35c83ed515bc3b7b0f57274a65afece2513a07",DEV_CLE="calendrier-dev";
+  /* Devinette : la réponse (« Calendrier de l’Avent ») affiche le calendrier, mais n’ouvre AUCUNE case :
+     chaque case reste verrouillée jusqu’à sa date. On ne stocke que l’empreinte SHA-256 (sel + réponse),
+     comparée sans tenir compte des majuscules, accents, espaces ni du type d’apostrophe.
+     Pour changer la réponse, exécute dans la console du navigateur  devHash("nouvelle réponse")  puis recopie le résultat dans MDP_HASH. */
+  var SEL="bzzz-avent-de56af5d08c97060",MDP_HASH="a8c1325a767657a1911353517e8aa4e332fa4dc4927b9d257c3613c65a8c50b1",VU_CLE="calendrier-devine";
+  function norm(t){
+    return String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[\u2018\u2019\u02BC]/g,"'").replace(/\s+/g," ").trim();
+  }
   function sha(t){
     if(!(window.crypto&&crypto.subtle))return Promise.reject(new Error("crypto indisponible"));
-    return crypto.subtle.digest("SHA-256",new TextEncoder().encode(SEL+String(t).replace(/[\u2018\u2019\u02BC]/g,"'"))).then(function(b){
+    return crypto.subtle.digest("SHA-256",new TextEncoder().encode(SEL+norm(t))).then(function(b){
       return Array.prototype.map.call(new Uint8Array(b),function(x){return ("0"+x.toString(16)).slice(-2);}).join("");
     });
   }
   window.devHash=function(t){return sha(t).then(function(h){console.log(h);return h;});};
-  var PUBLIC=false; /* false : le calendrier est caché, le mot de passe l’affiche. Mets true pour l’afficher à tout le monde. */
-  var dev=false;try{dev=sessionStorage.getItem(DEV_CLE)==="1";}catch(e){}
+  var PUBLIC=false; /* false : le calendrier est caché tant que la devinette n’est pas résolue. Mets true pour l’afficher à tout le monde. */
   window.caseOuverte=function(n){
-    if(dev)return Promise.resolve(true);
     return lireHeure().then(function(b){return b+performance.now()>=DEBUT+(n-1)*JOUR;});
   };
   var cases=document.querySelectorAll('.calendrier .case[data-n]'),CLE="calendrier-ouvertes";
@@ -1932,7 +1930,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
       Array.prototype.forEach.call(cases,function(li){
         if(li.classList.contains("ouverte"))return;
         var n=num(li),reste=DEBUT+(n-1)*JOUR-now;
-        if(dev||reste<=0){if(!dev&&deja.indexOf(n)>=0)ouvrir(li);else rendreDisponible(li);}
+        if(reste<=0){if(deja.indexOf(n)>=0)ouvrir(li);else rendreDisponible(li);}
         else if(reste<prochain)prochain=reste;
       });
       if(prochain<Infinity)setTimeout(surveiller,Math.min(prochain+300,VALIDITE));
@@ -1946,51 +1944,30 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     var li=bt.parentNode,n=num(li);
     window.caseOuverte(n).then(function(ok){
       if(!ok)return;
-      if(!dev)noter(n);ouvrir(li);
+      noter(n);ouvrir(li);
       if(n===2)location.hash="#petales";
     });
   });
-  var msg=document.querySelector("#a-venir .msg");
+  var msg=document.querySelector("#a-venir .msg"),devine=false;
+  try{devine=localStorage.getItem(VU_CLE)==="1";}catch(e){}
   function montrer(){if(ol)ol.hidden=false;}
-  if(dev||PUBLIC)montrer();
-  function bandeau(){
-    if(!dev||!ol||document.querySelector(".dev-bandeau"))return;
-    var d=document.createElement("div");d.className="dev-bandeau";
-    d.innerHTML='<span>Mode développeur : toutes les cases sont ouvrables.</span>';
-    var q=document.createElement("button");q.type="button";q.textContent="Quitter";
-    q.addEventListener("click",function(){try{sessionStorage.removeItem(DEV_CLE);}catch(e){}location.reload();});
-    d.appendChild(q);ol.parentNode.insertBefore(d,ol);
-  }
-  function demanderMdp(){
-    if(dev||!window.HTMLDialogElement)return;
-    var dlg=document.createElement("dialog");dlg.className="dev-dlg";
-    dlg.innerHTML='<form method="dialog"><label for="dev-mdp">Mot de passe</label><input id="dev-mdp" type="password" autocomplete="off"><p class="dev-err" role="alert"></p><div class="dev-btns"><button type="button" data-a="x">Annuler</button><button type="submit">Valider</button></div></form>';
-    document.body.appendChild(dlg);
-    var f=dlg.querySelector("form"),inp=dlg.querySelector("input"),err=dlg.querySelector(".dev-err");
-    function fermer(){dlg.close();dlg.remove();}
-    dlg.querySelector('[data-a="x"]').addEventListener("click",fermer);
-    dlg.addEventListener("cancel",function(){dlg.remove();});
-    f.addEventListener("submit",function(e){
+  if(devine||PUBLIC)montrer();
+  if(msg&&!devine&&!PUBLIC){
+    var fm=document.createElement("form");fm.className="devinette";
+    fm.innerHTML='<label class="case-vh" for="dv-rep">Ta réponse à la devinette</label><input id="dv-rep" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Ta réponse…"><button type="submit">Valider</button><p class="dev-err" role="alert"></p>';
+    msg.parentNode.insertBefore(fm,msg.nextSibling);
+    var inp=fm.querySelector("input"),err=fm.querySelector(".dev-err");
+    fm.addEventListener("submit",function(e){
       e.preventDefault();
+      if(!inp.value.trim())return;
       sha(inp.value).then(function(h){
         if(h===MDP_HASH){
-          dev=true;try{sessionStorage.setItem(DEV_CLE,"1");}catch(x){}
-          fermer();montrer();bandeau();
-          Array.prototype.forEach.call(cases,function(li){if(!li.classList.contains("ouverte"))rendreDisponible(li);});
-        }else{err.textContent="Mot de passe incorrect.";inp.value="";inp.focus();}
+          try{localStorage.setItem(VU_CLE,"1");}catch(x){}
+          fm.remove();montrer();
+        }else{err.textContent="Ce n’est pas la bonne réponse… réessaie !";inp.select();}
       },function(){err.textContent="Vérification impossible sur cette page (HTTPS requis).";});
     });
-    dlg.showModal();inp.focus();
   }
-  if(msg){
-    var clics=[];
-    msg.addEventListener("click",function(){
-      var t=Date.now();clics.push(t);
-      clics=clics.filter(function(x){return t-x<2000;});
-      if(clics.length>=5){clics=[];demanderMdp();}
-    });
-  }
-  bandeau();
   surveiller();
 })();
 
