@@ -222,6 +222,33 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   .sn-jeu{flex:none;width:var(--sn-w)}
   .sn-tableau{flex:1 1 0;min-width:0;max-width:24rem;width:auto;margin-top:1.25rem}
 }
+/* Jeu : Juste Miel (le juste prix, en pots de miel) */
+#juste-miel{--sn-w:min(100%,32rem)}
+.jm-carte{width:var(--sn-w);margin-top:.75rem;padding:1.25rem 1.5rem 1.5rem;border:2px solid var(--line);border-radius:1.25rem;text-align:center}
+.jm-emoji{display:flex;align-items:center;justify-content:center;height:clamp(7rem,5rem + 10vw,10rem);font-size:clamp(4rem,3rem + 6vw,6rem);line-height:1.1}
+.jm-img{display:block;max-width:100%;max-height:100%;object-fit:contain;border-radius:.75rem}
+.jm-nom{margin-top:.25rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:clamp(1.2rem,1.1rem + .6vw,1.6rem);line-height:1.2;text-wrap:balance}
+.jm-pots{display:flex;justify-content:center;gap:.35rem;margin-top:.75rem;font-size:1.35rem;line-height:1}
+.jm-pots span{transition:opacity .3s,filter .3s}
+.jm-pots span.vide{opacity:.22;filter:grayscale(1)}
+.jm-fourch{margin:1rem 0 0;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:.95rem;font-variant-numeric:tabular-nums}
+.jm-piste{position:relative;height:.9rem;margin-top:.5rem;border:2px solid var(--line);border-radius:999px;overflow:hidden}
+.jm-piste i{position:absolute;top:0;bottom:0;left:0;width:100%;background:var(--miel);transition:left .4s,width .4s}
+@media (prefers-reduced-motion:reduce){.jm-piste i,.jm-pots span{transition:none}}
+.jm-saisie{display:flex;gap:.5rem;width:var(--sn-w);margin-top:.75rem}
+.jm-saisie input{flex:1;min-width:0;min-height:2.75rem;padding:.3rem 1rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(16px,1rem);color:var(--ink);background:transparent;border:2px solid var(--line);border-radius:999px}
+.jm-saisie input:hover{border-color:var(--rose)}
+.jm-saisie input:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+.jm-saisie input:disabled,.jm-saisie .sn-btn:disabled{opacity:.45;cursor:default}
+.jm-saisie .sn-btn{flex:none}
+.jm-msg{width:var(--sn-w);margin:.75rem 0 0;min-height:2.7em;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:clamp(1rem,.95rem + .3vw,1.15rem);line-height:1.35}
+.jm-msg.fin{padding-left:1rem;border-left:6px solid var(--abeille)}
+.jm-suite{display:flex;width:var(--sn-w);margin-top:.5rem}
+.jm-suite[hidden]{display:none}
+.jm-essais{list-style:none;width:var(--sn-w);margin:.75rem 0 0;padding:0}
+.jm-essais li{display:flex;justify-content:space-between;gap:.75rem;padding:.4rem .6rem;border-bottom:1px solid var(--line);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.4}
+.jm-essais li span:last-child{color:var(--sapin)}
+.jm-essais li.ok{background:rgba(247,197,49,.4);border-radius:.75rem;border-bottom-color:transparent}
 </style>
 </head>
 <body>
@@ -452,7 +479,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
       <li><a class="carte-acte" href="#snake"><b>La Ruche</b><span>L’abeille récolte les fleurs.</span></a></li>
       <li><a class="carte-acte" href="#sudoku"><b>Sudoku</b><span>Des grilles à l’infini, du facile à l’expert.</span></a></li>
       <li><div class="carte-acte"><b>Miel Fléché</b><span>Bientôt disponible.</span></div></li>
-      <li><div class="carte-acte"><b>Juste Miel</b><span>Bientôt disponible.</span></div></li>
+      <li><a class="carte-acte" href="#juste-miel"><b>Juste Miel</b><span>Devine le prix en pots de miel.</span></a></li>
     </ul>
   </section>
 
@@ -530,6 +557,39 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
   </section>
 
+  <section id="juste-miel" class="page jeu">
+    <p><a class="back" href="#jeux">← Jeux</a></p>
+    <h2>Juste Miel</h2>
+    <div class="sn-cols">
+    <div class="sn-jeu">
+    <div class="jeu-score" role="group" aria-label="Score"><span>Score <b id="jm-score">0</b></span><span>Série <b id="jm-serie">0</b></span><span>Record <b id="jm-record">0</b></span></div>
+    <div class="jm-carte">
+      <div class="jm-emoji" id="jm-emoji" aria-hidden="true"></div>
+      <div class="jm-nom" id="jm-nom"></div>
+      <div class="jm-pots" id="jm-pots" role="img"></div>
+      <p class="jm-fourch" id="jm-fourch"></p>
+      <div class="jm-piste" aria-hidden="true"><i id="jm-zone"></i></div>
+    </div>
+    <div class="jm-saisie">
+      <input type="text" id="jm-nb" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="Ton prix en pots" aria-label="Ton prix, en pots de miel" autocomplete="off">
+      <button type="button" class="sn-btn" id="jm-ok">Valider</button>
+    </div>
+    <p class="jm-msg" id="jm-msg" aria-live="polite"></p>
+    <div class="jm-suite" id="jm-suite" hidden><button type="button" class="sn-btn" id="jm-suiv">Objet suivant</button></div>
+    <ol class="jm-essais" id="jm-essais" aria-label="Tes essais pour cet objet"></ol>
+    <p class="sn-aide">Chaque objet a un prix en pots de miel. Tape ton estimation, l’abeille te répond « plus » ou « moins ». Tu as 7 essais.</p>
+    </div>
+    <div class="sn-tableau">
+      <h3 id="jm-hist-titre">Objets de la partie</h3>
+      <ol id="jm-hist" aria-labelledby="jm-hist-titre"></ol>
+      <p class="sn-vide" id="jm-hist-vide">Aucun objet pour l’instant. Devine le premier prix !</p>
+      <p class="sn-note">Meilleure série : <b id="jm-meilleure">0</b></p>
+      <p class="sn-note">Plus tu trouves vite, plus tu gagnes de points : 140 au premier essai, 20 au septième. Le record et la meilleure série sont gardés sur cet appareil.</p>
+    </div>
+    </div>
+    <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
+  </section>
+
   <section id="archives" class="page">
     <h2>Archives Mails</h2>
     <p>Tous les mails que l’abeille a transportés seront rassemblés ici, du plus récent au plus ancien.</p>
@@ -545,7 +605,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 <footer>Fait avec patience, sincérité et tendresse.</footer>
 <script>
 (function(){
-  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "jeux", "snake", "sudoku", "archives", "a-venir"];
+  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "jeux", "snake", "sudoku", "juste-miel", "archives", "a-venir"];
   var premier=true;
   var mBtn=document.getElementById("menu-btn"),mListe=document.getElementById("menu-liste"),mLabel=document.getElementById("menu-label");
   function mFermer(){if(!mBtn)return;mListe.hidden=true;mBtn.setAttribute("aria-expanded","false");}
@@ -635,11 +695,11 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     var avant=!premier&&preparer();
     ids.forEach(function(i){var el=document.getElementById(i);if(el)el.classList.toggle("on",i===h)});
     document.querySelectorAll("nav a").forEach(function(a){
-      if(a.dataset.t===(h.indexOf("acte-")===0?"theatre":((h==="snake"||h==="sudoku")?"jeux":h)))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+      if(a.dataset.t===(h.indexOf("acte-")===0?"theatre":((h==="snake"||h==="sudoku"||h==="juste-miel")?"jeux":h)))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
     });
     document.title=(h==="accueil"?"":document.querySelector('#'+h+' h2').textContent+" · ")+"L’abeille voyageuse";
     if(mBtn){
-      var cle=(h.indexOf("acte-")===0?"theatre":((h==="snake"||h==="sudoku")?"jeux":h));
+      var cle=(h.indexOf("acte-")===0?"theatre":((h==="snake"||h==="sudoku"||h==="juste-miel")?"jeux":h));
       document.querySelectorAll("#menu-liste a").forEach(function(a){
         if(a.dataset.t===cle){a.setAttribute("aria-current","page");mLabel.textContent=a.textContent;}
         else a.removeAttribute("aria-current");
@@ -1282,6 +1342,191 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   document.addEventListener("visibilitychange",function(){if(document.hidden)arreter();else if(actif()&&document.activeElement!==inP)demarrer();});
   try{var nv=localStorage.getItem(CN);if(CIBLE[nv])setNiveau(nv);}catch(e){}
   lirePseudo();jauge();if(actif())entrer();
+})();
+</script>
+<script>
+/* Juste Miel : le juste prix, avec des prix en pots de miel */
+(function(){
+  var sec=document.getElementById("juste-miel");if(!sec)return;
+  var MIN=1,MAX=250,ESSAIS=7,CLE="abeille-juste-miel";
+  var SB="https://tsdilkupupyrmihbaqgm.supabase.co/rest/v1/objets_juste_miel",SB_CLE="sb_publishable_orPfv1AkysgjGulNNSTREQ_Q1LFCo-4";
+  /* Liste de secours : utilisée seulement si la table Supabase « objets_juste_miel » ne répond pas */
+  var SECOURS=[
+    ["📖", "Le tome 1 de Hunger Games", 2],
+    ["📖", "Le tome 1 du Labyrinthe", 2],
+    ["📖", "Le tome 1 d’Off-Campus (The Deal)", 2],
+    ["📖", "Le tome 1 de Campus Diaries (The Graham Effect)", 2],
+    ["📖", "Le tome 1 de Briar University (The Chase)", 2],
+    ["📚", "La trilogie Hunger Games", 5],
+    ["📚", "La trilogie Le Labyrinthe", 5],
+    ["📚", "La trilogie Campus Diaries", 5],
+    ["📚", "La série Off-Campus, tomes 1 à 4", 7],
+    ["📚", "La série Briar University complète (4 tomes)", 7],
+    ["📚", "La série Off-Campus complète (5 tomes)", 9],
+    ["☕", "Une tasse en porcelaine", 2],
+    ["🎈", "Un bouquet de ballons", 2],
+    ["🕯️", "Une bougie parfumée", 3],
+    ["🔍", "Une loupe", 3],
+    ["🌵", "Un cactus en pot", 3],
+    ["🎂", "Un gâteau d’anniversaire", 5],
+    ["⚽", "Un ballon de football", 5],
+    ["☂️", "Un parapluie", 5],
+    ["💐", "Un bouquet de fleurs", 6],
+    ["♟️", "Un jeu d’échecs", 6],
+    ["💡", "Une lampe de chevet", 7],
+    ["🌍", "Un globe terrestre", 10],
+    ["🎒", "Un sac à dos", 12],
+    ["🛹", "Un skateboard", 16],
+    ["🕶️", "Une paire de lunettes de soleil", 20],
+    ["🎾", "Une raquette de tennis", 20],
+    ["👟", "Une paire de baskets", 20],
+    ["🧑‍🌾", "Une combinaison d’apiculteur", 20],
+    ["🎧", "Un casque audio", 30],
+    ["🧥", "Un manteau d’hiver", 30],
+    ["⛺", "Une tente de camping", 30],
+    ["⌚", "Une montre", 40],
+    ["🐝", "Une ruche toute neuve", 40],
+    ["🛴", "Une trottinette", 50],
+    ["🎸", "Une guitare", 50],
+    ["🔭", "Un télescope", 60],
+    ["🎻", "Un violon", 80],
+    ["🎮", "Une console de jeux", 90],
+    ["📷", "Un appareil photo", 100],
+    ["🚲", "Un vélo", 120],
+    ["📱", "Un téléphone", 140],
+    ["🛋️", "Un canapé", 160],
+    ["🎹", "Un piano numérique", 160],
+    ["💻", "Un ordinateur portable", 200]
+  ];
+  var objets=SECOURS;
+  function $(i){return document.getElementById(i);}
+  var elEmoji=$("jm-emoji"),elNom=$("jm-nom"),elPots=$("jm-pots"),elFourch=$("jm-fourch"),elZone=$("jm-zone"),
+      inp=$("jm-nb"),btn=$("jm-ok"),elMsg=$("jm-msg"),elSuite=$("jm-suite"),elSuiv=$("jm-suiv"),elEssais=$("jm-essais"),
+      elScore=$("jm-score"),elSerie=$("jm-serie"),elRecord=$("jm-record"),
+      elHist=$("jm-hist"),elHistVide=$("jm-hist-vide"),elMeilleure=$("jm-meilleure");
+  var sac=[],obj=null,bas=MIN,haut=MAX,essais=ESSAIS,fini=false,score=0,serie=0,meilleure=0,record=0,historique=[];
+  try{var d=JSON.parse(localStorage.getItem(CLE)||"{}");record=+d.r||0;meilleure=+d.s||0;}catch(e){}
+  function sauver(){try{localStorage.setItem(CLE,JSON.stringify({r:record,s:meilleure}));}catch(e){}}
+  function pot(n){return n+" pot"+(n>1?"s":"")+" de miel";}
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+  /* Les objets sortent dans un ordre aléatoire, sans répétition tant que tous ne sont pas passés */
+  function tirer(){
+    if(!sac.length){
+      sac=objets.map(function(_,i){return i;});
+      for(var i=sac.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=sac[i];sac[i]=sac[j];sac[j]=t;}
+    }
+    return objets[sac.pop()];
+  }
+  function msg(t,fin){elMsg.textContent=t;elMsg.className="jm-msg"+(fin?" fin":"");}
+
+  function maj(){
+    var h="";
+    for(var i=0;i<ESSAIS;i++)h+='<span'+(i>=essais?' class="vide"':'')+'>🍯</span>';
+    elPots.innerHTML=h;
+    elPots.setAttribute("aria-label","Essais restants : "+essais+" sur "+ESSAIS);
+    var n=MAX-MIN+1;
+    elZone.style.left=((bas-MIN)/n*100)+"%";
+    elZone.style.width=((haut-bas+1)/n*100)+"%";
+    elFourch.textContent=fini?"Prix à trouver : "+obj[2]+" pots":"Entre "+bas+" et "+haut+" pots";
+    elScore.textContent=score;elSerie.textContent=serie;elRecord.textContent=record;elMeilleure.textContent=meilleure;
+  }
+  function majHistorique(){
+    elHistVide.hidden=historique.length>0;
+    elHist.innerHTML=historique.slice(0,8).map(function(o,i){
+      return '<li'+(i===0?' class="moi"':'')+'><span class="sn-rang" aria-hidden="true">'+o.e+'</span>'+
+        '<span class="sn-nom">'+esc(o.n)+'<small>'+(o.ok?'Trouvé en '+o.k+' essai'+(o.k>1?'s':''):'Raté, valait '+o.p+' pots')+'</small></span>'+
+        '<span class="sn-pts">'+(o.ok?'+'+o.pts:'0')+'</span></li>';
+    }).join("");
+  }
+
+  function afficher(o){
+    elEmoji.textContent="";
+    if(!o[3]){elEmoji.textContent=o[0];return;}
+    var im=new Image();
+    im.alt="";im.className="jm-img";im.decoding="async";
+    im.onerror=function(){elEmoji.textContent=o[0];};
+    im.src=o[3];
+    elEmoji.appendChild(im);
+  }
+  function nouvelle(){
+    obj=tirer();bas=MIN;haut=MAX;essais=ESSAIS;fini=false;
+    afficher(obj);elNom.textContent=obj[1];
+    elEssais.innerHTML="";elSuite.hidden=true;
+    inp.value="";inp.disabled=false;btn.disabled=false;
+    msg("Combien ce bel objet vaut-il en pots de miel ?");
+    maj();
+  }
+  function ajouter(n,sens,proche){
+    var li=document.createElement("li");
+    li.className=sens===0?"ok":"";
+    li.innerHTML="<span>"+n+" pots</span><span>"+(sens===0?"Juste miel ✓":(sens>0?"Plus ↑":"Moins ↓")+(proche?" · tu brûles":""))+"</span>";
+    elEssais.appendChild(li);
+  }
+  function terminer(texte){
+    fini=true;inp.disabled=true;btn.disabled=true;
+    msg(texte,true);elSuite.hidden=false;
+    maj();majHistorique();sauver();
+    elSuiv.focus();
+  }
+  function gagner(){
+    var k=ESSAIS-essais,pts=20*(essais+1);
+    score+=pts;serie++;
+    if(score>record)record=score;
+    if(serie>meilleure)meilleure=serie;
+    historique.unshift({e:obj[0],n:obj[1],ok:true,k:k,pts:pts,p:obj[2]});
+    terminer("Juste miel ! "+obj[1]+" vaut exactement "+pot(obj[2])+". Trouvé en "+k+" essai"+(k>1?"s":"")+", +"+pts+" points.");
+  }
+  function perdre(){
+    serie=0;
+    historique.unshift({e:obj[0],n:obj[1],ok:false,p:obj[2]});
+    terminer("Raté ! "+obj[1]+" valait "+pot(obj[2])+".");
+  }
+  function proposer(){
+    if(fini)return;
+    var t=inp.value.replace(/\s/g,""),n=/^\d+$/.test(t)?parseInt(t,10):NaN;
+    if(!(n>=MIN&&n<=MAX)){msg("Entre un nombre entier de "+MIN+" à "+MAX+" pots.");inp.focus();return;}
+    essais--;
+    var p=obj[2],diff=n-p,proche=Math.abs(diff)<=Math.max(2,Math.round(p*.05)),sens=diff===0?0:(diff<0?1:-1);
+    ajouter(n,sens,proche);
+    inp.value="";
+    if(diff===0)return gagner();
+    if(diff<0)bas=Math.max(bas,n+1);else haut=Math.min(haut,n-1);
+    if(essais<=0)return perdre();
+    msg((diff<0?"C’est plus !":"C’est moins !")+(proche?" Tu brûles !":"")+" Encore "+essais+" essai"+(essais>1?"s":"")+".");
+    maj();inp.focus();
+  }
+
+  btn.addEventListener("click",proposer);
+  inp.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();proposer();}});
+  inp.addEventListener("input",function(){var v=inp.value.replace(/\D/g,"");if(v!==inp.value)inp.value=v;});
+  elSuiv.addEventListener("click",function(){nouvelle();inp.focus();});
+  /* Les objets viennent de la table Supabase ; si elle ne répond pas (ou est vide), on joue avec la liste de secours */
+  function valide(o){return o&&typeof o.emoji==="string"&&o.emoji&&typeof o.nom==="string"&&o.nom&&Number.isInteger(o.prix_pots)&&o.prix_pots>=1&&o.prix_pots<=999;}
+  function chargerObjets(){
+    var ctrl=window.AbortController?new AbortController():null,t=setTimeout(function(){if(ctrl)ctrl.abort();},5000);
+    return fetch(SB+"?select=emoji,nom,prix_pots,image_url&actif=eq.true&limit=1000",{headers:{apikey:SB_CLE},signal:ctrl?ctrl.signal:undefined})
+      .then(function(r){if(!r.ok)throw new Error("http "+r.status);return r.json();})
+      .then(function(a){
+        clearTimeout(t);
+        var o=(Array.isArray(a)?a:[]).filter(valide).map(function(x){return [x.emoji,x.nom,x.prix_pots,typeof x.image_url==="string"&&/^https:\/\//.test(x.image_url)?x.image_url:null];});
+        if(o.length<5)throw new Error("table vide");
+        return o;
+      },function(e){clearTimeout(t);throw e;});
+  }
+  var etat=0;   /* 0 : pas commencé, 1 : chargement, 2 : prêt */
+  function actif(){return location.hash==="#juste-miel";}
+  function entrer(){
+    if(etat)return;etat=1;
+    inp.disabled=true;btn.disabled=true;msg("Chargement des objets…");
+    chargerObjets().then(null,function(){return SECOURS;}).then(function(o){
+      objets=o;
+      MAX=Math.max(250,o.reduce(function(m,x){return Math.max(m,x[2]);},0));
+      sac=[];etat=2;nouvelle();
+    });
+  }
+  window.addEventListener("hashchange",function(){if(actif())entrer();});
+  maj();majHistorique();if(actif())entrer();
 })();
 </script>
 </body>
