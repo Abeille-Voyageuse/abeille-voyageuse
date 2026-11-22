@@ -1575,19 +1575,25 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 })();
 </script>
 <script>
-/* Miel Fléché : mots fléchés générés au hasard dans le navigateur */
+/* Miel Fléché : mots fléchés générés au hasard à partir de Supabase (avec liste de secours) */
 (function(){
   var sec=document.getElementById("miel-fleche");if(!sec)return;
   var R=10,C=9;
-  var W="ABEILLE|Insecte butineur;MIEL|Nectar transformé;RUCHE|Maison des abeilles;CIRE|Produit des alvéoles;FLEUR|Elle attire l’abeille;NECTAR|Boisson du butineur;POLLEN|Poussière jaune;REINE|Chef de la ruche;BOURDON|Gros butineur velu;GUEPE|Rayée et piquante;ESSAIM|Nuée d’abeilles;ALVEOLE|Cellule de cire;PROPOLIS|Mastic de la ruche;TOURNESOL|Fleur du soleil;TULIPE|Fleur de printemps;ROSE|Fleur à épines;LILAS|Arbuste parfumé;LAVANDE|Fleur de Provence;THYM|Plante aromatique;MENTHE|Herbe fraîche;SAUGE|Herbe médicinale;TILLEUL|Arbre à tisane;CHENE|Arbre à glands;SAPIN|Arbre de Noël;ORME|Arbre ou bois;PIN|Conifère;IF|Arbre toxique;HETRE|Arbre à faînes;ARBRE|Il a un tronc;BOIS|Matière de l’arbre;FORET|Grand bois;PRE|Herbe à brouter;CHAMP|Terre cultivée;VERGER|Il compte des pommiers;POMME|Fruit du pommier;POIRE|Fruit en cloche;FIGUE|Fruit du figuier;CERISE|Petit fruit rouge;FRAISE|Fruit rouge du jardin;CITRON|Agrume acide;ORANGE|Agrume rond;RAISIN|Fruit de la vigne;VIGNE|Elle donne le vin;THE|Boisson chaude;CAFE|Boisson du matin;LAIT|Blanc et nourrissant;BEURRE|Il tartine le pain;PAIN|Aliment de base;TARTE|Dessert en pâte;GATEAU|Dessert d’anniversaire;SUCRE|Il adoucit;SEL|Il assaisonne;RIZ|Céréale asiatique;BLE|Il donne la farine;AVOINE|Céréale du cheval;SOLEIL|Étoile du jour;LUNE|Astre de la nuit;CIEL|Il est bleu;NUAGE|Il flotte là-haut;PLUIE|Elle mouille;VENT|Il souffle;NEIGE|Flocons blancs;ORAGE|Tonnerre et éclairs;ETE|Saison chaude;HIVER|Saison froide;AUTOMNE|Saison des feuilles;MAI|Mois du muguet;JUIN|Mois de l’été;ROUGE|Couleur de la tomate;BLEU|Couleur du ciel;VERT|Couleur de l’herbe;JAUNE|Couleur du miel;NOIR|Absence de lumière;OR|Métal précieux;ARGENT|Métal blanc;FER|Métal des clous;CHAT|Il ronronne;CHIEN|Meilleur ami;OURS|Il aime le miel;LOUP|Il hurle;RENARD|Rusé et roux;LAPIN|Il aime les carottes;OISEAU|Il vole;MERLE|Oiseau noir;HIBOU|Oiseau de nuit;ANE|Il brait;VACHE|Elle donne du lait;MOUTON|Il bêle;COQ|Il chante à l’aube;POULE|Elle pond;CANARD|Il fait coin-coin;RAT|Petit rongeur;MOUCHE|Elle bourdonne;FOURMI|Petite travailleuse;PAPILLON|Ex-chenille;LIBELLULE|Insecte aux ailes fines;AILE|Elle sert à voler;LIVRE|Il se lit;ROMAN|Récit long;PAGE|Feuille d’un livre;ECOLE|On y apprend;CLASSE|Groupe d’élèves;JEU|On y joue;CARTE|Elle se bat;DE|Il se lance;BALLON|On le fait rebondir;VELO|Deux roues;TRAIN|Il roule sur rails;AVION|Il traverse le ciel;BATEAU|Il flotte;MER|Grande étendue d’eau;LAC|Eau douce;RIVIERE|Elle coule;PLAGE|Sable au bord de l’eau;SABLE|Il tombe dans le sablier;ILE|Terre dans l’eau;MAISON|Elle abrite;PORTE|On la ferme;TOIT|Il couvre la maison;LIT|On y dort;LAMPE|Elle éclaire;CLE|Elle ouvre la porte;MUR|Il sépare;ROI|Il porte la couronne;AMI|Compagnon fidèle;AMOUR|Sentiment tendre;JOIE|Bonheur;RIRE|Il est contagieux;CHANT|Mélodie vocale;DANSE|Elle suit un rythme;MUSIQUE|Art des sons;PIANO|Instrument à touches;SOIR|Fin du jour;NUIT|Il fait noir;JOUR|Il fait clair;ETOILE|Elle brille la nuit;REVE|Il vient en dormant;PAIX|Contraire de guerre;TERRE|Notre planète;EAU|Elle coule;FEU|Il brûle;AIR|On le respire".split(";").map(function(x){var p=x.split("|");return {m:p[0],d:p[1]};});
+  var SB="https://tsdilkupupyrmihbaqgm.supabase.co/rest/v1/mots_miel_fleche",
+      SB_CLE="sb_publishable_orPfv1AkysgjGulNNSTREQ_Q1LFCo-4";
+
+  /* Liste de secours si la table Supabase est inaccessible ou contient trop peu de mots */
+  var SECOURS="ABEILLE|Insecte butineur;MIEL|Nectar transformé;RUCHE|Maison des abeilles;CIRE|Produit des alvéoles;FLEUR|Elle attire l’abeille;NECTAR|Boisson du butineur;POLLEN|Poussière jaune;REINE|Chef de la ruche;BOURDON|Gros butineur velu;GUEPE|Rayée et piquante;ESSAIM|Nuée d’abeilles;ALVEOLE|Cellule de cire;PROPOLIS|Mastic de la ruche;TOURNESOL|Fleur du soleil;TULIPE|Fleur de printemps;ROSE|Fleur à épines;LILAS|Arbuste parfumé;LAVANDE|Fleur de Provence;THYM|Plante aromatique;MENTHE|Herbe fraîche;SAUGE|Herbe médicinale;TILLEUL|Arbre à tisane;CHENE|Arbre à glands;SAPIN|Arbre de Noël;ORME|Arbre ou bois;PIN|Conifère;IF|Arbre toxique;HETRE|Arbre à faînes;ARBRE|Il a un tronc;BOIS|Matière de l’arbre;FORET|Grand bois;PRE|Herbe à brouter;CHAMP|Terre cultivée;VERGER|Il compte des pommiers;POMME|Fruit du pommier;POIRE|Fruit en cloche;FIGUE|Fruit du figuier;CERISE|Petit fruit rouge;FRAISE|Fruit rouge du jardin;CITRON|Agrume acide;ORANGE|Agrume rond;RAISIN|Fruit de la vigne;VIGNE|Elle donne le vin;THE|Boisson chaude;CAFE|Boisson du matin;LAIT|Blanc et nourrissant;BEURRE|Il tartine le pain;PAIN|Aliment de base;TARTE|Dessert en pâte;GATEAU|Dessert d’anniversaire;SUCRE|Il adoucit;SEL|Il assaisonne;RIZ|Céréale asiatique;BLE|Il donne la farine;AVOINE|Céréale du cheval;SOLEIL|Étoile du jour;LUNE|Astre de la nuit;CIEL|Il est bleu;NUAGE|Il flotte là-haut;PLUIE|Elle mouille;VENT|Il souffle;NEIGE|Flocons blancs;ORAGE|Tonnerre et éclairs;ETE|Saison chaude;HIVER|Saison froide;AUTOMNE|Saison des feuilles;MAI|Mois du muguet;JUIN|Mois de l’été;ROUGE|Couleur de la tomate;BLEU|Couleur du ciel;VERT|Couleur de l’herbe;JAUNE|Couleur du miel;NOIR|Absence de lumière;OR|Métal précieux;ARGENT|Métal blanc;FER|Métal des clous;CHAT|Il ronronne;CHIEN|Meilleur ami;OURS|Il aime le miel;LOUP|Il hurle;RENARD|Rusé et roux;LAPIN|Il aime les carottes;OISEAU|Il vole;MERLE|Oiseau noir;HIBOU|Oiseau de nuit;ANE|Il brait;VACHE|Elle donne du lait;MOUTON|Il bêle;COQ|Il chante à l’aube;POULE|Elle pond;CANARD|Il fait coin-coin;RAT|Petit rongeur;MOUCHE|Elle bourdonne;FOURMI|Petite travailleuse;PAPILLON|Ex-chenille;LIBELLULE|Insecte aux ailes fines;AILE|Elle sert à voler;LIVRE|Il se lit;ROMAN|Récit long;PAGE|Feuille d’un livre;ECOLE|On y apprend;CLASSE|Groupe d’élèves;JEU|On y joue;CARTE|Elle se bat;DE|Il se lance;BALLON|On le fait rebondir;VELO|Deux roues;TRAIN|Il roule sur rails;AVION|Il traverse le ciel;BATEAU|Il flotte;MER|Grande étendue d’eau;LAC|Eau douce;RIVIERE|Elle coule;PLAGE|Sable au bord de l’eau;SABLE|Il tombe dans le sablier;ILE|Terre dans l’eau;MAISON|Elle abrite;PORTE|On la ferme;TOIT|Il couvre la maison;LIT|On y dort;LAMPE|Elle éclaire;CLE|Elle ouvre la porte;MUR|Il sépare;ROI|Il porte la couronne;AMI|Compagnon fidèle;AMOUR|Sentiment tendre;JOIE|Bonheur;RIRE|Il est contagieux;CHANT|Mélodie vocale;DANSE|Elle suit un rythme;MUSIQUE|Art des sons;PIANO|Instrument à touches;SOIR|Fin du jour;NUIT|Il fait noir;JOUR|Il fait clair;ETOILE|Elle brille la nuit;REVE|Il vient en dormant;PAIX|Contraire de guerre;TERRE|Notre planète;EAU|Elle coule;FEU|Il brûle;AIR|On le respire".split(";").map(function(x){var p=x.split("|");return {m:p[0],d:p[1]};});
+
+  var W=SECOURS;
+
   /*GEN*/
   function melanger(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
-  /* Une grille : on pose des mots un à un, chacun précédé de sa case de définition, en croisant les mots déjà posés */
   function essayer(){
     var cell=[],mots=[],used={},echecs=0,i,nb=0;
-    for(i=0;i<R*C;i++)cell.push({t:0,h:-1,v:-1,ch:"",cl:{}});   /* t : 0 vide, 1 lettre, 2 case de définition */
+    for(i=0;i<R*C;i++)cell.push({t:0,h:-1,v:-1,ch:"",cl:{}});
     function at(r,c){return r<0||c<0||r>=R||c>=C?null:cell[r*C+c];}
-    function test(w,r,c,dir){   /* dir 0 : vers la droite, 1 : vers le bas ; renvoie le nombre de croisements, ou -1 */
+    function test(w,r,c,dir){
       var dr=dir,dc=1-dir,L=w.m.length,cr=0,k,x,y,a,p,q;
       a=at(r-dr,c-dc);if(!a||a.t===1||(a.t===2&&a.cl[dir]))return -1;
       a=at(r+dr*L,c+dc*L);if(a&&a.t===1)return -1;
@@ -1631,6 +1637,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   function motDe(i,d){var c=g.cell[i],id=d?c.v:c.h;return id>=0?g.mots[id]:null;}
   function dansMot(m,i){var r=Math.floor(i/C),c=i%C;return m.dir?(c===m.c&&r>=m.r&&r<m.r+m.L):(r===m.r&&c>=m.c&&c<m.c+m.L);}
   function nouvelle(){
+    if(etat!==2)return;
     g=generer();ent=[];btns=[];fautes=[];inds=[];sel=-1;dir=0;indices=0;total=0;fini=false;
     elG.innerHTML="";elV.hidden=true;elS.textContent="";
     g.cell.forEach(function(c,i){
@@ -1679,7 +1686,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     maj();btns[sel].focus();
   }
   function indice(){
-    if(fini)return;
+    if(fini||!g)return;
     var i=sel,cand=[];
     if(i<0||ent[i]===g.cell[i].ch){
       g.cell.forEach(function(c,k){if(c.t===1&&ent[k]!==c.ch)cand.push(k);});
@@ -1688,6 +1695,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     ent[i]=g.cell[i].ch;inds[i]=true;fautes[i]=false;indices++;sel=i;maj();btns[i].focus();
   }
   function verifier(){
+    if(!g)return;
     var n=0;
     g.cell.forEach(function(c,i){if(c.t===1&&ent[i]&&ent[i]!==c.ch){fautes[i]=true;n++;}});
     elS.textContent=n?n+" lettre"+(n>1?"s":"")+" à corriger.":"Aucune erreur pour l’instant.";
@@ -1718,8 +1726,42 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
       if(/^[A-Z]$/.test(l)){e.preventDefault();saisir(l);}
     }
   });
-  window.addEventListener("hashchange",function(){if(actif()&&!g)nouvelle();});
-  if(actif())nouvelle();
+
+  /* Chargement asynchrone du dictionnaire depuis Supabase */
+  function nettoyerMot(m){
+    return String(m||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z]/g,"");
+  }
+  function chargerMots(){
+    var ctrl=window.AbortController?new AbortController():null,t=setTimeout(function(){if(ctrl)ctrl.abort();},5000);
+    return fetch(SB+"?select=mot,definition&actif=eq.true&limit=2000",{headers:{apikey:SB_CLE},signal:ctrl?ctrl.signal:undefined})
+      .then(function(r){if(!r.ok)throw new Error("http "+r.status);return r.json();})
+      .then(function(a){
+        clearTimeout(t);
+        var liste=(Array.isArray(a)?a:[]).map(function(x){
+          return {m:nettoyerMot(x.mot),d:String(x.definition||"").trim()};
+        }).filter(function(x){
+          return x.m.length>=2&&x.m.length<=9&&x.d.length>0;
+        });
+        if(liste.length<25)throw new Error("dictionnaire trop court");
+        return liste;
+      },function(e){clearTimeout(t);throw e;});
+  }
+
+  var etat=0; /* 0 : pas commencé, 1 : chargement, 2 : prêt */
+  function entrer(){
+    if(etat===2){if(!g)nouvelle();return;}
+    if(etat===1)return;
+    etat=1;
+    elDef.textContent="Chargement du dictionnaire…";
+    chargerMots().then(null,function(){return SECOURS;}).then(function(liste){
+      W=liste;
+      etat=2;
+      nouvelle();
+    });
+  }
+
+  window.addEventListener("hashchange",function(){if(actif())entrer();});
+  if(actif())entrer();
 })();
 </script>
 </body>
