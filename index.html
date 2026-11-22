@@ -298,7 +298,53 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 .devinette button{font:inherit;font-weight:700;padding:.6rem 1.2rem;border:2px solid var(--rose);border-radius:999px;background:transparent;color:var(--ink);cursor:pointer}
 .devinette button:hover{background:var(--rose);color:#142b05}
 .devinette .dev-err{flex:1 0 100%;min-height:1.4em;margin:0;font-size:.9rem;color:#b3261e}
-:root:not([data-theme="light"]) .devinette .dev-err{color:#ffb4ab}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .devinette .dev-err{color:#ffb4ab}}
+:root[data-theme="dark"] .devinette .dev-err{color:#ffb4ab}
+.reussite{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden}
+.reussite .rb-halo{position:absolute;left:50%;top:42%;width:min(20rem,80vw);aspect-ratio:1;margin:0;border-radius:50%;background:radial-gradient(circle,rgba(255,246,168,.95) 0,rgba(247,197,49,.45) 38%,rgba(247,197,49,0) 70%);transform:translate(-50%,-50%) scale(.3);opacity:0;animation:rb-halo 2.8s ease-in-out forwards}
+.reussite .rb-bee{position:absolute;left:50%;top:42%;width:min(8rem,34vw);height:auto;max-width:none;font-size:5rem;line-height:1;transform:translate(-50%,-50%);opacity:0;animation:rb-vol 2.8s ease-in-out forwards,rb-brille .55s ease-in-out infinite alternate}
+.reussite i{position:absolute;left:50%;top:42%;font-style:normal;font-size:1.5rem;line-height:1;color:#f7c531;text-shadow:0 0 .5rem #fff6a8,0 0 1rem #f7c531;opacity:0;transform:translate(-50%,-50%) scale(0);animation:rb-etoile 1.1s ease-out forwards}
+.reussite i:nth-of-type(3n){color:#fff;font-size:1.1rem}
+.reussite i:nth-of-type(3n+1){color:#f4a6b8;text-shadow:0 0 .5rem #fff,0 0 1rem #f4a6b8}
+@keyframes rb-vol{
+ 0%{transform:translate(calc(-50% - 60vw),calc(-50% + 30vh)) rotate(-15deg) scale(.5);opacity:0}
+ 18%{opacity:1}
+ 48%{transform:translate(-50%,-50%) rotate(0) scale(1)}
+ 72%{transform:translate(-50%,calc(-50% - 1.2rem)) rotate(3deg) scale(1.1);opacity:1}
+ 100%{transform:translate(calc(-50% + 60vw),calc(-50% - 40vh)) rotate(15deg) scale(.5);opacity:0}}
+@keyframes rb-brille{from{filter:drop-shadow(0 0 .4rem #fff6a8) drop-shadow(0 0 1rem #f7c531) brightness(1)}to{filter:drop-shadow(0 0 .9rem #fff) drop-shadow(0 0 2.2rem #f7c531) brightness(1.3)}}
+@keyframes rb-halo{0%,25%{opacity:0;transform:translate(-50%,-50%) scale(.3)}50%,72%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.4)}}
+@keyframes rb-etoile{0%{opacity:0;transform:translate(-50%,-50%) scale(0) rotate(0)}25%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.2) rotate(120deg)}}
+.reussite.rb-calme .rb-bee{animation:rb-calme 1.9s ease-in-out forwards,rb-brille .9s ease-in-out infinite alternate}
+.reussite.rb-calme .rb-halo{animation:rb-calme 1.9s ease-in-out forwards;transform:translate(-50%,-50%)}
+@keyframes rb-calme{0%,100%{opacity:0}30%,70%{opacity:1}}
+#spelling-bee{--sn-w:min(100%,26rem);--sb-c:#8a6100}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #spelling-bee{--sb-c:var(--miel)}}
+:root[data-theme="dark"] #spelling-bee{--sb-c:var(--miel)}
+.sb-prog{width:var(--sn-w);height:.6rem;margin-top:.5rem;border:2px solid var(--line);border-radius:999px;overflow:hidden}
+.sb-prog i{display:block;height:100%;width:0;background:var(--miel);transition:width .4s}
+.sb-saisie{display:flex;align-items:center;justify-content:center;width:var(--sn-w);min-height:3.6rem;margin-top:1rem;border-bottom:2px solid var(--line);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:clamp(1.6rem,1.3rem + 1.2vw,2.1rem);letter-spacing:.04em;text-transform:uppercase;color:var(--ink);overflow-wrap:anywhere}
+.sb-saisie b{color:var(--sb-c)}
+.sb-saisie:empty::before{content:"Tape ou touche les lettres";font-size:.95rem;letter-spacing:0;text-transform:none;opacity:.5}
+.sb-saisie.non{animation:sb-non .35s}
+@keyframes sb-non{25%{transform:translateX(-.5rem)}75%{transform:translateX(.5rem)}}
+.sb-ruche{--w:5.2rem;--h:calc(var(--w)*.866);position:relative;width:calc(var(--w)*2.6);max-width:100%;height:calc(var(--h)*3.15);margin:1.25rem auto 0}
+.sb-h{--hex:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);position:absolute;left:calc(50% - var(--w)/2 + var(--x)*var(--w)*.78);top:calc(50% - var(--h)/2 + var(--y)*var(--h)*1.04);width:var(--w);height:var(--h);padding:0;border:0;isolation:isolate;clip-path:var(--hex);background:var(--line);color:var(--ink);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:1.7rem;text-transform:uppercase;cursor:pointer;transition:transform .1s}
+.sb-h::before,.sb-h::after{content:"";position:absolute;inset:2px;clip-path:var(--hex);z-index:-1}
+.sb-h::before{background:var(--bg)}
+.sb-h::after{background:rgba(247,197,49,.22)}
+.sb-c{background:var(--miel);color:#142b05}
+.sb-c::before{background:var(--miel)}.sb-c::after{background:none}
+.sb-h:hover{background:var(--rose)}
+.sb-h:active{transform:scale(.94)}
+.sb-h:focus-visible{outline:3px solid var(--barbie);outline-offset:-3px}
+.sb-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;width:var(--sn-w);margin-top:1rem}
+.sn-btn.sb-sec{background:transparent;color:var(--ink);border-color:var(--line)}
+.sn-btn.sb-sec:hover{border-color:var(--rose)}
+#spelling-bee .sb-mots{display:flex;flex-wrap:wrap;gap:.4rem;list-style:none;margin:0;padding:0}
+#spelling-bee .sb-mots li{display:block;padding:.15rem .8rem;border:2px solid var(--line);border-radius:999px;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:.95rem;line-height:1.5}
+#spelling-bee .sb-mots li.pg{border-color:var(--miel);background:rgba(247,197,49,.35)}
+@media (prefers-reduced-motion:reduce){.sb-prog i,.sb-h{transition:none}.sb-saisie.non{animation:none}}
 </style>
 </head>
 <body>
@@ -524,12 +570,13 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 
   <section id="jeux" class="page">
     <h2>Jeux</h2>
-    <p>L’abeille adore les énigmes. Elle range ici ses jeux préférés.</p>
+    <p>L’abeille adore les énigmes. Elle rangera ici ses jeux préférés.</p>
     <ul class="liste-actes">
       <li><a class="carte-acte" href="#snake"><b>La Ruche</b><span>L’abeille récolte les fleurs.</span></a></li>
       <li><a class="carte-acte" href="#sudoku"><b>Sudoku</b><span>Des grilles à l’infini, du facile à l’expert.</span></a></li>
       <li><a class="carte-acte" href="#miel-fleche"><b>Miel Fléché</b><span>Des mots fléchés à l’infini.</span></a></li>
       <li><a class="carte-acte" href="#juste-miel"><b>Juste Miel</b><span>Devine le prix en pots de miel.</span></a></li>
+      <li><a class="carte-acte" href="#spelling-bee"><b>Spelling Bee</b><span>Des mots à butiner avec sept lettres.</span></a></li>
     </ul>
   </section>
 
@@ -668,6 +715,34 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
   </section>
 
+  <section id="spelling-bee" class="page jeu">
+    <p><a class="back" href="#jeux">← Jeux</a></p>
+    <h2>Spelling Bee</h2>
+    <div class="sn-cols">
+    <div class="sn-jeu">
+    <div class="jeu-score" role="group" aria-label="Score"><span>Rang <b id="sb-rang">Œuf</b></span><span>Score <b id="sb-score">0</b></span></div>
+    <div class="sb-prog" aria-hidden="true"><i id="sb-barre"></i></div>
+    <div class="sb-saisie" id="sb-saisie" role="status" aria-label="Mot en cours"></div>
+    <div class="sb-ruche" id="sb-ruche" role="group" aria-label="Lettres de la ruche"></div>
+    <div class="sb-actions">
+      <button type="button" class="sn-btn sb-sec" id="sb-eff">Effacer</button>
+      <button type="button" class="sn-btn sb-sec" id="sb-mel">Mélanger</button>
+      <button type="button" class="sn-btn" id="sb-ok">Valider</button>
+    </div>
+    <p class="jm-msg" id="sb-msg" aria-live="polite">Chargement de la grille…</p>
+    <p class="sn-aide">Forme des mots d’au moins 4 lettres avec les lettres de la ruche, en utilisant toujours la lettre centrale (en jaune). Les lettres peuvent se répéter, les accents sont facultatifs. Un pangramme emploie les 7 lettres.</p>
+    </div>
+    <div class="sn-tableau">
+      <h3 id="sb-titre">Mots trouvés <span id="sb-nb"></span></h3>
+      <ul class="sb-mots" id="sb-mots" aria-labelledby="sb-titre"></ul>
+      <p class="sn-vide" id="sb-vide">Aucun mot pour l’instant. Lance-toi !</p>
+      <p class="sn-note" id="sb-info"></p>
+      <p class="sn-note">Un mot de 4 lettres vaut 1 point, ensuite 1 point par lettre. Un pangramme rapporte 7 points de plus (★). Ta progression est gardée sur cet appareil.</p>
+    </div>
+    </div>
+    <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
+  </section>
+
   <section id="petales" class="page jeu">
     <p><a class="back" href="#a-venir">← À Venir</a></p>
     <h2>Un peu, beaucoup…</h2>
@@ -734,7 +809,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 <footer>Fait avec patience, sincérité et tendresse.</footer>
 <script>
 (function(){
-  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "jeux", "snake", "sudoku", "juste-miel", "miel-fleche", "petales", "archives", "a-venir"];
+  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "jeux", "snake", "sudoku", "juste-miel", "miel-fleche", "spelling-bee", "petales", "archives", "a-venir"];
   var premier=true;
   var mBtn=document.getElementById("menu-btn"),mListe=document.getElementById("menu-liste"),mLabel=document.getElementById("menu-label");
   function mFermer(){if(!mBtn)return;mListe.hidden=true;mBtn.setAttribute("aria-expanded","false");}
@@ -824,11 +899,11 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     var avant=!premier&&preparer();
     ids.forEach(function(i){var el=document.getElementById(i);if(el)el.classList.toggle("on",i===h)});
     document.querySelectorAll("nav a").forEach(function(a){
-      if(a.dataset.t===(h.indexOf("acte-")===0?"theatre":h==="petales"?"a-venir":((h==="snake"||h==="sudoku"||h==="juste-miel"||h==="miel-fleche")?"jeux":h)))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+      if(a.dataset.t===(h.indexOf("acte-")===0?"theatre":h==="petales"?"a-venir":((h==="snake"||h==="sudoku"||h==="juste-miel"||h==="miel-fleche"||h==="spelling-bee")?"jeux":h)))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
     });
     document.title=(h==="accueil"?"":document.querySelector('#'+h+' h2').textContent+" · ")+"L’abeille voyageuse";
     if(mBtn){
-      var cle=(h.indexOf("acte-")===0?"theatre":h==="petales"?"a-venir":((h==="snake"||h==="sudoku"||h==="juste-miel"||h==="miel-fleche")?"jeux":h));
+      var cle=(h.indexOf("acte-")===0?"theatre":h==="petales"?"a-venir":((h==="snake"||h==="sudoku"||h==="juste-miel"||h==="miel-fleche"||h==="spelling-bee")?"jeux":h));
       document.querySelectorAll("#menu-liste a").forEach(function(a){
         if(a.dataset.t===cle){a.setAttribute("aria-current","page");mLabel.textContent=a.textContent;}
         else a.removeAttribute("aria-current");
@@ -1063,6 +1138,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     if(nouveau)texte+=" Nouveau record !";
     enregistrer(score,nom,numero);
     montrerVoile(gagne?"Bravo, le jardin est butiné !":"Bzzz… c’est fini !",texte,"Rejouer");
+    if(gagne||nouveau){if(window.abeilleReussite)abeilleReussite();}
     bouton.focus({preventScroll:true});
   }
 
@@ -1393,7 +1469,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
       temps:Math.max(15,Math.min(86400,Math.round(ecoule/1000))),indices:nInd});
     if(distant!==null)distant++;
     jauge();
-    vTitre.textContent="Grille terminée !";
+    vTitre.textContent="Grille terminée !";if(window.abeilleReussite)abeilleReussite();
     vTexte.textContent=texteFin(distant!==null?distant:local);
     elStatut.textContent="";voile.hidden=false;vBtn.focus({preventScroll:true});
     fetch(SB+"?select=id",{method:"POST",headers:{apikey:SB_CLE,"Content-Type":"application/json",Prefer:"return=representation"},body:corps})
@@ -1600,7 +1676,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   }
   function gagner(){
     var k=ESSAIS-essais,pts=20*(essais+1);
-    score+=pts;serie++;
+    score+=pts;serie++;if(window.abeilleReussite)abeilleReussite();
     if(score>record)record=score;
     if(serie>meilleure)meilleure=serie;
     historique.unshift({e:obj[0],n:obj[1],ok:true,k:k,pts:pts,p:obj[2]});
@@ -1744,7 +1820,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
       b.setAttribute("aria-label","Ligne "+(Math.floor(i/C)+1)+", colonne "+(i%C+1)+(ent[i]?" : "+ent[i]:", vide"));
     });
     elNb.textContent=ok+"/"+total;elInd.textContent=indices;
-    if(!fini&&total>0&&ok===total){fini=true;elVx.textContent=indices?"Avec "+indices+" indice"+(indices>1?"s":"")+".":"Sans aucun indice, bravo !";elV.hidden=false;}
+    if(!fini&&total>0&&ok===total){fini=true;elVx.textContent=indices?"Avec "+indices+" indice"+(indices>1?"s":"")+".":"Sans aucun indice, bravo !";elV.hidden=false;if(window.abeilleReussite)abeilleReussite();}
   }
   function choisir(i){
     var c=g.cell[i];
@@ -2074,7 +2150,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     chutes.push({x:CX+c*d,y:CY+s*d,vx:c*22+(Math.random()-.5)*10,vy:s*14-20,ang:p.a,va:(Math.random()-.5)*5,col:idx<4?ROSE:BLEU,sol:SOL+4+Math.random()*14,s:Math.random()*6.28});
     elNb.textContent=k+"/"+N;elPh.textContent=PH[idx];
     if(k>=N){fin=true;minuteur=setTimeout(function(){
-      elVt.textContent=PH[idx];elVx.textContent=FIN[idx];elV.hidden=false;
+      elVt.textContent=PH[idx];elVx.textContent=FIN[idx];elV.hidden=false;if(window.abeilleReussite)abeilleReussite();
       var b=$("pt-vbtn");if(b&&actif())b.focus();
     },1300);}
   }
@@ -2151,6 +2227,132 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   window.addEventListener("hashchange",function(){if(actif())verifier();});
   document.addEventListener("visibilitychange",function(){if(actif()&&!document.hidden)demarrer();});
   verifier();
+})();
+/* Animation de réussite : l’abeille du site traverse l’écran en brillant (appelée par chaque jeu à la victoire) */
+(function(){
+  var reduit=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches,enCours=null;
+  window.abeilleReussite=function(){
+    if(enCours){clearTimeout(enCours._t);enCours.remove();}
+    var el=document.createElement("div"),h=document.createElement("div"),src=(document.querySelector("#transition .bee")||{}).src,b;
+    el.className="reussite"+(reduit?" rb-calme":"");el.setAttribute("aria-hidden","true");
+    h.className="rb-halo";el.appendChild(h);
+    if(src){b=document.createElement("img");b.src=src;b.alt="";}else{b=document.createElement("span");b.textContent="🐝";}
+    b.className="rb-bee";el.appendChild(b);
+    if(!reduit)for(var i=0;i<16;i++){
+      var a=i/16*2*Math.PI+Math.random()*.4,d=5+Math.random()*7,e=document.createElement("i");
+      e.textContent="✦";
+      e.style.setProperty("--dx",(Math.cos(a)*d).toFixed(1)+"rem");e.style.setProperty("--dy",(Math.sin(a)*d).toFixed(1)+"rem");
+      e.style.animationDelay=(1.2+Math.random()*.4).toFixed(2)+"s";
+      el.appendChild(e);
+    }
+    document.body.appendChild(el);enCours=el;
+    el._t=setTimeout(function(){el.remove();if(enCours===el)enCours=null;},reduit?2000:3100);
+  };
+})();
+/* Spelling Bee en français : 7 lettres, lettre centrale obligatoire, mots de 4 lettres ou plus.
+   Les grilles viennent de la table Supabase « spelling_bee » (voir supabase_spelling_bee.sql). */
+(function(){
+  var sec=document.getElementById("spelling-bee");if(!sec)return;
+  var SB="https://tsdilkupupyrmihbaqgm.supabase.co/rest/v1/spelling_bee",SB_CLE="sb_publishable_orPfv1AkysgjGulNNSTREQ_Q1LFCo-4",CLE="abeille-spelling-bee";
+  /* Grille de secours : utilisée seulement si la table ne répond pas ou est vide */
+  var SECOURS={id:0,jour:null,centre:"a",autres:"bertil",mots:["tablier","arbitre","abattre","ablette","alibi","abri","aile","aire","alité","arbre","arrêt","artère","bail","baie","balai","baril","barbe","barre","barrer","batte","battre","latte","liait","lira","rabat","râle","rail","railler","ratte","table","tabler","taille","tailler","tarte","arabe"]};
+  var RANGS=[[0,"Œuf"],[2,"Larve"],[5,"Nymphe"],[10,"Ouvrière"],[20,"Butineuse"],[35,"Gardienne"],[50,"Éclaireuse"],[70,"Reine des abeilles"]];
+  var POS=[[0,0],[0,-1],[1,-.5],[1,.5],[0,1],[-1,.5],[-1,-.5]];
+  var $=function(i){return document.getElementById(i);};
+  var elS=$("sb-saisie"),elR=$("sb-ruche"),elMsg=$("sb-msg"),pz=null,trouves=[],saisie="",ordre=[],score=0,max=0,pret=false,demande=false;
+  function norm(m){return String(m).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/œ/g,"oe").replace(/æ/g,"ae");}
+  function pang(m){return pz.lettres.every(function(l){return m.indexOf(l)>=0;});}
+  function pts(m){return (m.length===4?1:m.length)+(pang(m)?7:0);}
+  function rangDe(sc){var r=0;RANGS.forEach(function(x,i){if(sc*100>=x[0]*max)r=i;});return r;}
+  function dire(t){elMsg.textContent=t;}
+  function non(t,garder){dire(t);if(!garder){saisie="";affiche();}elS.classList.remove("non");void elS.offsetWidth;elS.classList.add("non");}
+  function affiche(){elS.innerHTML=saisie.split("").map(function(l){return l===pz.centre?"<b>"+l+"</b>":l;}).join("");}
+  function preparer(d){
+    var c=norm(d.centre||"").charAt(0),a=[];
+    norm(d.autres||"").split("").forEach(function(l){if(/[a-z]/.test(l)&&l!==c&&a.indexOf(l)<0)a.push(l);});
+    if(!/[a-z]/.test(c)||a.length!==6||!d.mots||!d.mots.length)return null;
+    var set=c+a.join(""),mots={};
+    d.mots.forEach(function(m){
+      var n=norm(m);if(n.length<4||n.indexOf(c)<0)return;
+      for(var i=0;i<n.length;i++)if(set.indexOf(n.charAt(i))<0)return;
+      mots[n]=String(m).toLowerCase();
+    });
+    return {id:d.id,jour:d.jour||null,centre:c,autres:a,lettres:set.split(""),mots:mots};
+  }
+  function req(q){return fetch(SB+"?select=id,jour,centre,autres,mots&"+q+"&limit=1",{headers:{apikey:SB_CLE}}).then(function(r){if(!r.ok)throw 0;return r.json();});}
+  function charger(){
+    demande=true;dire("Chargement de la grille…");
+    var aujourdhui=new Intl.DateTimeFormat("fr-CA",{timeZone:"Europe/Paris"}).format(new Date());
+    req("jour=lte."+aujourdhui+"&order=jour.desc")
+      .then(function(a){return a.length?a:req("order=id.desc");})
+      .then(function(a){return a.length?preparer(a[0]):null;})
+      .catch(function(){return null;})
+      .then(function(p){pz=p||preparer(SECOURS);demarrer();});
+  }
+  function demarrer(){
+    var sv=null;try{sv=JSON.parse(localStorage.getItem(CLE));}catch(e){}
+    trouves=(sv&&sv.id===pz.id&&sv.jour===pz.jour&&Array.isArray(sv.t))?sv.t.filter(function(m){return pz.mots[m];}):[];
+    ordre=pz.autres.slice();saisie="";max=0;score=0;
+    Object.keys(pz.mots).forEach(function(m){max+=pts(m);});
+    trouves.forEach(function(m){score+=pts(m);});
+    elR.innerHTML="";
+    for(var i=0;i<7;i++){var b=document.createElement("button");b.type="button";b.className="sb-h"+(i?"":" sb-c");b.style.setProperty("--x",POS[i][0]);b.style.setProperty("--y",POS[i][1]);elR.appendChild(b);}
+    lettres();affiche();maj();pret=true;dire("");
+  }
+  function lettres(){
+    var bs=elR.children,i,l;
+    for(i=0;i<7;i++){l=i?ordre[i-1]:pz.centre;bs[i].textContent=l;bs[i].dataset.l=l;bs[i].setAttribute("aria-label","Lettre "+l.toUpperCase()+(i?"":" (centrale)"));}
+  }
+  function maj(){
+    var r=rangDe(score),ul=$("sb-mots"),nb=Object.keys(pz.mots).length,np=Object.keys(pz.mots).filter(pang).length,info;
+    $("sb-rang").textContent=RANGS[r][1];$("sb-score").textContent=score;
+    $("sb-barre").style.width=(max?Math.min(100,score/max*100):0)+"%";
+    $("sb-nb").textContent="("+trouves.length+")";$("sb-vide").hidden=trouves.length>0;
+    ul.innerHTML="";
+    trouves.slice().sort(function(a,b){return pz.mots[a].localeCompare(pz.mots[b],"fr");}).forEach(function(m){
+      var li=document.createElement("li");li.textContent=(pang(m)?"★ ":"")+pz.mots[m];if(pang(m))li.className="pg";ul.appendChild(li);
+    });
+    info=nb+" mots à trouver"+(np?", dont "+np+" pangramme"+(np>1?"s":""):"")+".";
+    if(r<RANGS.length-1)info+=" Prochain rang : "+RANGS[r+1][1]+" (encore "+(Math.ceil(RANGS[r+1][0]*max/100)-score)+" point"+(Math.ceil(RANGS[r+1][0]*max/100)-score>1?"s":"")+").";
+    $("sb-info").textContent=info+(pz.jour?" Grille du "+new Date(pz.jour+"T12:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"long"})+".":"");
+  }
+  function ajouter(l){
+    if(!pret)return;
+    if(pz.lettres.indexOf(l)<0)return non("Cette lettre n’est pas dans la ruche.",true);
+    if(saisie.length<24){saisie+=l;affiche();dire("");}
+  }
+  function valider(){
+    if(!pret)return;
+    var m=saisie;
+    if(m.length<4)return non("Trop court : 4 lettres minimum.");
+    if(m.indexOf(pz.centre)<0)return non("Il manque la lettre centrale.");
+    if(trouves.indexOf(m)>=0)return non("Déjà trouvé !");
+    if(!pz.mots[m])return non("Ce mot n’est pas dans ma liste.");
+    var r0=rangDe(score),p=pts(m),pg=pang(m),mot=pz.mots[m];mot=mot.charAt(0).toUpperCase()+mot.slice(1);
+    trouves.push(m);score+=p;saisie="";affiche();
+    try{localStorage.setItem(CLE,JSON.stringify({id:pz.id,jour:pz.jour,t:trouves}));}catch(e){}
+    maj();
+    var r1=rangDe(score),tous=trouves.length===Object.keys(pz.mots).length;
+    dire(tous?"Tu as trouvé tous les mots, bravo !":pg?"Pangramme ! « "+mot+" » +"+p+" points":r1>r0?"Nouveau rang : "+RANGS[r1][1]+" !":(p>=5?"Super":p>1?"Joli":"Bien")+" ! « "+mot+" » +"+p+(p>1?" points":" point"));
+    if((pg||tous||(r1>r0&&r1===RANGS.length-1))&&window.abeilleReussite)abeilleReussite();
+  }
+  elR.addEventListener("click",function(e){var b=e.target.closest(".sb-h");if(b)ajouter(b.dataset.l);});
+  $("sb-eff").addEventListener("click",function(){saisie=saisie.slice(0,-1);affiche();dire("");});
+  $("sb-ok").addEventListener("click",valider);
+  $("sb-mel").addEventListener("click",function(){
+    if(!pret)return;
+    for(var i=ordre.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=ordre[i];ordre[i]=ordre[j];ordre[j]=t;}
+    lettres();
+  });
+  document.addEventListener("keydown",function(e){
+    if(location.hash!=="#spelling-bee"||!pret||e.ctrlKey||e.metaKey||e.altKey)return;
+    var k=e.key,l;
+    if(k==="Enter"){e.preventDefault();valider();}
+    else if(k==="Backspace"){e.preventDefault();saisie=saisie.slice(0,-1);affiche();dire("");}
+    else if(k.length===1){l=norm(k);if(/^[a-z]$/.test(l)){e.preventDefault();ajouter(l);}}
+  });
+  function entrer(){if(location.hash==="#spelling-bee"&&!demande)charger();}
+  window.addEventListener("hashchange",entrer);entrer();
 })();
 </script>
 </body>
