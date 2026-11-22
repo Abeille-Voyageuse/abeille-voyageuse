@@ -43,6 +43,7 @@ section.on{display:block}
 .liste-actes{list-style:none;margin:2rem 0 0;padding:0;max-width:36rem}
 .carte-acte{display:block;padding:1.25rem 1.5rem;border:2px solid var(--line);border-radius:1.25rem;text-decoration:none;color:var(--ink)}
 .carte-acte:hover{border-color:var(--rose)}
+div.carte-acte:hover{border-color:var(--line)}   /* cartes sans lien (jeux à venir) : pas d’effet de survol */
 .carte-acte b{display:block;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-size:1.35rem;color:var(--sapin)}
 .carte-acte span{font-style:italic}
 .back{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);text-decoration:none}
@@ -150,6 +151,21 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 #transition .fleur svg{width:100%;height:100%;display:block;filter:drop-shadow(0 .5rem 1rem rgba(20,43,5,.22))}
 #transition .bee{display:block;max-width:none;height:auto;filter:drop-shadow(0 .3rem .6rem rgba(20,43,5,.25))}
 @media (prefers-reduced-motion:reduce){#transition{display:none!important}}
+/* Jeu : Snake (l’abeille récolte les fleurs, le miel est sa traînée) */
+#snake{--sn-w:min(100%,32rem,max(16rem,calc(100vh - 17rem)))}
+@supports (height:100svh){#snake{--sn-w:min(100%,32rem,max(16rem,calc(100svh - 17rem)))}}
+.jeu-score{display:flex;flex-wrap:wrap;gap:.25rem 1.75rem;width:var(--sn-w);margin-top:1.25rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:clamp(.95rem,.9rem + .25vw,1.1rem)}
+.jeu-score b{color:var(--ink);font-variant-numeric:tabular-nums}
+.sn-plateau{position:relative;width:var(--sn-w);aspect-ratio:1/1;margin-top:.75rem;border:2px solid var(--line);border-radius:1.25rem;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+.sn-plateau canvas{display:block;width:100%;height:100%}
+.sn-voile{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;padding:1rem;text-align:center;background:var(--bg);background:color-mix(in srgb,var(--bg) 86%,transparent)}
+.sn-voile[hidden]{display:none}
+.sn-titre{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:clamp(1.3rem,1.1rem + 1vw,1.9rem);line-height:1.15;text-wrap:balance}
+.sn-texte{max-width:28ch;font-size:.95em;line-height:1.5}
+.sn-btn{min-height:2.75rem;padding:.3rem 1.5rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(16px,1rem);color:#142b05;background:var(--rose);border:2px solid var(--rose);border-radius:999px;cursor:pointer}
+.sn-btn:hover{border-color:var(--barbie)}
+.sn-btn:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+.sn-aide{font-size:.92em;opacity:.85}
 </style>
 </head>
 <body>
@@ -232,14 +248,18 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   <nav aria-label="Navigation principale">
     <a href="#accueil" data-t="accueil">Accueil</a>
     <a href="#theatre" data-t="theatre">Pièce de théâtre</a>
+    <a href="#jeux" data-t="jeux">Jeux</a>
     <a href="#archives" data-t="archives">Archives Mails</a>
+    <a href="#a-venir" data-t="a-venir">À Venir</a>
   </nav>
   <div class="menu-mobile">
     <button type="button" id="menu-btn" class="menu-btn" aria-expanded="false" aria-controls="menu-liste"><span id="menu-label">Accueil</span></button>
     <ul id="menu-liste" class="menu-liste" hidden>
       <li><a href="#accueil" data-t="accueil">Accueil</a></li>
       <li><a href="#theatre" data-t="theatre">Pièce de théâtre</a></li>
+      <li><a href="#jeux" data-t="jeux">Jeux</a></li>
       <li><a href="#archives" data-t="archives">Archives Mails</a></li>
+      <li><a href="#a-venir" data-t="a-venir">À Venir</a></li>
     </ul>
   </div>
 </header>
@@ -369,16 +389,49 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     <p class="suite"><a class="back" href="#theatre">← Retour à la pièce</a></p>
   </section>
 
+  <section id="jeux" class="page">
+    <h2>Jeux</h2>
+    <p>L’abeille adore les énigmes. Elle y rangera bientôt ses jeux préférés.</p>
+    <ul class="liste-actes">
+      <li><a class="carte-acte" href="#snake"><b>Snake</b><span>L’abeille récolte les fleurs.</span></a></li>
+      <li><div class="carte-acte"><b>Sudoku</b><span>Bientôt disponible.</span></div></li>
+      <li><div class="carte-acte"><b>Mots Fléchés</b><span>Bientôt disponible.</span></div></li>
+      <li><div class="carte-acte"><b>Juste Prix</b><span>Bientôt disponible.</span></div></li>
+    </ul>
+  </section>
+
+  <section id="snake" class="page jeu">
+    <p><a class="back" href="#jeux">← Jeux</a></p>
+    <h2>Snake</h2>
+    <div class="jeu-score" role="group" aria-label="Score"><span>Fleurs <b id="sn-score">0</b></span><span>Record <b id="sn-best">0</b></span></div>
+    <div class="sn-plateau">
+      <canvas id="snake-cv" role="img" aria-label="Plateau de jeu : une abeille récolte des fleurs en laissant une traînée de miel"></canvas>
+      <div class="sn-voile" id="sn-voile" aria-live="polite">
+        <div class="sn-titre" id="sn-titre">Prête à butiner ?</div>
+        <div class="sn-texte" id="sn-texte">Guide l’abeille vers les fleurs, mais attention à sa traînée de miel.</div>
+        <button type="button" class="sn-btn" id="sn-btn">Jouer</button>
+      </div>
+    </div>
+    <p class="sn-aide">Flèches du clavier (ou Z, Q, S, D) pour diriger l’abeille, espace pour faire une pause. Sur téléphone, glisse le doigt sur le jeu.</p>
+    <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
+  </section>
+
   <section id="archives" class="page">
     <h2>Archives Mails</h2>
     <p>Tous les mails que l’abeille a transportés seront rassemblés ici, du plus récent au plus ancien.</p>
     <div class="empty">Aucun mail archivé pour l’instant.</div>
   </section>
+
+  <section id="a-venir" class="page">
+    <h2>À Venir</h2>
+    <p>Quelque chose se prépare ici. Bzzz a glissé une énigme pour toi.</p>
+    <p class="msg"><span class="n bzz">BZZZ</span> : Je ne sonne pas, mais je compte les jours. Chaque matin, une petite porte s’ouvre sur une surprise. Je commence quand le froid s’installe, et je m’arrête la nuit où l’on veille. Qui suis-je ?</p>
+  </section>
 </main>
 <footer>Fait avec patience, sincérité et tendresse.</footer>
 <script>
 (function(){
-  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "archives"];
+  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "jeux", "snake", "archives", "a-venir"];
   var premier=true;
   var mBtn=document.getElementById("menu-btn"),mListe=document.getElementById("menu-liste"),mLabel=document.getElementById("menu-label");
   function mFermer(){if(!mBtn)return;mListe.hidden=true;mBtn.setAttribute("aria-expanded","false");}
@@ -423,6 +476,8 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
       var r=vrai.getBoundingClientRect(),s=svg.getBoundingClientRect();
       if(s.width>0)cb.setAttribute("transform","translate("+((r.left+r.width/2-s.left)/s.width*800)+" "+((r.top+r.height/2-s.top)/s.height*300)+")");
     }
+    var j0=document.getElementById("snake-cv"),j1=wrap.querySelector("#snake-cv");
+    if(j0&&j1&&j0.width){j1.width=j0.width;j1.height=j0.height;j1.getContext("2d").drawImage(j0,0,0);}
     wrap.querySelectorAll("[id]").forEach(function(n){n.removeAttribute("id");});
     wrap.style.transform="translateY("+(-y)+"px)";
     var f0=document.getElementById("fond");
@@ -466,11 +521,11 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     var avant=!premier&&preparer();
     ids.forEach(function(i){var el=document.getElementById(i);if(el)el.classList.toggle("on",i===h)});
     document.querySelectorAll("nav a").forEach(function(a){
-      if(a.dataset.t===(h.indexOf("acte-")===0?"theatre":h))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+      if(a.dataset.t===(h.indexOf("acte-")===0?"theatre":(h==="snake"?"jeux":h)))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
     });
     document.title=(h==="accueil"?"":document.querySelector('#'+h+' h2').textContent+" · ")+"L’abeille voyageuse";
     if(mBtn){
-      var cle=(h.indexOf("acte-")===0?"theatre":h);
+      var cle=(h.indexOf("acte-")===0?"theatre":(h==="snake"?"jeux":h));
       document.querySelectorAll("#menu-liste a").forEach(function(a){
         if(a.dataset.t===cle){a.setAttribute("aria-current","page");mLabel.textContent=a.textContent;}
         else a.removeAttribute("aria-current");
@@ -571,6 +626,226 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   window.addEventListener("resize",plan);
   window.addEventListener("hashchange",function(){maj();plan();});
   maj();
+})();
+</script>
+<script>
+/* Snake : l’abeille (celle du site) récolte les fleurs (celle de l’animation) et laisse une traînée de miel */
+(function(){
+  var sec=document.getElementById("snake");if(!sec)return;
+  var cv=document.getElementById("snake-cv"),cx=cv.getContext("2d"),plateau=sec.querySelector(".sn-plateau"),
+      voile=document.getElementById("sn-voile"),vTitre=document.getElementById("sn-titre"),vTexte=document.getElementById("sn-texte"),bouton=document.getElementById("sn-btn"),
+      elScore=document.getElementById("sn-score"),elBest=document.getElementById("sn-best");
+  var N=15,CLE="abeille-snake-record",PAS0=170,PASMIN=95,
+      reduit=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var W=0,cell=0,d=1,raf=0,etat="pret",body,prev,dir,q,fleur,score,best=0,pas,tPas=0,aFige=1,nouveau=false,
+      ang=0,angCible=0,flip=false,tAng=0,ink="20,43,5",tCoul=-1e9;
+
+  /* Sprites : on réutilise l’abeille et la fleur déjà présentes dans le site */
+  var imgAbeille=new Image(),imgFleur=new Image();
+  var srcAb=document.querySelector("#transition .bee"),svgFl=document.querySelector("#transition .fleur svg");
+  imgAbeille.onload=imgFleur.onload=function(){if(actif())dessiner(performance.now());};
+  if(srcAb)imgAbeille.src=srcAb.src;
+  if(svgFl){
+    var c=svgFl.cloneNode(true);
+    c.setAttribute("xmlns","http://www.w3.org/2000/svg");c.setAttribute("width","228");c.setAttribute("height","228");c.removeAttribute("focusable");
+    imgFleur.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(new XMLSerializer().serializeToString(c));
+  }
+  function pret(im){return im.complete&&im.naturalWidth>0;}
+
+  try{best=parseInt(localStorage.getItem(CLE),10)||0;}catch(e){}
+  elBest.textContent=best;
+
+  function actif(){return location.hash==="#snake";}
+  function copie(a){return a.map(function(c){return [c[0],c[1]];});}
+
+  function placerFleur(){
+    var libres=[],x,y,i,occ={};
+    for(i=0;i<body.length;i++)occ[body[i][0]+","+body[i][1]]=1;
+    for(y=0;y<N;y++)for(x=0;x<N;x++)if(!occ[x+","+y])libres.push([x,y]);
+    if(!libres.length){fleur=null;return false;}
+    fleur=libres[Math.floor(Math.random()*libres.length)];return true;
+  }
+
+  function montrerVoile(titre,texte,label){
+    vTitre.textContent=titre;vTexte.textContent=texte;bouton.textContent=label;voile.hidden=false;
+  }
+
+  function reset(){
+    var m=Math.floor(N/2);
+    body=[[4,m],[3,m],[2,m]];prev=copie(body);dir=[1,0];q=[];score=0;pas=PAS0;nouveau=false;aFige=1;
+    ang=0;angCible=0;flip=true;elScore.textContent="0";
+    placerFleur();etat="pret";
+    montrerVoile("Prête à butiner ?","Guide l’abeille vers les fleurs, mais attention à sa traînée de miel.","Jouer");
+  }
+
+  function commencer(){
+    if(etat==="fin")reset();
+    etat="jeu";voile.hidden=true;tPas=performance.now();planifier();
+  }
+
+  function finir(gagne){
+    etat="fin";prev=copie(body);aFige=1;
+    if(score>best){best=score;nouveau=score>0;try{localStorage.setItem(CLE,String(best));}catch(e){}elBest.textContent=best;}
+    var texte=score>0?"Tu as butiné "+score+(score>1?" fleurs.":" fleur."):"Aucune fleur butinée cette fois.";
+    if(nouveau)texte+=" Nouveau record !";
+    montrerVoile(gagne?"Bravo, le jardin est butiné !":"Bzzz… c’est fini !",texte,"Rejouer");
+    bouton.focus({preventScroll:true});
+  }
+
+  function pauser(){
+    if(etat!=="jeu")return;
+    aFige=Math.max(0,Math.min(1,(performance.now()-tPas)/pas));etat="pause";
+    montrerVoile("Pause","L’abeille t’attend.","Reprendre");
+  }
+  function reprendre(){
+    if(etat!=="pause")return;
+    etat="jeu";voile.hidden=true;tPas=performance.now()-aFige*pas;planifier();
+  }
+  function basculer(){
+    if(etat==="pret"||etat==="fin")commencer();
+    else if(etat==="jeu")pauser();
+    else if(etat==="pause")reprendre();
+  }
+
+  function pasDeJeu(){
+    if(q.length)dir=q.shift();
+    var h=body[0],nx=h[0]+dir[0],ny=h[1]+dir[1];
+    if(nx<0||ny<0||nx>=N||ny>=N)return finir(false);
+    var mange=!!fleur&&nx===fleur[0]&&ny===fleur[1],lim=mange?body.length:body.length-1,i;
+    for(i=0;i<lim;i++)if(body[i][0]===nx&&body[i][1]===ny)return finir(false);
+    prev=copie(body);body.unshift([nx,ny]);if(!mange)body.pop();
+    if(mange){
+      score++;elScore.textContent=score;pas=Math.max(PASMIN,pas-4);
+      if(!placerFleur())finir(true);
+    }
+  }
+
+  function direction(v){
+    if(etat==="pret"){
+      if(v[0]===-dir[0]&&v[1]===-dir[1])return;   /* demi-tour impossible dès le départ */
+      dir=v;commencer();return;
+    }
+    if(etat!=="jeu")return;
+    var ref=q.length?q[q.length-1]:dir;
+    if((v[0]===ref[0]&&v[1]===ref[1])||(v[0]===-ref[0]&&v[1]===-ref[1]))return;
+    if(q.length<2)q.push(v);
+  }
+
+  /* Dessin */
+  function couleurs(t){
+    if(t-tCoul<500)return;tCoul=t;
+    var v=getComputedStyle(document.documentElement).getPropertyValue("--ink").trim().replace("#","");
+    if(v.length===6)ink=parseInt(v.slice(0,2),16)+","+parseInt(v.slice(2,4),16)+","+parseInt(v.slice(4,6),16);
+  }
+  function lerp(a,b,t){return a+(b-a)*t;}
+  function dessiner(t){
+    if(!W)return;
+    couleurs(t);
+    var a=etat==="jeu"?Math.max(0,Math.min(1,(t-tPas)/pas)):aFige;if(reduit)a=1;
+    var x,y,i,L=body.length;
+    cx.clearRect(0,0,W,W);
+    cx.fillStyle="rgba("+ink+",.025)";cx.fillRect(0,0,W,W);
+    cx.fillStyle="rgba("+ink+",.035)";
+    for(y=0;y<N;y++)for(x=0;x<N;x++)if((x+y)%2===0)cx.fillRect(x*cell,y*cell,cell,cell);
+
+    /* fleur */
+    if(fleur){
+      var s=cell*1.15*(reduit?1:1+.07*Math.sin(t/280)),fx=(fleur[0]+.5)*cell,fy=(fleur[1]+.5)*cell;
+      cx.save();cx.shadowColor="rgba(20,43,5,.35)";cx.shadowBlur=cell*.2;cx.shadowOffsetY=cell*.06;
+      if(pret(imgFleur))cx.drawImage(imgFleur,fx-s/2,fy-s/2,s,s);
+      else{cx.fillStyle="#f4a6b8";cx.beginPath();cx.arc(fx,fy,s*.4,0,6.2832);cx.fill();}
+      cx.restore();
+    }
+
+    /* traînée de miel : du bout de la queue jusqu’à la tête, de plus en plus large */
+    var pts=[];
+    for(i=0;i<L;i++){
+      var p0=prev[i]||body[i],p1=body[i];
+      pts.push([(lerp(p0[0],p1[0],a)+.5)*cell,(lerp(p0[1],p1[1],a)+.5)*cell]);
+    }
+    function rayon(k){return cell*(.24+.2*(1-k/Math.max(L,3)));}
+    cx.lineCap="round";cx.lineJoin="round";
+    function passe(couleur,extra){
+      cx.strokeStyle=couleur;cx.fillStyle=couleur;
+      for(var k=L-1;k>=1;k--){
+        var r=rayon(k)+extra;
+        cx.lineWidth=2*r;cx.beginPath();cx.moveTo(pts[k][0],pts[k][1]);cx.lineTo(pts[k-1][0],pts[k-1][1]);cx.stroke();
+        cx.beginPath();cx.arc(pts[k][0],pts[k][1],r,0,6.2832);cx.fill();
+      }
+    }
+    passe("rgba(150,95,10,.55)",cell*.05);
+    passe("#f7c531",0);
+    cx.fillStyle="rgba(255,255,255,.4)";
+    for(i=L-1;i>=1;i--){
+      var rr=rayon(i);cx.beginPath();cx.ellipse(pts[i][0]-rr*.25,pts[i][1]-rr*.3,rr*.38,rr*.24,-.5,0,6.2832);cx.fill();
+    }
+
+    /* l’abeille (tête) : image tournée dans le sens de la marche */
+    var hd=dir,cibleFlip=hd[0]>0,cibleAng=hd[1]<0?Math.PI/2:(hd[1]>0?-Math.PI/2:0);
+    if(cibleFlip!==flip){flip=cibleFlip;ang=cibleAng;}
+    else{
+      var df=cibleAng-ang;df=Math.atan2(Math.sin(df),Math.cos(df));
+      var dt=Math.min(100,Math.max(0,t-tAng));ang=reduit?cibleAng:ang+df*(1-Math.exp(-dt/55));
+    }
+    tAng=t;
+    var bw=cell*1.9,bh=bw*274/360,hx=pts[0][0],hy=pts[0][1];
+    cx.save();cx.translate(hx,hy);cx.rotate(ang);if(flip)cx.scale(-1,1);
+    cx.shadowColor="rgba(20,43,5,.3)";cx.shadowBlur=cell*.18;cx.shadowOffsetY=cell*.08;
+    if(pret(imgAbeille))cx.drawImage(imgAbeille,-bw/2,-bh/2,bw,bh);
+    else{cx.fillStyle="#f7dc5b";cx.beginPath();cx.arc(0,0,cell*.4,0,6.2832);cx.fill();}
+    cx.restore();
+  }
+
+  function taille(){
+    d=Math.min(window.devicePixelRatio||1,2);
+    var w=cv.clientWidth;if(!w){W=0;return;}
+    W=w;cv.width=Math.round(w*d);cv.height=Math.round(w*d);cx.setTransform(d,0,0,d,0,0);cell=W/N;
+    dessiner(performance.now());
+  }
+
+  function planifier(){if(!raf)raf=requestAnimationFrame(boucle);}
+  function boucle(t){
+    raf=0;
+    if(!actif())return;
+    if(etat==="jeu"&&t-tPas>=pas){pasDeJeu();tPas=t;}
+    dessiner(t);
+    if(etat==="jeu"||(!reduit&&etat!=="fin"))planifier();
+  }
+
+  /* Entrées : clavier */
+  var TOUCHES={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],z:[0,-1],w:[0,-1],s:[0,1],q:[-1,0],a:[-1,0],d:[1,0]};
+  document.addEventListener("keydown",function(e){
+    if(!actif()||e.ctrlKey||e.metaKey||e.altKey)return;
+    var k=e.key.length===1?e.key.toLowerCase():e.key,v=TOUCHES[k],surBouton=e.target.closest&&e.target.closest("button,a");
+    if(v){e.preventDefault();direction(v);return;}
+    if(surBouton)return;   /* Espace / Entrée sur un bouton : le bouton s’en charge */
+    if(k===" "||k==="Spacebar"||k==="p"){e.preventDefault();if(!e.repeat)basculer();}
+    else if(k==="Enter"&&(etat==="pret"||etat==="fin"||etat==="pause")){e.preventDefault();basculer();}
+  });
+  bouton.addEventListener("click",function(){if(etat==="pause")reprendre();else commencer();});
+
+  /* Entrées : glissement du doigt */
+  var po=null;
+  plateau.addEventListener("pointerdown",function(e){
+    if(e.target.closest("button"))return;
+    po={id:e.pointerId,x:e.clientX,y:e.clientY};
+    try{plateau.setPointerCapture(e.pointerId);}catch(_){}
+  });
+  plateau.addEventListener("pointermove",function(e){
+    if(!po||e.pointerId!==po.id)return;
+    var dx=e.clientX-po.x,dy=e.clientY-po.y,S=Math.max(16,cv.clientWidth/N*.8);
+    if(Math.max(Math.abs(dx),Math.abs(dy))<S)return;
+    direction(Math.abs(dx)>Math.abs(dy)?[dx>0?1:-1,0]:[0,dy>0?1:-1]);
+    po.x=e.clientX;po.y=e.clientY;
+  });
+  function lacher(e){if(po&&e.pointerId===po.id)po=null;}
+  plateau.addEventListener("pointerup",lacher);plateau.addEventListener("pointercancel",lacher);
+
+  /* Cycle de vie : le jeu repart à zéro à chaque arrivée, se met en pause si l’onglet est masqué */
+  document.addEventListener("visibilitychange",function(){if(document.hidden)pauser();});
+  window.addEventListener("hashchange",function(){if(actif()){reset();taille();planifier();}});
+  if(window.ResizeObserver)new ResizeObserver(taille).observe(cv);else window.addEventListener("resize",taille);
+  reset();taille();if(actif())planifier();
 })();
 </script>
 </body>
