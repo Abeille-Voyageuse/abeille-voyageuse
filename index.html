@@ -153,8 +153,8 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 @media (prefers-reduced-motion:reduce){#transition{display:none!important}}
 /* Jeu : La Ruche (l’abeille récolte les fleurs, le miel est sa traînée) */
 #snake{--sn-w:min(100%,32rem,max(16rem,calc(100vh - 17rem)))}
-#sudoku{--sn-w:min(100%,32rem,max(16rem,calc(100vh - 25rem)))}
-@supports (height:100svh){#snake{--sn-w:min(100%,32rem,max(16rem,calc(100svh - 17rem)))}#sudoku{--sn-w:min(100%,32rem,max(16rem,calc(100svh - 25rem)))}}
+#sudoku{--sn-w:min(100%,32rem,max(25rem,calc(100vh - 25rem)))}
+@supports (height:100svh){#snake{--sn-w:min(100%,32rem,max(16rem,calc(100svh - 17rem)))}#sudoku{--sn-w:min(100%,32rem,max(25rem,calc(100svh - 25rem)))}}
 .jeu-score{display:flex;flex-wrap:wrap;gap:.25rem 1.75rem;width:var(--sn-w);margin-top:1.25rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:clamp(.95rem,.9rem + .25vw,1.1rem)}
 .jeu-score b{color:var(--ink);font-variant-numeric:tabular-nums}
 .sn-plateau{position:relative;width:var(--sn-w);aspect-ratio:1/1;margin-top:.75rem;border:2px solid var(--line);border-radius:1.25rem;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
@@ -183,11 +183,23 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 .sn-pts{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-variant-numeric:tabular-nums}
 .sn-vide{margin:0;padding:1rem;border:2px dashed var(--rose);border-radius:1rem;font-size:.95em}
 .sn-note{margin:.75rem 0 0;font-size:.85em;opacity:.8}
-.sd-actions{display:flex;flex-wrap:wrap;gap:.5rem;width:var(--sn-w);margin-top:.75rem}
-.sd-btn,.sd-select{min-height:2.75rem;padding:.3rem 1rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(16px,1rem);color:var(--ink);background:transparent;border:2px solid var(--line);border-radius:999px;cursor:pointer}
-.sd-btn:hover,.sd-select:hover{border-color:var(--rose)}
-.sd-btn:focus-visible,.sd-select:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
-.sd-select option{background:var(--bg);color:var(--ink)}
+.sd-actions{display:flex;flex-wrap:nowrap;align-items:stretch;gap:.5rem;width:var(--sn-w);margin-top:.75rem}
+.sd-btn{min-height:2.75rem;padding:.3rem 1rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(16px,1rem);color:var(--ink);background:transparent;border:2px solid var(--line);border-radius:999px;cursor:pointer}
+.sd-btn:hover{border-color:var(--rose)}
+.sd-btn:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+.sd-actions .sd-btn{flex:1 1 auto;padding:.3rem .75rem;font-size:.95rem;white-space:nowrap}
+.sd-menu{position:relative;flex:0 0 auto}
+.sd-menu-btn{display:flex;align-items:center;justify-content:space-between;gap:.6rem;width:100%;min-height:2.75rem;padding:.3rem .9rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:.95rem;color:#142b05;background:var(--rose);border:2px solid var(--rose);border-radius:999px;cursor:pointer;text-align:left;white-space:nowrap}
+.sd-menu-btn::after{content:"";flex:none;width:.55rem;height:.55rem;border-right:3px solid #142b05;border-bottom:3px solid #142b05;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+.sd-menu-btn[aria-expanded="true"]::after{transform:rotate(-135deg) translateY(-2px)}
+.sd-menu-btn:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+.sd-menu-liste{position:absolute;z-index:20;left:0;top:calc(100% + .5rem);width:max-content;min-width:100%;margin:0;padding:.5rem;list-style:none;background:var(--bg);border:2px solid var(--rose);border-radius:1.25rem;box-shadow:0 .75rem 2rem rgba(20,43,5,.18)}
+.sd-menu-liste[hidden]{display:none}
+.sd-menu-liste li{display:flex;align-items:center;min-height:2.75rem;padding:.4rem 1rem;border-radius:999px;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(16px,1rem);color:var(--ink);cursor:pointer}
+.sd-menu-liste li:hover{background:rgba(244,166,184,.35)}
+.sd-menu-liste li[aria-selected="true"]{background:var(--rose);color:#142b05}
+.sd-menu-liste li:focus-visible{outline:3px solid var(--barbie);outline-offset:-3px}
+@media (max-width:30rem){.sd-actions{flex-wrap:wrap}.sd-menu{flex:1 0 100%}}
 .sd-plateau{position:relative;width:var(--sn-w);margin-top:.75rem;border-radius:.75rem;overflow:hidden}
 .sd-grille{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));width:100%;aspect-ratio:1/1;border:3px solid var(--sapin);border-radius:.75rem;overflow:hidden}
 .sd-c{display:flex;align-items:center;justify-content:center;min-width:0;margin:0;padding:0;border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:clamp(1rem,4.2vw,1.7rem);line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -477,7 +489,15 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     <div class="jeu-score" role="group" aria-label="Partie en cours"><span>Temps <b id="sd-temps">0:00</b></span><span>Indices <b id="sd-nb">0</b></span></div>
     <div class="sn-pseudo"><label for="sd-pseudo">Pseudo</label><input type="text" id="sd-pseudo" maxlength="16" placeholder="Abeille" autocomplete="nickname" autocapitalize="words" spellcheck="false"></div>
     <div class="sd-actions">
-      <select class="sd-select" id="sd-niveau" aria-label="Niveau de difficulté"><option value="facile">Facile</option><option value="moyen" selected>Moyen</option><option value="difficile">Difficile</option><option value="expert">Expert</option></select>
+      <div class="sd-menu" id="sd-menu">
+        <button type="button" class="sd-menu-btn" id="sd-niveau-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="sd-niveau-liste" aria-label="Niveau : Moyen"><span id="sd-niveau-label">Moyen</span></button>
+        <ul class="sd-menu-liste" id="sd-niveau-liste" role="listbox" aria-label="Niveau de difficulté" hidden>
+          <li role="option" tabindex="-1" data-v="facile" aria-selected="false">Facile</li>
+          <li role="option" tabindex="-1" data-v="moyen" aria-selected="true">Moyen</li>
+          <li role="option" tabindex="-1" data-v="difficile" aria-selected="false">Difficile</li>
+          <li role="option" tabindex="-1" data-v="expert" aria-selected="false">Expert</li>
+        </ul>
+      </div>
       <button type="button" class="sd-btn" id="sd-indice">Indice</button>
       <button type="button" class="sd-btn" id="sd-nouv">Nouvelle grille</button>
     </div>
@@ -1013,13 +1033,13 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 (function(){
   var sec=document.getElementById("sudoku");if(!sec)return;
   var $=function(i){return document.getElementById(i);},
-      elG=$("sd-grille"),elTemps=$("sd-temps"),elNb=$("sd-nb"),elStatut=$("sd-statut"),selN=$("sd-niveau"),
+      elG=$("sd-grille"),elTemps=$("sd-temps"),elNb=$("sd-nb"),elStatut=$("sd-statut"),btnNiv=$("sd-niveau-btn"),listeNiv=$("sd-niveau-liste"),labNiv=$("sd-niveau-label"),
       voile=$("sd-voile"),vTitre=$("sd-vtitre"),vTexte=$("sd-vtexte"),vBtn=$("sd-vbtn"),inP=$("sd-pseudo"),
       elN=$("sd-n"),elBarre=$("sd-barre"),elJauge=$("sd-jauge"),elPalier=$("sd-palier"),elQui=$("sd-qui");
   var CIBLE={facile:42,moyen:34,difficile:29,expert:25},CP="abeille-pseudo",CC="abeille-sudoku-grilles",CN="abeille-sudoku-niveau";
   var SB="https://tsdilkupupyrmihbaqgm.supabase.co/rest/v1/scores_sudoku",SB_CLE="sb_publishable_orPfv1AkysgjGulNNSTREQ_Q1LFCo-4";
   var sol=null,grille=[],fixe=[],aide=[],cases=[],sel=-1,nInd=0,ecoule=0,debut=0,tourne=false,fini=false,
-      distant=null,reqId=0,idFin=0,delai=0;   /* distant : total en ligne du pseudo (null si indisponible) */
+      distant=null,reqId=0,idFin=0,delai=0,niveau="moyen";   /* distant : total en ligne du pseudo (null si indisponible) */
 
   /*GEN*/
   function melange(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
@@ -1110,7 +1130,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     elNb.textContent=nInd;
   }
   function nouvelle(){
-    var r=creer(CIBLE[selN.value]||34),i;
+    var r=creer(CIBLE[niveau]||34),i;
     sol=r.sol;grille=r.grille;fixe=[];aide=[];
     for(i=0;i<81;i++){fixe.push(grille[i]?1:0);aide.push(0);}
     nInd=0;ecoule=0;tourne=false;fini=false;sel=-1;voile.hidden=true;elStatut.textContent="";
@@ -1145,7 +1165,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   function gagner(){
     arreter();maj();fini=true;
     var local=ajouter(),mon=++idFin,corps=JSON.stringify({
-      pseudo:pseudo().toLowerCase(),difficulte:selN.value,
+      pseudo:pseudo().toLowerCase(),difficulte:niveau,
       temps:Math.max(15,Math.min(86400,Math.round(ecoule/1000))),indices:nInd});
     if(distant!==null)distant++;
     jauge();
@@ -1164,10 +1184,36 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   $("sd-indice").addEventListener("click",indice);
   $("sd-nouv").addEventListener("click",nouvelle);
   vBtn.addEventListener("click",nouvelle);
-  selN.addEventListener("change",function(){try{localStorage.setItem(CN,selN.value);}catch(e){}nouvelle();});
+  /* Menu déroulant du niveau (même style que le menu mobile du site) */
+  var NOMS={facile:"Facile",moyen:"Moyen",difficile:"Difficile",expert:"Expert"},options=[].slice.call(listeNiv.children);
+  function menu(ouvert){listeNiv.hidden=!ouvert;btnNiv.setAttribute("aria-expanded",ouvert?"true":"false");}
+  function setNiveau(v){
+    niveau=v;labNiv.textContent=NOMS[v];btnNiv.setAttribute("aria-label","Niveau : "+NOMS[v]);
+    options.forEach(function(li){li.setAttribute("aria-selected",li.dataset.v===v?"true":"false");});
+  }
+  function ouvrirMenu(){menu(true);var c=listeNiv.querySelector('[aria-selected="true"]');if(c)c.focus();}
+  function choisirNiveau(li){
+    menu(false);btnNiv.focus();
+    if(li.dataset.v!==niveau){setNiveau(li.dataset.v);try{localStorage.setItem(CN,niveau);}catch(e){}nouvelle();}
+  }
+  btnNiv.addEventListener("click",function(){if(listeNiv.hidden)ouvrirMenu();else menu(false);});
+  btnNiv.addEventListener("keydown",function(e){if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();ouvrirMenu();}});
+  listeNiv.addEventListener("click",function(e){var li=e.target.closest("li");if(li)choisirNiveau(li);});
+  listeNiv.addEventListener("keydown",function(e){
+    var li=e.target.closest("li"),k=options.indexOf(li),n=options.length;
+    if(!li)return;
+    if(e.key==="ArrowDown"){e.preventDefault();options[(k+1)%n].focus();}
+    else if(e.key==="ArrowUp"){e.preventDefault();options[(k+n-1)%n].focus();}
+    else if(e.key==="Home"){e.preventDefault();options[0].focus();}
+    else if(e.key==="End"){e.preventDefault();options[n-1].focus();}
+    else if(e.key==="Enter"||e.key===" "){e.preventDefault();choisirNiveau(li);}
+    else if(e.key==="Escape"){e.preventDefault();menu(false);btnNiv.focus();}
+    else if(e.key==="Tab")menu(false);
+  });
+  document.addEventListener("click",function(e){if(!e.target.closest(".sd-menu"))menu(false);});
   document.addEventListener("keydown",function(e){
     if(!actif()||e.ctrlKey||e.metaKey||e.altKey)return;
-    if(e.target&&e.target.closest&&e.target.closest("input,select"))return;
+    if(e.target&&e.target.closest&&e.target.closest("input,.sd-menu"))return;
     var k=e.key,d;
     if(k.length===1&&k>="1"&&k<="9"){e.preventDefault();poser(+k);}
     else if(k==="0"||k==="Backspace"||k==="Delete"){e.preventDefault();poser(0);}
@@ -1192,9 +1238,9 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 
   /* Cycle de vie : le chronomètre ne tourne que page visible, la grille en cours est conservée tant qu’on reste sur le site */
   function entrer(){lirePseudo();jauge();compteDistant();if(!sol)nouvelle();else demarrer();}
-  window.addEventListener("hashchange",function(){if(actif())entrer();else arreter();});
+  window.addEventListener("hashchange",function(){menu(false);if(actif())entrer();else arreter();});
   document.addEventListener("visibilitychange",function(){if(document.hidden)arreter();else if(actif()&&document.activeElement!==inP)demarrer();});
-  try{var nv=localStorage.getItem(CN);if(CIBLE[nv])selN.value=nv;}catch(e){}
+  try{var nv=localStorage.getItem(CN);if(CIBLE[nv])setNiveau(nv);}catch(e){}
   lirePseudo();jauge();if(actif())entrer();
 })();
 </script>
