@@ -166,6 +166,22 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 .sn-btn:hover{border-color:var(--barbie)}
 .sn-btn:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
 .sn-aide{font-size:.92em;opacity:.85}
+.sn-pseudo{display:flex;align-items:center;gap:.6rem;width:var(--sn-w);margin-top:1rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:.95rem}
+.sn-pseudo label{flex:none}
+.sn-pseudo input{flex:1;min-width:0;min-height:2.75rem;padding:.3rem 1rem;font-family:inherit;font-weight:700;font-size:max(16px,1rem);color:var(--ink);background:transparent;border:2px solid var(--line);border-radius:999px}
+.sn-pseudo input:hover{border-color:var(--rose)}
+.sn-pseudo input:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+.sn-tableau{width:var(--sn-w);margin-top:2rem}
+.sn-tableau h3{margin:0 0 .5rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:1.25rem;line-height:1.2}
+.sn-tableau ol{list-style:none;margin:0;padding:0}
+.sn-tableau li{display:grid;grid-template-columns:2.25rem minmax(0,1fr) auto;gap:.1rem .6rem;align-items:baseline;padding:.45rem .6rem;border-bottom:1px solid var(--line);line-height:1.4}
+.sn-tableau li.moi{background:rgba(244,166,184,.28);border-radius:.75rem;border-bottom-color:transparent}
+.sn-rang{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-variant-numeric:tabular-nums}
+.sn-nom{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;overflow-wrap:anywhere}
+.sn-nom small{display:block;font-family:"Libre Baskerville",Georgia,serif;font-weight:400;font-size:.8em;opacity:.7}
+.sn-pts{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-variant-numeric:tabular-nums}
+.sn-vide{margin:0;padding:1rem;border:2px dashed var(--rose);border-radius:1rem;font-size:.95em}
+.sn-note{margin:.75rem 0 0;font-size:.85em;opacity:.8}
 </style>
 </head>
 <body>
@@ -404,6 +420,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     <p><a class="back" href="#jeux">← Jeux</a></p>
     <h2>La Ruche</h2>
     <div class="jeu-score" role="group" aria-label="Score"><span>Fleurs <b id="sn-score">0</b></span><span>Record <b id="sn-best">0</b></span></div>
+    <div class="sn-pseudo"><label for="sn-pseudo">Pseudo</label><input type="text" id="sn-pseudo" maxlength="16" placeholder="Abeille" autocomplete="nickname" autocapitalize="words" spellcheck="false"></div>
     <div class="sn-plateau">
       <canvas id="snake-cv" role="img" aria-label="Plateau de jeu : une abeille récolte des fleurs en laissant une traînée de miel"></canvas>
       <div class="sn-voile" id="sn-voile" aria-live="polite">
@@ -413,6 +430,12 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
       </div>
     </div>
     <p class="sn-aide">Flèches du clavier (ou Z, Q, S, D) pour diriger l’abeille, espace pour faire une pause. Sur téléphone, glisse le doigt sur le jeu.</p>
+    <div class="sn-tableau">
+      <h3 id="sn-tab-titre">Meilleurs scores</h3>
+      <ol id="sn-liste" aria-labelledby="sn-tab-titre"></ol>
+      <p class="sn-vide" id="sn-vide">Aucun score pour l’instant. Sois la première à butiner !</p>
+      <p class="sn-note" id="sn-note">Chargement du classement…</p>
+    </div>
     <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
   </section>
 
@@ -655,6 +678,75 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   try{best=parseInt(localStorage.getItem(CLE),10)||0;}catch(e){}
   elBest.textContent=best;
 
+  /* Pseudo et classement : partagé entre tous les visiteurs (Supabase), avec copie locale en secours */
+  var SB="https://tsdilkupupyrmihbaqgm.supabase.co/rest/v1/scores",
+      SB_CLE="sb_publishable_orPfv1AkysgjGulNNSTREQ_Q1LFCo-4",
+      CLE_PSEUDO="abeille-pseudo",CLE_SCORES="abeille-scores",MAX=10,PAR_DEFAUT="Abeille",
+      inPseudo=document.getElementById("sn-pseudo"),elListe=document.getElementById("sn-liste"),
+      elVide=document.getElementById("sn-vide"),elNote=document.getElementById("sn-note"),
+      scores=[],liste=[],dernier=null,enLigne=true,partie=0;
+  function nettoyer(v){return String(v||"").replace(/\s+/g," ").trim().slice(0,16);}
+  function pseudo(){return nettoyer(inPseudo.value)||PAR_DEFAUT;}
+  try{inPseudo.value=nettoyer(localStorage.getItem(CLE_PSEUDO));}catch(e){}
+  function sauverPseudo(){try{localStorage.setItem(CLE_PSEUDO,nettoyer(inPseudo.value));}catch(e){}}
+  try{
+    var brut=JSON.parse(localStorage.getItem(CLE_SCORES)||"[]");
+    if(Array.isArray(brut))scores=brut.filter(function(x){return x&&typeof x.p==="string"&&x.s>0&&x.t>0;}).map(function(x){x.k=x.t;return x;}).slice(0,MAX);
+  }catch(e){}
+
+  function requete(suite,corps){
+    var h={apikey:SB_CLE};
+    if(corps){h["Content-Type"]="application/json";h.Prefer="return=representation";}
+    return fetch(SB+suite,{method:corps?"POST":"GET",headers:h,body:corps}).then(function(r){
+      if(!r.ok)throw new Error("HTTP "+r.status);return r.json();
+    });
+  }
+  function afficher(){
+    elListe.textContent="";
+    liste.forEach(function(x,i){
+      var li=document.createElement("li"),r=document.createElement("span"),n=document.createElement("span"),pt=document.createElement("span");
+      r.className="sn-rang";r.textContent=(i+1)+".";
+      n.className="sn-nom";n.appendChild(document.createTextNode(x.p));
+      if(x.t>0){var sm=document.createElement("small");sm.textContent=new Date(x.t).toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});n.appendChild(sm);}
+      pt.className="sn-pts";pt.textContent=x.s+(x.s>1?" fleurs":" fleur");
+      if(dernier!==null&&x.k===dernier)li.className="moi";
+      li.appendChild(r);li.appendChild(n);li.appendChild(pt);elListe.appendChild(li);
+    });
+    elVide.hidden=liste.length>0;
+    elNote.textContent=enLigne?"Classement partagé entre tous les visiteurs. Les pseudos et les scores sont publics."
+      :"Classement en ligne indisponible pour le moment : ces scores sont gardés sur cet appareil.";
+  }
+  function charger(){
+    return requete("?select=id,pseudo,score,created_at&order=score.desc,created_at.asc&limit="+MAX).then(function(a){
+      liste=a.map(function(x){return {p:String(x.pseudo),s:x.score,t:Date.parse(x.created_at)||0,k:x.id};});
+      enLigne=true;afficher();
+    },function(){enLigne=false;liste=scores;afficher();});
+  }
+  function annoncer(rang,numero){
+    if(rang&&numero===partie&&etat==="fin")vTexte.textContent+=" Tu es n°"+rang+" au classement.";
+  }
+  function enregistrer(pts,nom,numero){
+    if(pts<=0)return;
+    var e={p:nom,s:pts,t:Date.now(),k:Date.now()};
+    scores.push(e);
+    scores.sort(function(a,b){return (b.s-a.s)||(a.t-b.t);});
+    scores=scores.slice(0,MAX);
+    try{localStorage.setItem(CLE_SCORES,JSON.stringify(scores));}catch(err){}
+    requete("?select=id",JSON.stringify({pseudo:nom,score:pts})).then(function(a){
+      var id=a&&a[0]?a[0].id:null;dernier=id;
+      return charger().then(function(){
+        for(var i=0;i<liste.length;i++)if(liste[i].k===id){annoncer(i+1,numero);break;}
+      });
+    },function(){
+      enLigne=false;dernier=e.k;liste=scores;afficher();annoncer(scores.indexOf(e)+1,numero);
+    });
+  }
+  inPseudo.addEventListener("input",sauverPseudo);
+  inPseudo.addEventListener("change",function(){inPseudo.value=nettoyer(inPseudo.value);sauverPseudo();});
+  inPseudo.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();inPseudo.blur();}});
+  inPseudo.addEventListener("focus",function(){pauser();});
+  liste=scores;afficher();charger();
+
   function actif(){return location.hash==="#snake";}
   function copie(a){return a.map(function(c){return [c[0],c[1]];});}
 
@@ -686,8 +778,10 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   function finir(gagne){
     etat="fin";prev=copie(body);aFige=1;
     if(score>best){best=score;nouveau=score>0;try{localStorage.setItem(CLE,String(best));}catch(e){}elBest.textContent=best;}
-    var texte=score>0?"Tu as butiné "+score+(score>1?" fleurs.":" fleur."):"Aucune fleur butinée cette fois.";
+    var numero=++partie,nom=pseudo();
+    var texte=score>0?pseudo()+", tu as butiné "+score+(score>1?" fleurs.":" fleur."):"Aucune fleur butinée cette fois.";
     if(nouveau)texte+=" Nouveau record !";
+    enregistrer(score,nom,numero);
     montrerVoile(gagne?"Bravo, le jardin est butiné !":"Bzzz… c’est fini !",texte,"Rejouer");
     bouton.focus({preventScroll:true});
   }
@@ -816,6 +910,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   var TOUCHES={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],z:[0,-1],w:[0,-1],s:[0,1],q:[-1,0],a:[-1,0],d:[1,0]};
   document.addEventListener("keydown",function(e){
     if(!actif()||e.ctrlKey||e.metaKey||e.altKey)return;
+    if(e.target&&e.target.closest&&e.target.closest("input"))return;   /* saisie du pseudo : ne pas piloter l’abeille */
     var k=e.key.length===1?e.key.toLowerCase():e.key,v=TOUCHES[k],surBouton=e.target.closest&&e.target.closest("button,a");
     if(v){e.preventDefault();direction(v);return;}
     if(surBouton)return;   /* Espace / Entrée sur un bouton : le bouton s’en charge */
@@ -843,7 +938,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 
   /* Cycle de vie : le jeu repart à zéro à chaque arrivée, se met en pause si l’onglet est masqué */
   document.addEventListener("visibilitychange",function(){if(document.hidden)pauser();});
-  window.addEventListener("hashchange",function(){if(actif()){reset();taille();planifier();}});
+  window.addEventListener("hashchange",function(){if(actif()){reset();taille();planifier();charger();}});
   if(window.ResizeObserver)new ResizeObserver(taille).observe(cv);else window.addEventListener("resize",taille);
   reset();taille();if(actif())planifier();
 })();
