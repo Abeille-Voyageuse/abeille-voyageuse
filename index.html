@@ -268,6 +268,40 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 .mf-clavier{display:grid;gap:.35rem;width:var(--sn-w);margin-top:.75rem}
 .mf-clavier div{display:flex;justify-content:center;gap:.3rem}
 .mf-clavier .sd-btn{flex:0 0 calc((100% - 2.7rem)/10);min-height:2.6rem;padding:.3rem 0;font-size:max(16px,.95rem)}
+/* Jeu : Un peu, beaucoup… (marguerite en pixel art) */
+#petales{--sn-w:min(100%,24rem,max(13rem,calc((100vh - 17rem)*.75)))}
+@supports (height:100svh){#petales{--sn-w:min(100%,24rem,max(13rem,calc((100svh - 17rem)*.75)))}}
+.pt-plateau{position:relative;width:var(--sn-w);aspect-ratio:3/4;margin-top:1.25rem;border:2px solid var(--line);border-radius:1.25rem;overflow:hidden;touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;background:#08103a}
+.pt-plateau canvas{display:block;width:100%;height:100%;image-rendering:crisp-edges;image-rendering:pixelated;cursor:pointer}
+.pt-plateau canvas:focus-visible{outline:3px solid var(--barbie);outline-offset:-3px}
+.pt-phrase{width:var(--sn-w);min-height:2.7em;margin:.75rem 0 0;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:clamp(1.05rem,.95rem + .5vw,1.35rem);line-height:1.35;text-wrap:balance}
+/* À Venir : 24 cases numérotées, dans le désordre */
+.calendrier{list-style:none;margin:2rem 0 0;padding:0;max-width:36rem;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6rem}
+@media (min-width:40rem){.calendrier{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.calendrier .case{display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;border:2px solid var(--line);border-radius:1rem;background:rgba(247,197,49,.22);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:clamp(1.2rem,1.05rem + .8vw,1.7rem);line-height:1;color:var(--sapin);font-variant-numeric:tabular-nums}
+.calendrier .case{position:relative}
+.calendrier .case.verrouillee{border-style:dashed;opacity:.6}
+.case-vh{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.calendrier .case.ouverte{border-color:var(--rose);background:rgba(244,166,184,.35)}
+.calendrier .case a{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:inherit;color:inherit;text-decoration:none}
+.calendrier .case a:hover{background:rgba(244,166,184,.35)}
+.calendrier .case a:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+.calendrier[hidden]{display:none}
+.calendrier .case.disponible{border-color:var(--barbie);background:rgba(247,197,49,.5)}
+.calendrier .case button{display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:0;border:0;border-radius:inherit;background:transparent;color:inherit;font:inherit;cursor:pointer}
+.calendrier .case button:hover{background:rgba(244,166,184,.35)}
+.calendrier .case button:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+.dev-bandeau{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin:0 0 1rem;padding:.5rem .9rem;border:2px solid var(--barbie);border-radius:.75rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-size:.9rem;font-weight:700;color:var(--ink)}
+.dev-bandeau button,.dev-dlg button{font:inherit;font-weight:700;padding:.35rem .9rem;border:2px solid var(--rose);border-radius:999px;background:transparent;color:var(--ink);cursor:pointer}
+.dev-bandeau button:hover,.dev-dlg button:hover{background:var(--rose);color:#142b05}
+.dev-dlg{max-width:22rem;width:calc(100% - 2rem);padding:1.25rem;border:2px solid var(--rose);border-radius:1rem;background:var(--bg);color:var(--ink);font-family:Poppins,"Helvetica Neue",Arial,sans-serif}
+.dev-dlg::backdrop{background:rgba(20,43,5,.55)}
+.dev-dlg label{display:block;font-weight:700;margin-bottom:.5rem}
+.dev-dlg input{box-sizing:border-box;width:100%;padding:.6rem .75rem;border:2px solid var(--line);border-radius:.6rem;background:transparent;color:var(--ink);font:inherit}
+.dev-dlg input:focus-visible{outline:3px solid var(--barbie);outline-offset:2px}
+.dev-dlg .dev-err{min-height:1.4em;margin:.5rem 0 0;font-size:.9rem;color:#b3261e}
+:root:not([data-theme="light"]) .dev-dlg .dev-err{color:#ffb4ab}
+.dev-dlg .dev-btns{display:flex;gap:.5rem;justify-content:flex-end;margin-top:.75rem}
 </style>
 </head>
 <body>
@@ -637,6 +671,31 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
   </section>
 
+  <section id="petales" class="page jeu">
+    <p><a class="back" href="#a-venir">← À Venir</a></p>
+    <h2>Un peu, beaucoup…</h2>
+    <div class="sn-cols">
+    <div class="sn-jeu">
+    <div class="jeu-score" role="group" aria-label="Partie en cours"><span>Pétales arrachés <b id="pt-nb">0/14</b></span></div>
+    <div class="pt-plateau">
+      <canvas id="pt-cv" width="180" height="240" tabindex="0" role="button" aria-label="Marguerite en pixel art : arracher un pétale"></canvas>
+      <div class="sn-voile" id="pt-voile" aria-live="polite" hidden>
+        <div class="sn-titre" id="pt-vtitre"></div>
+        <div class="sn-texte" id="pt-vtexte"></div>
+        <button type="button" class="sn-btn" id="pt-vbtn">Recommencer</button>
+      </div>
+    </div>
+    <p class="pt-phrase" id="pt-phrase" aria-live="polite"></p>
+    <div class="sd-actions">
+      <button type="button" class="sd-btn" id="pt-arracher">Arracher un pétale</button>
+      <button type="button" class="sd-btn" id="pt-recom">Recommencer</button>
+    </div>
+    <p class="sn-aide">Touche un pétale pour l’arracher, ou appuie sur Espace. R pour recommencer.</p>
+    </div>
+    </div>
+    <p class="suite"><a class="back" href="#a-venir">← Retour au calendrier</a></p>
+  </section>
+
   <section id="archives" class="page">
     <h2>Archives Mails</h2>
     <p>Tous les mails que l’abeille a transportés seront rassemblés ici, du plus récent au plus ancien.</p>
@@ -647,12 +706,38 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     <h2>À Venir</h2>
     <p>Quelque chose se prépare ici. Bzzz a glissé une énigme pour toi.</p>
     <p class="msg"><span class="n bzz">BZZZ</span> : Je ne sonne pas, mais je compte les jours. Chaque matin, une petite porte s’ouvre sur une surprise. Je commence quand le froid s’installe, et je m’arrête la nuit où l’on veille. Qui suis-je ?</p>
+    <ol class="calendrier" hidden aria-label="24 cases numérotées de 1 à 24, dans le désordre">
+      <li class="case verrouillee" data-n="2" title="Rendez-vous le 2 décembre"><span aria-hidden="true">2</span><span class="case-vh">Case 2 : elle s’ouvrira le 2 décembre.</span></li>
+      <li class="case verrouillee" data-n="4" title="Rendez-vous le 4 décembre"><span aria-hidden="true">4</span><span class="case-vh">Case 4 : elle s’ouvrira le 4 décembre.</span></li>
+      <li class="case verrouillee" data-n="14" title="Rendez-vous le 14 décembre"><span aria-hidden="true">14</span><span class="case-vh">Case 14 : elle s’ouvrira le 14 décembre.</span></li>
+      <li class="case verrouillee" data-n="11" title="Rendez-vous le 11 décembre"><span aria-hidden="true">11</span><span class="case-vh">Case 11 : elle s’ouvrira le 11 décembre.</span></li>
+      <li class="case verrouillee" data-n="10" title="Rendez-vous le 10 décembre"><span aria-hidden="true">10</span><span class="case-vh">Case 10 : elle s’ouvrira le 10 décembre.</span></li>
+      <li class="case verrouillee" data-n="17" title="Rendez-vous le 17 décembre"><span aria-hidden="true">17</span><span class="case-vh">Case 17 : elle s’ouvrira le 17 décembre.</span></li>
+      <li class="case verrouillee" data-n="18" title="Rendez-vous le 18 décembre"><span aria-hidden="true">18</span><span class="case-vh">Case 18 : elle s’ouvrira le 18 décembre.</span></li>
+      <li class="case verrouillee" data-n="9" title="Rendez-vous le 9 décembre"><span aria-hidden="true">9</span><span class="case-vh">Case 9 : elle s’ouvrira le 9 décembre.</span></li>
+      <li class="case verrouillee" data-n="8" title="Rendez-vous le 8 décembre"><span aria-hidden="true">8</span><span class="case-vh">Case 8 : elle s’ouvrira le 8 décembre.</span></li>
+      <li class="case verrouillee" data-n="1" title="Rendez-vous le 1er décembre"><span aria-hidden="true">1</span><span class="case-vh">Case 1 : elle s’ouvrira le 1er décembre.</span></li>
+      <li class="case verrouillee" data-n="5" title="Rendez-vous le 5 décembre"><span aria-hidden="true">5</span><span class="case-vh">Case 5 : elle s’ouvrira le 5 décembre.</span></li>
+      <li class="case verrouillee" data-n="15" title="Rendez-vous le 15 décembre"><span aria-hidden="true">15</span><span class="case-vh">Case 15 : elle s’ouvrira le 15 décembre.</span></li>
+      <li class="case verrouillee" data-n="16" title="Rendez-vous le 16 décembre"><span aria-hidden="true">16</span><span class="case-vh">Case 16 : elle s’ouvrira le 16 décembre.</span></li>
+      <li class="case verrouillee" data-n="24" title="Rendez-vous le 24 décembre"><span aria-hidden="true">24</span><span class="case-vh">Case 24 : elle s’ouvrira le 24 décembre.</span></li>
+      <li class="case verrouillee" data-n="12" title="Rendez-vous le 12 décembre"><span aria-hidden="true">12</span><span class="case-vh">Case 12 : elle s’ouvrira le 12 décembre.</span></li>
+      <li class="case verrouillee" data-n="3" title="Rendez-vous le 3 décembre"><span aria-hidden="true">3</span><span class="case-vh">Case 3 : elle s’ouvrira le 3 décembre.</span></li>
+      <li class="case verrouillee" data-n="22" title="Rendez-vous le 22 décembre"><span aria-hidden="true">22</span><span class="case-vh">Case 22 : elle s’ouvrira le 22 décembre.</span></li>
+      <li class="case verrouillee" data-n="20" title="Rendez-vous le 20 décembre"><span aria-hidden="true">20</span><span class="case-vh">Case 20 : elle s’ouvrira le 20 décembre.</span></li>
+      <li class="case verrouillee" data-n="21" title="Rendez-vous le 21 décembre"><span aria-hidden="true">21</span><span class="case-vh">Case 21 : elle s’ouvrira le 21 décembre.</span></li>
+      <li class="case verrouillee" data-n="7" title="Rendez-vous le 7 décembre"><span aria-hidden="true">7</span><span class="case-vh">Case 7 : elle s’ouvrira le 7 décembre.</span></li>
+      <li class="case verrouillee" data-n="6" title="Rendez-vous le 6 décembre"><span aria-hidden="true">6</span><span class="case-vh">Case 6 : elle s’ouvrira le 6 décembre.</span></li>
+      <li class="case verrouillee" data-n="19" title="Rendez-vous le 19 décembre"><span aria-hidden="true">19</span><span class="case-vh">Case 19 : elle s’ouvrira le 19 décembre.</span></li>
+      <li class="case verrouillee" data-n="13" title="Rendez-vous le 13 décembre"><span aria-hidden="true">13</span><span class="case-vh">Case 13 : elle s’ouvrira le 13 décembre.</span></li>
+      <li class="case verrouillee" data-n="23" title="Rendez-vous le 23 décembre"><span aria-hidden="true">23</span><span class="case-vh">Case 23 : elle s’ouvrira le 23 décembre.</span></li>
+    </ol>
   </section>
 </main>
 <footer>Fait avec patience, sincérité et tendresse.</footer>
 <script>
 (function(){
-  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "jeux", "snake", "sudoku", "juste-miel", "miel-fleche", "archives", "a-venir"];
+  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "jeux", "snake", "sudoku", "juste-miel", "miel-fleche", "petales", "archives", "a-venir"];
   var premier=true;
   var mBtn=document.getElementById("menu-btn"),mListe=document.getElementById("menu-liste"),mLabel=document.getElementById("menu-label");
   function mFermer(){if(!mBtn)return;mListe.hidden=true;mBtn.setAttribute("aria-expanded","false");}
@@ -742,11 +827,11 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     var avant=!premier&&preparer();
     ids.forEach(function(i){var el=document.getElementById(i);if(el)el.classList.toggle("on",i===h)});
     document.querySelectorAll("nav a").forEach(function(a){
-      if(a.dataset.t===(h.indexOf("acte-")===0?"theatre":((h==="snake"||h==="sudoku"||h==="juste-miel"||h==="miel-fleche")?"jeux":h)))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+      if(a.dataset.t===(h.indexOf("acte-")===0?"theatre":h==="petales"?"a-venir":((h==="snake"||h==="sudoku"||h==="juste-miel"||h==="miel-fleche")?"jeux":h)))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
     });
     document.title=(h==="accueil"?"":document.querySelector('#'+h+' h2').textContent+" · ")+"L’abeille voyageuse";
     if(mBtn){
-      var cle=(h.indexOf("acte-")===0?"theatre":((h==="snake"||h==="sudoku"||h==="juste-miel"||h==="miel-fleche")?"jeux":h));
+      var cle=(h.indexOf("acte-")===0?"theatre":h==="petales"?"a-venir":((h==="snake"||h==="sudoku"||h==="juste-miel"||h==="miel-fleche")?"jeux":h));
       document.querySelectorAll("#menu-liste a").forEach(function(a){
         if(a.dataset.t===cle){a.setAttribute("aria-current","page");mLabel.textContent=a.textContent;}
         else a.removeAttribute("aria-current");
@@ -1782,6 +1867,313 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 
   window.addEventListener("hashchange",function(){if(actif())entrer();});
   if(actif())entrer();
+})();
+
+/* Calendrier de l’Avent : chaque case n devient cliquable à minuit (heure de Paris) le n décembre 2026, puis s’ouvre au clic. Le calendrier est caché : un mot de passe (5 clics rapides sur la devinette de Bzzz) l’affiche et active un mode développeur.
+   L’heure vient du serveur Supabase (l’horloge de l’appareil ne sert qu’en secours). */
+(function(){
+  var DEBUT=Date.parse("2026-12-01T00:00:00+01:00"),JOUR=864e5,VALIDITE=6e5;
+  var SB="https://tsdilkupupyrmihbaqgm.supabase.co/rest/v1/rpc/heure_serveur_ms",
+      SB_CLE="sb_publishable_orPfv1AkysgjGulNNSTREQ_Q1LFCo-4";
+  var ref=null,refAt=0; /* ref : promesse de (heure du serveur − performance.now()) */
+  function lireHeure(){
+    if(ref&&performance.now()-refAt<VALIDITE)return ref;
+    refAt=performance.now();
+    ref=new Promise(function(ok){
+      var ctrl=window.AbortController?new AbortController():null,tt=setTimeout(function(){if(ctrl)ctrl.abort();},4000);
+      fetch(SB,{method:"POST",headers:{apikey:SB_CLE,"Content-Type":"application/json"},body:"{}",signal:ctrl?ctrl.signal:undefined})
+        .then(function(r){if(!r.ok)throw new Error("http "+r.status);return r.json();})
+        .then(function(ms){clearTimeout(tt);if(typeof ms!=="number"||!isFinite(ms))throw new Error("heure invalide");ok(ms-performance.now());},
+              function(){clearTimeout(tt);ok(Date.now()-performance.now());});
+    });
+    return ref;
+  }
+  /* Mode développeur : un mot de passe permet d’ouvrir toutes les cases sans attendre leur date.
+     On ne stocke que l’empreinte SHA-256 (sel + mot de passe). Pour changer le mot de passe, ouvre la console
+     du navigateur sur ta page et exécute :  devHash("nouveau mot de passe")  puis recopie le résultat dans MDP_HASH.
+     (Garde-fou côté navigateur : il ne remplace pas un vrai contrôle serveur.) */
+  var SEL="bzzz-avent-de56af5d08c97060",MDP_HASH="cda43dfe6bae12660c83a91c9f35c83ed515bc3b7b0f57274a65afece2513a07",DEV_CLE="calendrier-dev";
+  function sha(t){
+    if(!(window.crypto&&crypto.subtle))return Promise.reject(new Error("crypto indisponible"));
+    return crypto.subtle.digest("SHA-256",new TextEncoder().encode(SEL+String(t).replace(/[\u2018\u2019\u02BC]/g,"'"))).then(function(b){
+      return Array.prototype.map.call(new Uint8Array(b),function(x){return ("0"+x.toString(16)).slice(-2);}).join("");
+    });
+  }
+  window.devHash=function(t){return sha(t).then(function(h){console.log(h);return h;});};
+  var PUBLIC=false; /* false : le calendrier est caché, le mot de passe l’affiche. Mets true pour l’afficher à tout le monde. */
+  var dev=false;try{dev=sessionStorage.getItem(DEV_CLE)==="1";}catch(e){}
+  window.caseOuverte=function(n){
+    if(dev)return Promise.resolve(true);
+    return lireHeure().then(function(b){return b+performance.now()>=DEBUT+(n-1)*JOUR;});
+  };
+  var cases=document.querySelectorAll('.calendrier .case[data-n]'),CLE="calendrier-ouvertes";
+  function lues(){try{return JSON.parse(localStorage.getItem(CLE))||[];}catch(e){return [];}}
+  function noter(n){try{var a=lues();if(a.indexOf(n)<0){a.push(n);localStorage.setItem(CLE,JSON.stringify(a));}}catch(e){}}
+  function num(li){return +li.getAttribute("data-n");}
+  /* la date est passée : la case attend qu’on clique dessus */
+  function rendreDisponible(li){
+    if(li.classList.contains("disponible")||li.classList.contains("ouverte"))return;
+    var n=num(li);
+    li.className="case disponible";
+    li.title="Clique pour ouvrir";
+    li.innerHTML='<button type="button" aria-label="Case '+n+' : clique pour l’ouvrir">'+n+'</button>';
+  }
+  /* la case a été ouverte (par un clic) */
+  function ouvrir(li){
+    if(li.classList.contains("ouverte"))return;
+    var n=num(li);
+    li.className="case ouverte";
+    li.removeAttribute("title");
+    li.innerHTML=n===2?'<a href="#petales" aria-label="Case 2 : un jeu t’attend">2</a>':'<span>'+n+'</span>';
+  }
+  function surveiller(){
+    lireHeure().then(function(b){
+      var now=b+performance.now(),prochain=Infinity,deja=lues();
+      Array.prototype.forEach.call(cases,function(li){
+        if(li.classList.contains("ouverte"))return;
+        var n=num(li),reste=DEBUT+(n-1)*JOUR-now;
+        if(dev||reste<=0){if(!dev&&deja.indexOf(n)>=0)ouvrir(li);else rendreDisponible(li);}
+        else if(reste<prochain)prochain=reste;
+      });
+      if(prochain<Infinity)setTimeout(surveiller,Math.min(prochain+300,VALIDITE));
+    });
+  }
+  /* clic sur une case disponible : on revérifie l’heure auprès du serveur avant d’ouvrir */
+  var ol=document.querySelector(".calendrier");
+  if(ol)ol.addEventListener("click",function(e){
+    var bt=e.target.closest&&e.target.closest(".case.disponible button");
+    if(!bt)return;
+    var li=bt.parentNode,n=num(li);
+    window.caseOuverte(n).then(function(ok){
+      if(!ok)return;
+      if(!dev)noter(n);ouvrir(li);
+      if(n===2)location.hash="#petales";
+    });
+  });
+  var msg=document.querySelector("#a-venir .msg");
+  function montrer(){if(ol)ol.hidden=false;}
+  if(dev||PUBLIC)montrer();
+  function bandeau(){
+    if(!dev||!ol||document.querySelector(".dev-bandeau"))return;
+    var d=document.createElement("div");d.className="dev-bandeau";
+    d.innerHTML='<span>Mode développeur : toutes les cases sont ouvrables.</span>';
+    var q=document.createElement("button");q.type="button";q.textContent="Quitter";
+    q.addEventListener("click",function(){try{sessionStorage.removeItem(DEV_CLE);}catch(e){}location.reload();});
+    d.appendChild(q);ol.parentNode.insertBefore(d,ol);
+  }
+  function demanderMdp(){
+    if(dev||!window.HTMLDialogElement)return;
+    var dlg=document.createElement("dialog");dlg.className="dev-dlg";
+    dlg.innerHTML='<form method="dialog"><label for="dev-mdp">Mot de passe</label><input id="dev-mdp" type="password" autocomplete="off"><p class="dev-err" role="alert"></p><div class="dev-btns"><button type="button" data-a="x">Annuler</button><button type="submit">Valider</button></div></form>';
+    document.body.appendChild(dlg);
+    var f=dlg.querySelector("form"),inp=dlg.querySelector("input"),err=dlg.querySelector(".dev-err");
+    function fermer(){dlg.close();dlg.remove();}
+    dlg.querySelector('[data-a="x"]').addEventListener("click",fermer);
+    dlg.addEventListener("cancel",function(){dlg.remove();});
+    f.addEventListener("submit",function(e){
+      e.preventDefault();
+      sha(inp.value).then(function(h){
+        if(h===MDP_HASH){
+          dev=true;try{sessionStorage.setItem(DEV_CLE,"1");}catch(x){}
+          fermer();montrer();bandeau();
+          Array.prototype.forEach.call(cases,function(li){if(!li.classList.contains("ouverte"))rendreDisponible(li);});
+        }else{err.textContent="Mot de passe incorrect.";inp.value="";inp.focus();}
+      },function(){err.textContent="Vérification impossible sur cette page (HTTPS requis).";});
+    });
+    dlg.showModal();inp.focus();
+  }
+  if(msg){
+    var clics=[];
+    msg.addEventListener("click",function(){
+      var t=Date.now();clics.push(t);
+      clics=clics.filter(function(x){return t-x<2000;});
+      if(clics.length>=5){clics=[];demanderMdp();}
+    });
+  }
+  bandeau();
+  surveiller();
+})();
+
+/* Un peu, beaucoup… : marguerite en pixel art (adapté de « Loves me, loves me not », pygame) */
+(function(){
+  var sec=document.getElementById("petales");if(!sec)return;
+  var W=180,H=240,N=14,CX=90,CY=108,SOL=200,R0=16,LP=30; /* N pétales : le dernier tombe sur « à la folie » */
+  var PH=["Il m’aime… un peu","Il m’aime… beaucoup","Il m’aime… passionnément","Il m’aime… à la folie","Il ne m’aime… pas du tout"];
+  var FIN=["Un peu… mais ça grandit.","Beaucoup. Bzzz confirme.","Passionnément. Bzzz n’en doute pas.","À la folie. Bzzz l’avait deviné.","Pas du tout… mais une fleur ne sait pas tout. Bzzz conseille de recommencer."];
+  var ROSE=[255,143,192],BLEU=[169,188,255],LIME=[192,224,36],VERT=[40,130,50];
+  var $=function(i){return document.getElementById(i);};
+  var cv=$("pt-cv"),ctx=cv.getContext("2d"),elNb=$("pt-nb"),elPh=$("pt-phrase"),elV=$("pt-voile"),elVt=$("pt-vtitre"),elVx=$("pt-vtexte");
+  var reduit=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  ctx.imageSmoothingEnabled=false;
+
+  /* ---------- décor statique (graine fixe : même ciel à chaque visite) ---------- */
+  function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  var rnd=rng(4),BAYER=[[0,8,2,10],[12,4,14,6],[3,11,1,9],[15,7,13,5]];
+  function css(c){return "rgb("+c[0]+","+c[1]+","+c[2]+")";}
+  function plus(c,k){return c.map(function(v){return Math.max(0,Math.min(255,v+k));});}
+  function mix(a,b,t){return [a[0]+(b[0]-a[0])*t|0,a[1]+(b[1]-a[1])*t|0,a[2]+(b[2]-a[2])*t|0];}
+  function faireFond(){
+    var c=document.createElement("canvas");c.width=W;c.height=H;
+    var x=c.getContext("2d"),im=x.createImageData(W,H),d=im.data,top=[8,12,58],bot=[110,70,150],bands=7,X,Y,t,v,i,fr,k,col;
+    function px(X,Y,col){var o=(Y*W+X)*4;d[o]=col[0];d[o+1]=col[1];d[o+2]=col[2];d[o+3]=255;}
+    for(Y=0;Y<H;Y++){
+      t=Math.min(1,Y/(H*.8));v=t*bands;i=Math.floor(v);fr=v-i;
+      for(X=0;X<W;X++){k=i+(fr>BAYER[Y%4][X%4]/16?1:0);px(X,Y,mix(top,bot,Math.min(k,bands)/bands));}
+    }
+    for(X=0;X<W;X++){
+      var y1=Math.floor(172+9*Math.sin(X*.035)+5*Math.sin(X*.09+1)),y2=Math.floor(190+4*Math.sin(X*.06+2));
+      for(Y=y1;Y<H;Y++)px(X,Y,[28,38,110]);
+      for(Y=y2;Y<H;Y++)px(X,Y,[20,70,50]);
+    }
+    for(Y=SOL;Y<H;Y++)for(X=0;X<W;X++)px(X,Y,[30,90,40]);
+    x.putImageData(im,0,0);return c;
+  }
+  var fond=faireFond(),ETOILES=[],HERBE=[],j,cols=[[60,150,60],[40,120,50],[90,180,70]];
+  for(j=0;j<45;j++)ETOILES.push([2+Math.floor(rnd()*(W-4)),2+Math.floor(rnd()*118),rnd()*6.28]);
+  for(j=0;j<70;j++)HERBE.push([Math.floor(rnd()*W),194+Math.floor(rnd()*38),3+Math.floor(rnd()*7),cols[Math.floor(rnd()*3)],rnd()*6.28]);
+
+  /* ---------- dessin pixel par pixel (aucun lissage) ---------- */
+  function ell(cx,cy,rx,ry,ang,col){
+    var co=Math.cos(ang),si=Math.sin(ang),m=Math.ceil(Math.max(rx,ry))+1,x,y,dx,dy,u,v;
+    ctx.fillStyle=css(col);
+    for(y=Math.floor(cy-m);y<=Math.ceil(cy+m);y++)for(x=Math.floor(cx-m);x<=Math.ceil(cx+m);x++){
+      if(x<0||y<0||x>=W||y>=H)continue;
+      dx=x+.5-cx;dy=y+.5-cy;u=(dx*co+dy*si)/rx;v=(-dx*si+dy*co)/ry;
+      if(u*u+v*v<=1)ctx.fillRect(x,y,1,1);
+    }
+  }
+  function petale(cx,cy,ang,col,k){
+    var rx=LP/2*k,ry=6.5*k;
+    ell(cx,cy,rx+1,ry+1,ang,plus(col,-95));
+    ell(cx,cy,rx,ry,ang,col);
+    ell(cx-1,cy-1,rx*.6,ry*.38,ang,plus(col,45));
+  }
+  var t=0;
+  function etoiles(){
+    ETOILES.forEach(function(s,i){
+      var vif=reduit||Math.sin(t*2+s[2])>.2;
+      ctx.fillStyle=vif?"rgb(255,255,235)":"rgb(150,150,215)";
+      ctx.fillRect(s[0],s[1],1,1);
+      if(i%8===0&&vif){ctx.fillStyle="rgb(210,210,255)";ctx.fillRect(s[0]-1,s[1],3,1);ctx.fillRect(s[0],s[1]-1,1,3);}
+    });
+  }
+  function herbe(){
+    HERBE.forEach(function(g){
+      var sw=reduit?0:Math.round(Math.sin(t*1.6+g[4])*1);
+      ctx.fillStyle=css(g[3]);ctx.fillRect(g[0],g[1]-g[2]+1,1,g[2]-1);ctx.fillRect(g[0]+sw,g[1]-g[2],1,1);
+    });
+  }
+  function sx(y){var s=(y-CY)/(208-CY);return 90+Math.round(Math.sin(s*Math.PI*1.2)*3);}
+  function tige(){
+    var y;
+    for(y=CY+10;y<=208;y++){ctx.fillStyle=css(plus(VERT,-30));ctx.fillRect(sx(y)-1,y,3,1);ctx.fillStyle=css(plus(VERT,50));ctx.fillRect(sx(y)-1,y,1,1);}
+    ell(sx(168)-9,166,9.5,3.8,-.5,plus(VERT,-60));ell(sx(168)-9,166,8.5,2.9,-.5,plus(VERT,20));
+    ell(sx(186)+9,184,9.5,3.8,.5,plus(VERT,-60));ell(sx(186)+9,184,8.5,2.9,.5,plus(VERT,20));
+  }
+  function coeur(){
+    var x,y,dx,dy;
+    ell(CX,CY,14.5,14.5,0,[110,60,15]);ell(CX,CY,13,13,0,[255,196,40]);
+    for(y=CY-13;y<=CY+13;y++)for(x=CX-13;x<=CX+13;x++){
+      dx=x+.5-CX;dy=y+.5-CY;
+      if(dx*dx+dy*dy<=169&&((x*7+y*13)%5===0)){ctx.fillStyle="rgb(214,140,20)";ctx.fillRect(x,y,1,1);}
+    }
+    ell(CX-4,CY-5,5,3,-.5,[255,232,130]);
+  }
+
+  /* ---------- état du jeu ---------- */
+  var petales,chutes,poses,k,fin,minuteur=0;
+  function nouvelle(){
+    var i;
+    petales=[];for(i=0;i<N;i++)petales.push({a:i*2*Math.PI/N-Math.PI/2,on:true});
+    chutes=[];poses=[];k=0;fin=false;
+    clearTimeout(minuteur);elV.hidden=true;
+    elNb.textContent="0/"+N;elPh.textContent="Touche un pétale pour l’arracher.";
+    dessiner();
+  }
+  function arracher(i){
+    if(!ouvert||!petales||fin||i<0||!petales[i]||!petales[i].on)return;
+    var p=petales[i],d=R0+LP/2,c=Math.cos(p.a),s=Math.sin(p.a),idx;
+    p.on=false;k++;idx=(k-1)%PH.length;
+    chutes.push({x:CX+c*d,y:CY+s*d,vx:c*22+(Math.random()-.5)*10,vy:s*14-20,ang:p.a,va:(Math.random()-.5)*5,col:idx<4?ROSE:BLEU,sol:SOL+4+Math.random()*14,s:Math.random()*6.28});
+    elNb.textContent=k+"/"+N;elPh.textContent=PH[idx];
+    if(k>=N){fin=true;minuteur=setTimeout(function(){
+      elVt.textContent=PH[idx];elVx.textContent=FIN[idx];elV.hidden=false;
+      var b=$("pt-vbtn");if(b&&actif())b.focus();
+    },1300);}
+  }
+  function auHasard(){if(!petales)return -1;var r=[];petales.forEach(function(p,i){if(p.on)r.push(i);});return r.length?r[Math.floor(Math.random()*r.length)]:-1;}
+  function leplusProche(x,y){
+    if(!petales)return -1;
+    var b=-1,bd=1e9,d=R0+LP/2;
+    petales.forEach(function(p,i){if(!p.on)return;var dx=x-(CX+Math.cos(p.a)*d),dy=y-(CY+Math.sin(p.a)*d),q=dx*dx+dy*dy;if(q<bd){bd=q;b=i;}});
+    return b;
+  }
+  function maj(dt){
+    var i,f;
+    for(i=chutes.length-1;i>=0;i--){
+      f=chutes[i];
+      f.vy=Math.min(f.vy+130*dt,62);f.vx*=Math.max(0,1-1.3*dt);
+      f.x+=(f.vx+(reduit?0:Math.sin(t*3+f.s)*14))*dt;f.y+=f.vy*dt;f.ang+=f.va*dt;
+      if(f.y>=f.sol){poses.push({x:f.x,y:f.sol,ang:(Math.random()-.5)*.7,col:f.col});chutes.splice(i,1);}
+    }
+  }
+  function dessiner(){
+    var d=R0+LP/2;
+    ctx.drawImage(fond,0,0);
+    etoiles();herbe();tige();
+    poses.forEach(function(p){petale(p.x,p.y,p.ang,p.col,.4);});
+    petales.forEach(function(p,i){
+      if(!p.on)return;
+      var a=p.a+(reduit?0:Math.sin(t*1.4+i*.9)*.035);
+      petale(CX+Math.cos(a)*d,CY+Math.sin(a)*d,a,LIME,1);
+    });
+    coeur();
+    chutes.forEach(function(f){petale(f.x,f.y,f.ang,f.col,.9);});
+  }
+
+  /* ---------- commandes ---------- */
+  function actif(){return location.hash==="#petales";}
+  cv.addEventListener("click",function(e){
+    if(!ouvert||fin)return;
+    var r=cv.getBoundingClientRect();
+    arracher(leplusProche((e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H));
+  });
+  cv.addEventListener("keydown",function(e){
+    if(e.key===" "||e.key==="Enter"){e.preventDefault();arracher(auHasard());}
+  });
+  $("pt-arracher").addEventListener("click",function(){arracher(auHasard());});
+  $("pt-recom").addEventListener("click",function(){if(ouvert)nouvelle();});
+  $("pt-vbtn").addEventListener("click",function(){if(ouvert)nouvelle();});
+  document.addEventListener("keydown",function(e){
+    if(!actif()||!ouvert||e.ctrlKey||e.metaKey||e.altKey)return;
+    var a=document.activeElement;
+    if(a&&a!==document.body&&a!==cv&&a.closest&&a.closest("input,textarea,select,button,a,[contenteditable]"))return;
+    if(e.key==="r"||e.key==="R"){e.preventDefault();nouvelle();}
+    else if((e.key===" "||e.key==="Enter")&&(!a||a===document.body)){e.preventDefault();arracher(auHasard());}
+  });
+
+  /* ---------- boucle : tourne seulement quand la page est visible ---------- */
+  var raf=0,dernier=0;
+  function frame(now){
+    raf=0;
+    if(!actif()||document.hidden)return;
+    var dt=Math.min(.05,(now-dernier)/1000);dernier=now;t+=dt;
+    maj(dt);dessiner();
+    raf=requestAnimationFrame(frame);
+  }
+  function demarrer(){if(raf||!ouvert)return;dernier=performance.now();raf=requestAnimationFrame(frame);}
+  /* la page n’existe qu’une fois la case 2 ouverte (2 décembre, minuit) : sinon retour au calendrier */
+  var ouvert=false;
+  function verifier(){
+    if(!window.caseOuverte)return;
+    window.caseOuverte(2).then(function(o){
+      if(o){if(!ouvert||!petales)nouvelle();ouvert=true;if(actif())demarrer();}
+      else{ouvert=false;if(actif())location.hash="#a-venir";}
+    });
+  }
+  window.addEventListener("hashchange",function(){if(actif())verifier();});
+  document.addEventListener("visibilitychange",function(){if(actif()&&!document.hidden)demarrer();});
+  verifier();
 })();
 </script>
 </body>
