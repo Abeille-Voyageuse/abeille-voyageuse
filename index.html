@@ -151,7 +151,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 #transition .fleur svg{width:100%;height:100%;display:block;filter:drop-shadow(0 .5rem 1rem rgba(20,43,5,.22))}
 #transition .bee{display:block;max-width:none;height:auto;filter:drop-shadow(0 .3rem .6rem rgba(20,43,5,.25))}
 @media (prefers-reduced-motion:reduce){#transition{display:none!important}}
-/* Jeu : Snake (l’abeille récolte les fleurs, le miel est sa traînée) */
+/* Jeu : La Ruche (l’abeille récolte les fleurs, le miel est sa traînée) */
 #snake{--sn-w:min(100%,32rem,max(16rem,calc(100vh - 17rem)))}
 @supports (height:100svh){#snake{--sn-w:min(100%,32rem,max(16rem,calc(100svh - 17rem)))}}
 .jeu-score{display:flex;flex-wrap:wrap;gap:.25rem 1.75rem;width:var(--sn-w);margin-top:1.25rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:clamp(.95rem,.9rem + .25vw,1.1rem)}
@@ -393,7 +393,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
     <h2>Jeux</h2>
     <p>L’abeille adore les énigmes. Elle y rangera bientôt ses jeux préférés.</p>
     <ul class="liste-actes">
-      <li><a class="carte-acte" href="#snake"><b>Snake</b><span>L’abeille récolte les fleurs.</span></a></li>
+      <li><a class="carte-acte" href="#snake"><b>La Ruche</b><span>L’abeille récolte les fleurs.</span></a></li>
       <li><div class="carte-acte"><b>Sudoku</b><span>Bientôt disponible.</span></div></li>
       <li><div class="carte-acte"><b>Mots Fléchés</b><span>Bientôt disponible.</span></div></li>
       <li><div class="carte-acte"><b>Juste Prix</b><span>Bientôt disponible.</span></div></li>
@@ -402,7 +402,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 
   <section id="snake" class="page jeu">
     <p><a class="back" href="#jeux">← Jeux</a></p>
-    <h2>Snake</h2>
+    <h2>La Ruche</h2>
     <div class="jeu-score" role="group" aria-label="Score"><span>Fleurs <b id="sn-score">0</b></span><span>Record <b id="sn-best">0</b></span></div>
     <div class="sn-plateau">
       <canvas id="snake-cv" role="img" aria-label="Plateau de jeu : une abeille récolte des fleurs en laissant une traînée de miel"></canvas>
@@ -629,7 +629,7 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 })();
 </script>
 <script>
-/* Snake : l’abeille (celle du site) récolte les fleurs (celle de l’animation) et laisse une traînée de miel */
+/* La Ruche : l’abeille (celle du site) récolte les fleurs (celle de l’animation) et laisse une traînée de miel */
 (function(){
   var sec=document.getElementById("snake");if(!sec)return;
   var cv=document.getElementById("snake-cv"),cx=cv.getContext("2d"),plateau=sec.querySelector(".sn-plateau"),
