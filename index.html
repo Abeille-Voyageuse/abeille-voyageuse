@@ -345,6 +345,116 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 #spelling-bee .sb-mots li{display:block;padding:.15rem .8rem;border:2px solid var(--line);border-radius:999px;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:.95rem;line-height:1.5}
 #spelling-bee .sb-mots li.pg{border-color:var(--miel);background:rgba(247,197,49,.35)}
 @media (prefers-reduced-motion:reduce){.sb-prog i,.sb-h{transition:none}.sb-saisie.non{animation:none}}
+
+/* ===== Archives Mails : boîte mail « e-Miel » intégrée à la page ===== */
+:root{--bm-surf:rgba(255,255,255,.55);--bm-surf2:rgba(247,220,91,.22);--bm-sel:rgba(244,166,184,.35)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bm-surf:rgba(243,244,231,.06);--bm-surf2:rgba(247,220,91,.12);--bm-sel:rgba(244,166,184,.2)}}
+:root[data-theme="dark"]{--bm-surf:rgba(243,244,231,.06);--bm-surf2:rgba(247,220,91,.12);--bm-sel:rgba(244,166,184,.2)}
+#bm{position:relative;display:flex;flex-direction:column;height:clamp(32rem,calc(100dvh - 11rem),54rem);margin-top:1.75rem;border:2px solid var(--line);border-radius:1.5rem;overflow:hidden;background:var(--bm-surf);color:var(--ink)}
+.bm-top{display:flex;align-items:center;gap:.6rem 1rem;padding:.7rem clamp(.75rem,.4rem + 1.5vw,1.5rem);border-bottom:2px solid var(--line);background:var(--bm-surf2)}
+.bm-marque{display:inline-flex;align-items:center;gap:.55rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:clamp(1.05rem,1rem + .4vw,1.3rem);white-space:nowrap}
+.bm-marque img{height:2.1rem;width:auto;display:block}
+.bm-rech{flex:1;min-width:0;max-width:30rem;margin-left:auto;padding:.5rem 1rem;min-height:2.75rem;border:2px solid var(--line);border-radius:999px;background:var(--bm-surf);color:var(--ink);font:inherit;font-size:max(16px,1rem)}
+.bm-rech::placeholder{color:inherit;opacity:.6;font-style:italic}
+.bm-rech:focus-visible{outline:3px solid var(--barbie);outline-offset:2px;border-color:var(--rose)}
+.bm-btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:2.75rem;min-width:2.75rem;padding:.3rem 1.1rem;border:2px solid var(--line);border-radius:999px;background:transparent;color:var(--sapin);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(16px,.95rem);cursor:pointer}
+.bm-btn:hover:not(:disabled){border-color:var(--rose);background:var(--bm-sel)}
+.bm-btn:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+.bm-btn:disabled{opacity:.35;cursor:default}
+.bm-corps{flex:1;min-height:0;display:flex;flex-direction:column}
+.bm-rail{display:flex;gap:.5rem;padding:.7rem clamp(.75rem,.4rem + 1.5vw,1.5rem);overflow-x:auto}
+.bm-filtre{display:inline-flex;align-items:center;justify-content:space-between;gap:.6rem;min-height:2.75rem;padding:.3rem 1rem;border:2px solid transparent;border-radius:999px;background:transparent;color:var(--ink);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(16px,.95rem);cursor:pointer;white-space:nowrap}
+.bm-filtre:hover{border-color:var(--rose)}
+.bm-filtre[aria-pressed="true"]{background:var(--rose);border-color:var(--rose);color:#142b05}
+.bm-filtre:focus-visible{outline:3px solid var(--barbie);outline-offset:2px}
+.bm-filtre i{font-style:normal;font-size:.8em;min-width:1.5rem;text-align:center;padding:.05rem .4rem;border-radius:999px;background:var(--bm-surf2)}
+.bm-liste{flex:1;min-height:0;overflow-y:auto;margin:0;padding:0 clamp(.5rem,.3rem + 1vw,1rem) 1rem;list-style:none}
+.bm-item{display:flex;gap:.8rem;width:100%;text-align:left;padding:.8rem .9rem;margin-top:.5rem;border:2px solid var(--line);border-radius:1.1rem;background:var(--bm-surf);color:var(--ink);font:inherit;line-height:1.4;cursor:pointer}
+.bm-item:hover{border-color:var(--rose)}
+.bm-item:focus-visible{outline:3px solid var(--barbie);outline-offset:2px}
+.bm-item[aria-current="true"]{background:var(--bm-sel);border-color:var(--rose)}
+.bm-av{flex:none;display:grid;place-items:center;width:2.6rem;height:2.6rem;border-radius:50%;background:transparent;overflow:hidden}
+.bm-av img{width:100%;height:auto;display:block}
+.bm-it{flex:1;min-width:0;display:flex;flex-direction:column}
+.bm-l1{display:flex;justify-content:space-between;gap:.6rem;font-size:.9em}
+.bm-l1 .bm-exp{min-width:0}
+.bm-l1 time{flex:none;font-style:italic;opacity:.8;font-size:.9em}
+.bm-exp{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin)}
+.bm-obj{font-size:.95em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bm-ext{font-size:.85em;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bm-item.nl .bm-obj{font-weight:700}
+.bm-item.nl .bm-exp::before{content:"";display:inline-block;width:.6rem;height:.6rem;margin-right:.45rem;border-radius:50%;background:var(--barbie)}
+.bm-vide{padding:1.5rem;margin:.75rem .5rem 0;border:2px dashed var(--rose);border-radius:1.25rem;text-align:center;font-style:italic}
+.bm-lecture{display:none;flex-direction:column;flex:1;min-height:0}
+#bm.lecture .bm-rail,#bm.lecture .bm-liste{display:none}
+#bm.lecture .bm-lecture{display:flex}
+.bm-barre{display:flex;align-items:center;gap:.5rem;padding:.7rem clamp(.75rem,.4rem + 1.5vw,1.5rem);border-bottom:2px solid var(--line)}
+.bm-barre .esp{flex:1}
+.bm-retour{display:inline-flex}
+.bm-scroll{flex:1;min-height:0;overflow-y:auto;padding:clamp(1.25rem,1rem + 2vw,2.5rem) clamp(1rem,.5rem + 2.5vw,3rem) 3rem}
+.bm-mail{max-width:44rem;margin:0 auto;padding:clamp(1.25rem,1rem + 1.5vw,2.25rem);border:2px solid var(--line);border-radius:1.5rem;background:var(--bm-surf)}
+#bm .bm-mail h2{font-size:clamp(1.25rem,1.1rem + .9vw,1.7rem);line-height:1.25;margin:0;hyphens:manual;-webkit-hyphens:manual}
+#bm .bm-mail h2:focus{outline:none}
+.bm-meta{display:flex;align-items:center;gap:.8rem;margin:1.25rem 0 0;padding-bottom:1.25rem;border-bottom:2px solid var(--line)}
+.bm-meta .bm-av{width:3rem;height:3rem}
+.bm-meta div{min-width:0;line-height:1.4;font-size:.92em}
+.bm-meta .bm-exp{display:block;font-size:1.05em}
+.bm-meta small{display:block;opacity:.8;font-size:.9em}
+.bm-meta .bm-exp small{font-size:.78em;font-weight:400;font-family:"Libre Baskerville",Georgia,serif;overflow-wrap:anywhere;hyphens:none}
+.bm-texte{margin-top:1.5rem}
+#bm .bm-texte p{margin:0 0 1.1rem;max-width:62ch}
+.bm-sign{margin-top:2rem;padding-top:1rem;border-top:2px dashed var(--line);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin)}
+.bm-sign span{display:block;font-family:"Libre Baskerville",Georgia,serif;font-weight:400;font-style:italic;font-size:.9em;color:var(--ink);opacity:.85}
+@media (min-width:44rem){
+  .bm-corps{display:grid;grid-template-columns:19rem minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+  .bm-rail{grid-column:1/-1;border-bottom:2px solid var(--line)}
+  #bm.lecture .bm-rail,#bm.lecture .bm-liste{display:flex}
+  #bm.lecture .bm-liste{display:block}
+  .bm-liste{grid-column:1;border-right:2px solid var(--line)}
+  .bm-lecture,#bm.lecture .bm-lecture{display:flex;grid-column:2}
+  .bm-retour{display:none}
+}
+@media (max-width:43.99rem){.bm-top{flex-wrap:wrap}.bm-marque{margin-right:auto}.bm-rech{order:3;flex:1 1 100%;max-width:none;margin-left:0}#bm.lecture .bm-rech{display:none}}
+.bm-attente{text-align:center;font-style:italic;padding:1rem 0}
+.bm-attente img{display:block;width:4rem;height:auto;margin:0 auto .75rem}
+
+/* e-Miel : pièces jointes + visionneuse */
+#bm [hidden]{display:none!important}
+.bm-droite{display:flex;align-items:center;gap:.4rem;flex:none}
+.bm-clip{display:inline-flex;opacity:.75;color:var(--sapin)}
+.bm-pjs{margin-top:1.75rem}
+.bm-pjs h3{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:1rem;margin:0 0 .75rem}
+.bm-pj-liste{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(8.5rem,1fr));gap:.75rem}
+.bm-pj{display:flex;flex-direction:column;gap:.35rem;width:100%;padding:.5rem;border:2px solid var(--line);border-radius:1rem;background:var(--bm-surf2);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.bm-pj:hover{border-color:var(--rose);background:var(--bm-sel)}
+.bm-pj:focus-visible{outline:3px solid var(--barbie);outline-offset:2px}
+.bm-pj-vignette{display:grid;place-items:center;aspect-ratio:4/3;border-radius:.7rem;background:var(--abeille);overflow:hidden}
+.bm-pj-vignette img{width:100%;height:100%;object-fit:cover;display:block}
+.bm-pj-vignette b{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;color:#142b05;font-size:1.1rem}
+.bm-pj-nom{font-size:.85em;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bm-pj small{opacity:.7;font-size:.8em}
+#bm .bm-visu{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;background:var(--bg)}
+.bm-visu-top{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;padding:.7rem clamp(.75rem,.4rem + 1.5vw,1.5rem);border-bottom:2px solid var(--line);background:var(--bm-surf2)}
+.bm-visu-titre{flex:1;min-width:8rem;display:flex;flex-direction:column;line-height:1.3}
+.bm-visu-titre b{font-family:Poppins,"Helvetica Neue",Arial,sans-serif;color:var(--sapin);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bm-visu-titre small{opacity:.8;font-style:italic}
+.bm-visu a.bm-btn{text-decoration:none}
+.bm-visu-scene{flex:1;min-height:0;display:flex;align-items:center;gap:.5rem;padding:.75rem}
+.bm-visu-nav{flex:none;padding:.3rem .8rem;font-size:1.4rem}
+.bm-visu-corps{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;overflow:auto}
+.bm-visu-corps img{flex:1 1 0;min-height:0;width:100%;object-fit:contain;border-radius:1rem;cursor:zoom-in}
+.bm-visu-corps.zoom{justify-content:flex-start;align-items:flex-start}
+.bm-visu-corps.zoom img{flex:none;width:auto;max-width:none;object-fit:none;cursor:zoom-out}
+.bm-visu-corps iframe{width:100%;height:100%;border:2px solid var(--line);border-radius:1rem;background:#fff}
+.bm-visu-corps audio{width:min(100%,32rem)}
+.bm-visu-corps video{max-width:100%;max-height:100%;border-radius:1rem}
+.bm-visu-leg{font-style:italic;text-align:center}
+
+.bm-sign{display:flex;align-items:center;gap:.75rem}
+.bm-sign-bee{width:3.4rem;height:auto;flex:none}
+#bm .bm-texte a.bm-lien{color:var(--sapin);text-decoration:underline;text-underline-offset:.2em;text-decoration-thickness:2px;text-decoration-color:var(--rose);overflow-wrap:anywhere;hyphens:none}
+#bm .bm-texte a.bm-lien:hover{text-decoration-color:var(--barbie)}
+#bm .bm-texte a.bm-lien:focus-visible{outline:3px solid var(--barbie);outline-offset:2px;border-radius:.25rem}
 </style>
 </head>
 <body>
@@ -770,8 +880,44 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
 
   <section id="archives" class="page">
     <h2>Archives Mails</h2>
-    <p>Tous les mails que l’abeille a transportés seront rassemblés ici, du plus récent au plus ancien.</p>
-    <div class="empty">Aucun mail archivé pour l’instant.</div>
+    <p>Tous les mails que l’abeille a transportés sont rassemblés ici, du plus récent au plus ancien.</p>
+    <div id="bm" aria-label="e-Miel, boîte de réception">
+      <div class="bm-top">
+        <span class="bm-marque"><img id="bm-logo" alt=""><span>e-Miel</span></span>
+        <input class="bm-rech" id="bm-rech" type="search" placeholder="Chercher un mail…" aria-label="Chercher un mail" autocomplete="off">
+      </div>
+      <div class="bm-corps">
+        <div class="bm-rail" role="group" aria-label="Filtrer les mails">
+          <button type="button" class="bm-filtre" data-f="tous" aria-pressed="true">Boîte de réception <i id="bm-n-tous">0</i></button>
+          <button type="button" class="bm-filtre" data-f="nonlus" aria-pressed="false">Non lus <i id="bm-n-nonlus">0</i></button>
+        </div>
+        <ul class="bm-liste" id="bm-liste" aria-label="Liste des mails"></ul>
+        <div class="bm-lecture" id="bm-lecture">
+          <div class="bm-barre">
+            <button type="button" class="bm-btn bm-retour" id="bm-retour">← Retour</button>
+            <span class="esp"></span>
+            <button type="button" class="bm-btn" id="bm-plus-recent" aria-label="Mail plus récent" disabled>↑</button>
+            <button type="button" class="bm-btn" id="bm-plus-ancien" aria-label="Mail plus ancien" disabled>↓</button>
+          </div>
+          <div class="bm-scroll" id="bm-scroll">
+            <article class="bm-mail" id="bm-mail"><div class="bm-attente"><img id="bm-attente-bee" alt="">Choisis un mail dans la liste : Bzzz l’a transporté jusqu’à toi.</div></article>
+          </div>
+        </div>
+      </div>
+      <div class="bm-visu" id="bm-visu" role="dialog" aria-modal="true" aria-label="Pièce jointe" hidden>
+        <div class="bm-visu-top">
+          <div class="bm-visu-titre"><b id="bm-visu-nom"></b><small id="bm-visu-pos"></small></div>
+          <a class="bm-btn" id="bm-visu-ouvrir" target="_blank" rel="noopener">Ouvrir</a>
+          <a class="bm-btn" id="bm-visu-dl" download>Télécharger</a>
+          <button type="button" class="bm-btn" id="bm-visu-fermer" aria-label="Fermer la pièce jointe">Fermer ✕</button>
+        </div>
+        <div class="bm-visu-scene">
+          <button type="button" class="bm-btn bm-visu-nav" id="bm-visu-prec" aria-label="Pièce jointe précédente">‹</button>
+          <div class="bm-visu-corps" id="bm-visu-corps"></div>
+          <button type="button" class="bm-btn bm-visu-nav" id="bm-visu-suiv" aria-label="Pièce jointe suivante">›</button>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section id="a-venir" class="page">
@@ -2353,6 +2499,194 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   });
   function entrer(){if(location.hash==="#spelling-bee"&&!demande)charger();}
   window.addEventListener("hashchange",entrer);entrer();
+})();
+</script>
+<script>
+/* Archives Mails : cases + boîte mail « e-Miel ».
+   ➜ Pour ajouter un mail, ajoute un bloc dans MAILS (id unique, date, objet, corps = liste de paragraphes).
+   La liste s’adapte toute seule. */
+(function(){
+  var EXPEDITEUR={nom:"Newsletter Reconquérir",adresse:"newsletter.reconquerir@gmail.com"};   /* adresse : laisser vide pour ne pas l’afficher */
+  var DESTINATAIRE="Inès";
+  var SIGNATURE_NOM="L’abeille voyageuse",SIGNATURE_SLOGAN="Transmetteuse d’amour";
+  /* Pièces jointes : ajoute  pj:[{nom:"Photo.jpg",src:"pj/photo.jpg"}]  à un mail (dépose le fichier dans le dossier « pj » du dépôt GitHub).
+     Types reconnus automatiquement d’après l’extension : image (jpg, png, gif, webp, svg), pdf, audio (mp3, m4a, wav), vidéo (mp4, webm).
+     Options : legende:"…" (texte sous l’image), taille:"2,4 Mo", type:"image|pdf|audio|video" (pour forcer le type). */
+  /* Date : toujours avec le décalage horaire de Paris, +02:00 en été (fin mars → fin octobre) et +01:00 en hiver. */
+  var MAILS=[
+    {"id": "m1", "date": "2026-06-13T10:00:00+02:00", "objet": "LANCEMENT - Newsletter « Reconquérir », une tentative de nouveauté dans la séduction après infidélité", "corps": ["Bonjour Inès,", "En lisant ce mail, tu vas certainement te dire « qu’est-ce que c’est que ça ? » ou encore « casse les couilles ces newsletters de merde », ou peut-être juste finir par supprimer le mail sans le lire. Mais laisse-moi au moins la chance d’expliquer le concept avec ce premier message.", "J’ai créé cette adresse pour toi, pour que régulièrement, tu reçoives quelque chose de ma part. Ce ne sont pas des devoirs, ni des demandes, mais des morceaux de ce que je ressens pour toi, des détails que j’admire, des souvenirs… Ça peut être plein de choses, et ça rappelle un peu les relations d’avant, où les gens se contactaient par mail, MSN, etc.", "Bref, en gros, le projet c’est que plusieurs fois par semaine, tu aies un mail différent, et libre à toi de ne pas l’ouvrir, de le lire, ou de le supprimer instantanément. Tu n’auras pas de « devoir » vis-à-vis de ça, pas à me dire merci, ni à me débriefer ce que tu as lu, parce que je n’attends pas de réponse ni de « validation ». Je fais ça parce qu’aujourd’hui, t’aimer, c’est se renouveler, te séduire comme lors d’une nouvelle relation dans laquelle nous avons déjà franchi un bout de chemin ensemble. Cet espace sera ton espace, et tu en feras ce que tu veux, sans que j’en sois le témoin.", "L’idée de la newsletter, c’est cette idée de récurrence, de chose constante que tu recevras. Tu as pu observer que je ne tenais pas la récurrence quand il s’agit de te dire ce que je fais, alors peut-être qu’en faisant ces mails, ça m’aidera à apprendre.", "Je ne l’ai pas appelée « reconquête » parce que c’est le nom du parti d’Éric Zemmour et je pense que ça serait malvenu, donc ça sera « reconquérir ».", "Je ne te donnerai pas non plus d’heure précise à laquelle tu recevras ces mails, tout simplement parce que lorsque tu t’inscris à une newsletter, tu subis le timing imprévisible que le site t’impose. Cette fois-ci c’est la même chose, et c’est peut-être le seul point négatif.", "Tu remarqueras qu’en bas de ce mail, il y a une signature. Tu retrouveras mes coordonnées (lol), mais aussi l’adresse mail et surtout : le site web. Il y aura un site qui servira d’archive, et de plein d’autres choses que tu auras le temps de découvrir correctement et tranquillement. Il est en cours de création, mais j’espère très sincèrement qu’il te plaira.", "Normalement, tu auras reçu ce mail le 13 juin 2026 à 10h00. À partir de ce moment-là, la newsletter est lancée, alors j’espère que tu resteras abonnée !"]},
+    {"id": "m2", "date": "2026-06-14T10:04:00+02:00", "objet": "Premiers Souvenirs", "corps": ["Coucou Inès,", "Dimanche 14 juin 2026, il fait beau, grand ciel bleu, et aujourd’hui, on va s’enfermer dans le Zénith de Toulouse. Aujourd’hui, on va voir ce concert ensemble et ça me rappelle les premiers concerts que nous sommes allés voir tous les deux.", "D’abord, il y a l’anniversaire d’Anna évidemment, mais nous n’étions pas « ensemble ». Ensuite, il y a ce battle de beatbox, où tout le monde était assis par terre et où tu as cherché à venir rencontrer mon univers, ou encore la quatrième soirée flash.", "Mais le premier vrai concert, c’était le concert de Ciel Ether, à la Bibliothèque Nationale du Patrimoine. Ce concert était pas dingue en lui-même, mais il a quand même une saveur particulière. Parce que c’était drôle, vu que j’ai du monter sur la scène à l’improviste, mais aussi parce que c’était, encore une fois, le premier concert qu’on a fait ensemble, et c’était une soirée légère. Même si c’était un petit concert, j’ai observé une fois de plus ton émerveillement même avec ce qui ne t’intéresse pas à 100%, et c’est une des raisons pour lesquelles je suis tombé amoureux.", "Il y a également eu le concert de Zoé, où j’ai rencontré tes parents, et celui-là aussi a évidemment été marquant, mais ce n’était pas le premier.", "Aujourd’hui, tu pourras trouver un peu de nouveautés sur le site, que j’aurai avancé dans l’après-midi.", "Passe un bon dimanche, bon courage pour le travail, et on se voit ce soir au concert."]},
+    {"id": "m3", "date": "2026-06-15T10:00:00+02:00", "objet": "THIS WEEK AT THE SKEFF", "corps": ["Bonjour Inès,", "THIS WEEK AT THE SKEFF :", "https://music.apple.com/fr/album/live-at-the-skeff/1862369184", "Cette semaine au SKEFF, pas de trace d’EVOKE. J’ai vu ça en voulant faire quelques recherches et ça m’a surpris, alors j’ai approfondi et il semble que leur dernière soirée la bas était le 1er mai (https://www.instagram.com/p/DXzAsxcjyxn/). Je sais que j’ai beaucoup blagué sur DJ Dave G, mais en regardant l’insta du SKEFF, il semble avoir pris le relais en tant qu’artiste phare du pub.", "À part ça, la Coupe du Monde est diffusée au SKEFF. Je pense que c’est le cas dans tous les pubs, mais il fallait le souligner. Il est même possible d’avoir 2 pintes pour le prix d’une en portant le maillot de son équipe.", "Je ne savais pas, mais ils organisent une fête pour les diplômés. Tu peux aller fêter la fin de l’obtention de ton diplôme là-bas. Il aurait peut-être fallu y aller plus tard pour que tu puisses le faire lol.", "Et puis, il y a une semaine, ils ont publié une photo d’un verre de Orchard Thieves (https://www.instagram.com/p/DZHyhqkiBLu/). J’ai vu que c’était une marque lancée par Heinken, lancée dans plein de pays dont par exemple le Portugal. Là-bas, elle porte un autre nom, alors peut-être qu’on peut en commander : https://www.portugalvineyards.com/fr/cidre/22320-bandida-do-pomar-original-cider-5601146030415.html\nça fait cher en frais de ports, mais c’est toujours moins que d’aller en Irlande ou au Portugal...", "J’ai trouvé un site, avec des caméras live qui se trouvent un peu partout, dont en Irlande. https://www.outdooractive.com/en/webcams/galway/webcams-in-galway/227986246/\nÀ la base, je voulais en trouver une sur Eyre Square, mais il n’y en a pas en plein centre de Galway. Je te laisse quand même le lien si tu veux regarder les paysages malgré la qualité assez désastreuse.", "Je sais qu’à la base, en mai, on aurait du aller en Irlande ensemble, et qu’à la place tu y es allée avec tes parents. Je ne fais pas ce mail pour ressasser ou pour exprimer un regret de ne pas avoir fait ce voyage, parce que je sais que c’est de mon propre fait que ça ne s’est pas fait.\nJe fais ce mail sur ce sujet parce que j’ai espoir de te reconquérir et de découvrir ce pays qui t’a façonné. Ce pays qui t’a fait devenir la personne que tu es aujourd’hui, celle qui a les yeux qui s’illuminent (à la fois de larmes et d’étoiles) dès qu’il s’agit de son Erasmus.\nTu as peut-être remarqué que la photo de profil de cette boîte mail est un trèfle et non une abeille. L’abeille, elle me correspond, tandis que le trèfle, il te correspond. Le but de cette newsletter, c’est te reconquérir toi, de faire quelque chose qui te vise toi, dont tu es la cible à 100%. C’est pour cette raison que le trèfle est la photo de profil et l’abeille est dans la signature.\nCe trèfle, c’est aussi le tatouage (poilu) que tu as, mais surtout un symbole de ce pays qui te tient tant à cœur, alors je te le dis : si je vais en Irlande c’est avec toi ou personne d’autre.", "Bon courage dans tes révisions pour ton oral."]},
+  ];
+  var CLE="bzzz-mails-lus";
+  var tri=MAILS.slice().sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0;});
+  var rang={};tri.slice().reverse().forEach(function(m,i){rang[m.id]=i+1;});
+  var lus={};try{(JSON.parse(localStorage.getItem(CLE)||"[]")||[]).forEach(function(i){lus[i]=1;});}catch(e){}
+  function sauver(){try{localStorage.setItem(CLE,JSON.stringify(Object.keys(lus)));}catch(e){}}
+  var $=function(i){return document.getElementById(i);};
+  var bm=$("bm"),liste=$("bm-liste"),mailEl=$("bm-mail"),rech=$("bm-rech"),scroll=$("bm-scroll");
+  if(!bm)return;
+  var abeille=document.querySelector("#transition .bee"),srcAbeille=abeille?abeille.getAttribute("src"):"";
+  
+  var TREFLE_URI="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#1f4d3a"/><g fill="#f3f4e7" transform="translate(32 31) scale(.9)"><path d="M0 0C-16-6-16-26 0-19C16-26 16-6 0 0Z"/><path transform="rotate(120)" d="M0 0C-16-6-16-26 0-19C16-26 16-6 0 0Z"/><path transform="rotate(240)" d="M0 0C-16-6-16-26 0-19C16-26 16-6 0 0Z"/></g><path d="M32 32Q33 43 38 50" stroke="#f3f4e7" stroke-width="3" fill="none" stroke-linecap="round"/></svg>');
+  var courant=null,filtre="tous";
+  $("bm-logo").src=TREFLE_URI;$("bm-attente-bee").src=TREFLE_URI;
+  function fmt(d,long){
+    var o=long?{weekday:"long",day:"numeric",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"}:{day:"numeric",month:"short"};
+    o.timeZone="Europe/Paris";
+    try{return new Date(d).toLocaleString("fr-FR",o);}catch(e){return d;}
+  }
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+  function avatar(){var a=el("span","bm-av");a.setAttribute("aria-hidden","true");var i=document.createElement("img");i.alt="";i.src=TREFLE_URI;a.appendChild(i);return a;}
+  function ajouterTexte(n,t){
+    t.split("\n").forEach(function(seg,k){
+      if(k)n.appendChild(document.createElement("br"));
+      var re=/https?:\/\/[^\s<>«»)]+/g,i=0,r;
+      while((r=re.exec(seg))){
+        var u=r[0].replace(/[.,;:!?]+$/,"");
+        if(r.index>i)n.appendChild(document.createTextNode(seg.slice(i,r.index)));
+        var a=el("a","bm-lien",u);a.href=u;a.target="_blank";a.rel="noopener noreferrer";n.appendChild(a);
+        i=r.index+u.length;re.lastIndex=i;
+      }
+      if(i<seg.length)n.appendChild(document.createTextNode(seg.slice(i)));
+    });
+  }
+  function extrait(m){return (m.corps[0]||"").replace(/\s+/g," ").slice(0,110);}
+  /* Liste dans la boîte mail */
+  function visibles(){
+    var q=rech.value.trim().toLowerCase();
+    return tri.filter(function(m){
+      if(filtre==="nonlus"&&lus[m.id])return false;
+      return !q||(m.objet+" "+m.corps.join(" ")).toLowerCase().indexOf(q)>=0;
+    });
+  }
+  function dessinerListe(){
+    $("bm-n-tous").textContent=tri.length;
+    $("bm-n-nonlus").textContent=tri.filter(function(m){return !lus[m.id];}).length;
+    liste.innerHTML="";
+    var v=visibles();
+    if(!v.length){var l=el("li");l.appendChild(el("div","bm-vide",filtre==="nonlus"&&!rech.value?"Tous les mails sont lus. Bzzz est content.":"Aucun mail ne correspond."));liste.appendChild(l);return;}
+    v.forEach(function(m){
+      var li=el("li"),b=el("button","bm-item"+(lus[m.id]?"":" nl"));
+      b.type="button";b.dataset.id=m.id;
+      if(courant&&courant.id===m.id)b.setAttribute("aria-current","true");
+      var t=el("span","bm-it"),l1=el("span","bm-l1");
+      l1.appendChild(el("span","bm-exp",EXPEDITEUR.nom));
+      var dr=el("span","bm-droite");if(m.pj&&m.pj.length){var cl=el("span","bm-clip");cl.innerHTML=CLIP;cl.setAttribute("role","img");cl.setAttribute("aria-label",m.pj.length+" pièce(s) jointe(s)");dr.appendChild(cl);}var tm=el("time",null,fmt(m.date));tm.dateTime=m.date;dr.appendChild(tm);l1.appendChild(dr);
+      t.appendChild(l1);t.appendChild(el("span","bm-obj",m.objet));t.appendChild(el("span","bm-ext",extrait(m)));
+      b.appendChild(avatar());b.appendChild(t);
+      b.addEventListener("click",function(){lire(m.id);});
+      li.appendChild(b);liste.appendChild(li);
+    });
+  }
+  /* Lecture d’un mail */
+  function lire(id){
+    var m=tri.filter(function(x){return x.id===id;})[0];if(!m)return;
+    courant=m;lus[id]=1;sauver();
+    mailEl.innerHTML="";
+    var h=el("h2",null,m.objet);h.tabIndex=-1;h.id="bm-titre";mailEl.appendChild(h);
+    var meta=el("div","bm-meta");meta.appendChild(avatar());
+    var d=el("div");
+    var de=el("span","bm-exp",EXPEDITEUR.nom+(EXPEDITEUR.adresse?" ":""));
+    if(EXPEDITEUR.adresse){var ad=el("small",null,"<"+EXPEDITEUR.adresse+">");de.appendChild(ad);}
+    d.appendChild(de);d.appendChild(el("small",null,"À : "+DESTINATAIRE));
+    var dt=el("small",null,fmt(m.date,true));d.appendChild(dt);
+    meta.appendChild(d);mailEl.appendChild(meta);
+    var tx=el("div","bm-texte");
+    m.corps.forEach(function(t){var pe=el("p");ajouterTexte(pe,t);tx.appendChild(pe);});
+    mailEl.appendChild(tx);
+    if(m.pj&&m.pj.length)mailEl.appendChild(blocPJ(m));
+    var s=el("div","bm-sign");if(srcAbeille){var ab=document.createElement("img");ab.alt="";ab.src=srcAbeille;ab.className="bm-sign-bee";s.appendChild(ab);}var st=el("div");st.appendChild(document.createTextNode(SIGNATURE_NOM));st.appendChild(el("span",null,SIGNATURE_SLOGAN));s.appendChild(st);mailEl.appendChild(s);
+    var i=tri.indexOf(m);
+    $("bm-plus-recent").disabled=i<=0;$("bm-plus-ancien").disabled=i>=tri.length-1;
+    $("bm-plus-recent").dataset.cible=i>0?tri[i-1].id:"";
+    $("bm-plus-ancien").dataset.cible=i<tri.length-1?tri[i+1].id:"";
+    bm.classList.add("lecture");
+    scroll.scrollTop=0;
+    dessinerListe();
+    h.focus({preventScroll:true});
+  }
+  $("bm-retour").addEventListener("click",function(){bm.classList.remove("lecture");dessinerListe();var a=liste.querySelector('[aria-current="true"]')||liste.querySelector("button");if(a)a.focus();});
+  ["bm-plus-recent","bm-plus-ancien"].forEach(function(i){$(i).addEventListener("click",function(){if(this.dataset.cible)lire(this.dataset.cible);});});
+  rech.addEventListener("input",function(){dessinerListe();});
+  document.querySelectorAll(".bm-filtre").forEach(function(b){b.addEventListener("click",function(){
+    filtre=b.dataset.f;
+    document.querySelectorAll(".bm-filtre").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});
+    dessinerListe();
+  });});
+  /* Pièces jointes */
+  var CLIP='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5l-8.6 8.6a5 5 0 0 1-7.1-7.1l8.9-8.9a3.3 3.3 0 0 1 4.7 4.7l-8.9 8.9a1.7 1.7 0 0 1-2.4-2.4l8.2-8.2"/></svg>';
+  var LIB={image:"Image",pdf:"PDF",audio:"Audio",video:"Vidéo",fichier:"Fichier"};
+  function typePJ(p){
+    if(p.type)return p.type;
+    var u=(p.src||"").toLowerCase();
+    if(u.indexOf("data:image")===0)return "image";
+    var e=u.split(/[?#]/)[0].split(".").pop();
+    if(/^(jpe?g|png|gif|webp|svg|avif)$/.test(e))return "image";
+    if(e==="pdf")return "pdf";
+    if(/^(mp3|m4a|wav|ogg|aac)$/.test(e))return "audio";
+    if(/^(mp4|webm|mov|m4v)$/.test(e))return "video";
+    return "fichier";
+  }
+  function blocPJ(m){
+    var w=el("div","bm-pjs");w.appendChild(el("h3",null,"Pièces jointes · "+m.pj.length));
+    var g=el("ul","bm-pj-liste");
+    m.pj.forEach(function(p,i){
+      var t=typePJ(p),li=el("li"),b=el("button","bm-pj");
+      b.type="button";b.setAttribute("aria-label","Ouvrir la pièce jointe : "+(p.nom||LIB[t]));
+      var v=el("span","bm-pj-vignette");
+      if(t==="image"){var im=document.createElement("img");im.alt="";im.loading="lazy";im.src=p.src;v.appendChild(im);}
+      else v.appendChild(el("b",null,LIB[t]));
+      b.appendChild(v);b.appendChild(el("span","bm-pj-nom",p.nom||LIB[t]));
+      if(p.taille)b.appendChild(el("small",null,p.taille));
+      b.addEventListener("click",function(){ouvrirPJ(m,i,b);});
+      li.appendChild(b);g.appendChild(li);
+    });
+    w.appendChild(g);return w;
+  }
+  var visu=$("bm-visu"),vCorps=$("bm-visu-corps"),pjMail=null,pjIdx=0,pjFocus=null;
+  function afficherPJ(){
+    var p=pjMail.pj[pjIdx],t=typePJ(p),c;
+    vCorps.innerHTML="";vCorps.className="bm-visu-corps";
+    if(t==="image"){c=document.createElement("img");c.src=p.src;c.alt=p.legende||p.nom||"Image jointe";c.addEventListener("click",function(){vCorps.classList.toggle("zoom");});}
+    else if(t==="pdf"){c=document.createElement("iframe");c.src=p.src;c.title=p.nom||"PDF joint";}
+    else if(t==="audio"){c=document.createElement("audio");c.controls=true;c.src=p.src;}
+    else if(t==="video"){c=document.createElement("video");c.controls=true;c.playsInline=true;c.src=p.src;}
+    else c=el("div",null,"Cette pièce jointe ne peut pas être affichée ici : utilise « Télécharger ».");
+    vCorps.appendChild(c);
+    if(p.legende)vCorps.appendChild(el("div","bm-visu-leg",p.legende));
+    $("bm-visu-nom").textContent=p.nom||LIB[t];
+    $("bm-visu-pos").textContent=pjMail.pj.length>1?(pjIdx+1)+" sur "+pjMail.pj.length:"";
+    var o=$("bm-visu-ouvrir"),d=$("bm-visu-dl");
+    o.href=p.src;o.hidden=p.src.indexOf("data:")===0;
+    d.href=p.src;d.setAttribute("download",p.nom||"");
+    $("bm-visu-prec").hidden=$("bm-visu-suiv").hidden=pjMail.pj.length<2;
+  }
+  function fondInerte(on){[".bm-top",".bm-corps"].forEach(function(q){var e=bm.querySelector(q);if(e){if(on)e.setAttribute("inert","");else e.removeAttribute("inert");}});}
+  function ouvrirPJ(m,i,depuis){pjMail=m;pjIdx=i;pjFocus=depuis;visu.hidden=false;fondInerte(true);afficherPJ();$("bm-visu-fermer").focus();}
+  function fermerPJ(){
+    if(visu.hidden)return;
+    visu.hidden=true;vCorps.innerHTML="";fondInerte(false);pjMail=null;
+    if(pjFocus&&document.contains(pjFocus))pjFocus.focus();
+  }
+  function aller(d){if(!pjMail||pjMail.pj.length<2)return;pjIdx=(pjIdx+d+pjMail.pj.length)%pjMail.pj.length;afficherPJ();}
+  $("bm-visu-fermer").addEventListener("click",fermerPJ);
+  $("bm-visu-prec").addEventListener("click",function(){aller(-1);});
+  $("bm-visu-suiv").addEventListener("click",function(){aller(1);});
+  document.addEventListener("keydown",function(e){
+    if(visu.hidden)return;
+    if(e.key==="Escape"){e.preventDefault();fermerPJ();return;}
+    var tg=e.target&&e.target.tagName;
+    if((e.key==="ArrowLeft"||e.key==="ArrowRight")&&tg!=="AUDIO"&&tg!=="VIDEO"&&tg!=="IFRAME"){e.preventDefault();aller(e.key==="ArrowLeft"?-1:1);return;}
+    if(e.key!=="Tab")return;
+    var f=Array.prototype.filter.call(visu.querySelectorAll("button,a[href]"),function(n){return !n.hidden&&n.offsetParent!==null;});
+    if(!f.length)return;
+    var a=f[0],z=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus();}
+    else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();}
+  });
+  window.addEventListener("hashchange",fermerPJ);
+  dessinerListe();
 })();
 </script>
 </body>
