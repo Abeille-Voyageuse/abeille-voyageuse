@@ -2242,6 +2242,24 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
 
   /*GEN*/
   function melanger(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  /* Anti-répétition : on retient (sur cet appareil) combien de fois chaque mot est sorti,
+     et les mots les moins vus ont plus de chances d'être tirés comme candidats. */
+  var CLE_VUS="abeille-miel-fleche-vus",vus={};
+  try{vus=JSON.parse(localStorage.getItem(CLE_VUS)||"{}")||{};}catch(e){vus={};}
+  function memoriser(mots){
+    mots.forEach(function(m){vus[m.m]=(vus[m.m]||0)+1;});
+    try{localStorage.setItem(CLE_VUS,JSON.stringify(vus));}catch(e){}
+  }
+  function tirer(a,n){
+    var p=a.slice(),w=p.map(function(x){var v=vus[x.m]||0;return 1/((1+v)*(1+v));}),res=[],i,s,r,k;
+    while(res.length<n&&p.length){
+      s=0;for(i=0;i<w.length;i++)s+=w[i];
+      r=Math.random()*s;
+      for(k=0;k<p.length-1;k++){r-=w[k];if(r<=0)break;}
+      res.push(p[k]);p.splice(k,1);w.splice(k,1);
+    }
+    return res;
+  }
   function essayer(){
     var cell=[],mots=[],used={},echecs=0,i,nb=0;
     for(i=0;i<R*C;i++)cell.push({t:0,h:-1,v:-1,ch:"",cl:{}});
@@ -2266,7 +2284,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       mots.push({r:r,c:c,dir:dir,L:L,m:w.m,d:w.d});used[w.m]=1;
     }
     while(echecs<30&&mots.length<Math.round(R*C/3)){
-      var cand=melanger(W).filter(function(w){return !used[w.m];}).slice(0,35),bw=null,bx=mots.length?0:-1,ties=0,br=0,bc=0,bd=0,j,d,r,c,w,x;
+      var cand=tirer(W.filter(function(w){return !used[w.m];}),35),bw=null,bx=mots.length?0:-1,ties=0,br=0,bc=0,bd=0,j,d,r,c,w,x;
       for(j=0;j<cand.length;j++){
         w=cand[j];if(!mots.length&&w.m.length<6)continue;
         for(d=0;d<2;d++)for(r=0;r<R;r++)for(c=0;c<C;c++){
@@ -2293,7 +2311,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     if(etat!==2){entrer();return;}
     R=NIV[niveau].R;C=NIV[niveau].C;
     elG.style.setProperty("--mf-c",C);elG.style.gridTemplateColumns="repeat("+C+",minmax(0,1fr))";elG.style.gridTemplateRows="repeat("+R+",minmax(0,1fr))";elG.style.aspectRatio=C+"/"+R;
-    g=generer();ent=[];btns=[];fautes=[];inds=[];sel=-1;dir=0;indices=0;total=0;fini=false;defs={};
+    g=generer();memoriser(g.mots);ent=[];btns=[];fautes=[];inds=[];sel=-1;dir=0;indices=0;total=0;fini=false;defs={};
     g.mots.forEach(function(m){defs[(m.r-m.dir)*C+(m.c-(1-m.dir))+"_"+m.dir]=m;});
     elG.innerHTML="";elV.hidden=true;elS.textContent="";
     g.cell.forEach(function(c,i){
