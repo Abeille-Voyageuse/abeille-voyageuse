@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#f3f4e7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#142b05" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Abeille">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>L’abeille voyageuse</title>
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -494,6 +502,73 @@ footer{max-width:62rem;margin:0 auto;padding:0 1.25rem 2rem;font-size:clamp(.85r
   nav a{font-size:.88em;padding:.3em .8em;white-space:nowrap}
   .pollin{margin-left:.3em;padding:.3em 1em .3em .6em;font-size:.88em;white-space:nowrap}
 }
+
+/* ===== Pastilles « Nouveau » ===== */
+.pastille{display:inline-block;margin-left:.45rem;padding:.05rem .5rem;border-radius:999px;background:var(--barbie);color:#142b05;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:.65rem;line-height:1.5;letter-spacing:.03em;text-transform:uppercase;font-style:normal;vertical-align:middle;white-space:nowrap}
+.pastille[hidden]{display:none}
+.carte-acte .pastille{font-style:normal}
+nav a .pastille,.menu-liste a .pastille{margin-left:.5rem}
+/* e-Miel : « Nouveau » et favoris */
+.bm-new{flex:none;padding:.05rem .5rem;border-radius:999px;background:var(--barbie);color:#142b05;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:.62rem;line-height:1.5;letter-spacing:.03em;text-transform:uppercase;font-style:normal}
+.bm-etoile{flex:none;color:var(--miel);font-size:1.05em;line-height:1;text-shadow:0 0 1px rgba(20,43,5,.6)}
+.bm-fav[aria-pressed="true"]{background:var(--miel);border-color:var(--miel);color:#142b05}
+.bm-fav .bm-fav-ic{font-size:1.15em;line-height:1}
+/* ===== Pots de Miel ===== */
+#pots-de-miel{--sn-w:min(100%,36rem)}
+.pm-resume{max-width:36rem;margin-top:1.25rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin)}
+.pm-resume b{color:var(--ink);font-variant-numeric:tabular-nums}
+.pm-jauge{height:.9rem;margin-top:.5rem;border:2px solid var(--line);border-radius:999px;overflow:hidden}
+.pm-jauge i{display:block;width:0;height:100%;background:var(--miel);transition:width .5s}
+.pm-titre{margin:2rem 0 0;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);font-size:1.25rem}
+.pm-grille{list-style:none;margin:.75rem 0 0;padding:0;display:grid;gap:.75rem;grid-template-columns:minmax(0,1fr)}
+@media (min-width:44rem){.pm-grille{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pm-pot{display:flex;gap:.9rem;align-items:center;padding:.8rem 1rem;border:2px solid var(--line);border-radius:1.25rem}
+.pm-pot.on{border-color:var(--miel);background:rgba(var(--miel-rgb),.16)}
+.pm-pot svg{flex:none;width:3.4rem;height:3.4rem}
+.pm-pot.off svg{opacity:.6}
+.pm-pot div{min-width:0;line-height:1.35}
+.pm-pot b{display:block;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;color:var(--sapin);line-height:1.2}
+.pm-pot span{display:block;font-size:.88em}
+.pm-pot small{display:block;margin-top:.15rem;font-size:.78em;font-style:italic;opacity:.75}
+#pm-toast{position:fixed;left:50%;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:9998;width:min(92vw,24rem);transform:translate(-50%,160%);opacity:0;pointer-events:none;transition:transform .35s ease,opacity .35s}
+#pm-toast.on{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+.pm-toast-in{display:flex;align-items:center;gap:.8rem;padding:.65rem 1rem;border:2px solid var(--miel);border-radius:1.25rem;background:var(--bg);color:var(--ink);text-decoration:none;line-height:1.3;box-shadow:0 .75rem 2rem rgba(20,43,5,.25)}
+.pm-toast-in:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+.pm-toast-in svg{flex:none;width:2.8rem;height:2.8rem}
+.pm-toast-in small{display:block;font-size:.78em;opacity:.8}
+.pm-toast-in b{display:block;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;color:var(--sapin)}
+@media (prefers-reduced-motion:reduce){#pm-toast,.pm-jauge i{transition:none}}
+/* ===== Jeu : 2048 Abeille ===== */
+#abeille-2048{--sn-w:min(100%,28rem,max(17rem,calc(100vh - 19rem)))}
+@supports (height:100svh){#abeille-2048{--sn-w:min(100%,28rem,max(17rem,calc(100svh - 19rem)))}}
+.a48-plateau{background:rgba(var(--miel-rgb),.24);container-type:inline-size}
+.a48-fond,.a48-tuiles{position:absolute;inset:0}
+.a48-cel{position:absolute;left:1.25%;top:1.25%;width:22.5%;height:22.5%;border-radius:12%;background:rgba(127,127,127,.2);transform:translate(calc(var(--c) * 111.111%),calc(var(--r) * 111.111%))}
+.a48-t{position:absolute;z-index:1;left:1.25%;top:1.25%;width:22.5%;height:22.5%;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:12%;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;line-height:1;color:#142b05;background:#fff6a8;transform:translate(calc(var(--c) * 111.111%),calc(var(--r) * 111.111%));transition:transform .12s ease-out;box-shadow:0 .1rem 0 rgba(20,43,5,.22)}
+.a48-t.abs{z-index:0}
+.a48-t b{font-size:1.6rem;font-size:9cqw}
+.a48-t[data-d="3"] b{font-size:1.3rem;font-size:7.4cqw}
+.a48-t[data-d="4"] b{font-size:1.1rem;font-size:6.1cqw}
+.a48-t[data-d="5"] b,.a48-t[data-d="6"] b{font-size:.9rem;font-size:5cqw}
+.a48-t small{margin-top:.3em;padding:0 4%;font-size:10px;font-size:max(9px,2.7cqw);font-weight:600;text-align:center;line-height:1.1}
+.a48-v2{background:#fff6a8}.a48-v4{background:#ffec7a}.a48-v8{background:#ffd84a}.a48-v16{background:#f7c531}.a48-v32{background:#f4a640}
+.a48-v64{background:#c4630a;color:#fff}.a48-v128{background:#b05808;color:#fff}.a48-v256{background:#9c4a08;color:#fff}.a48-v512{background:#7f3a06;color:#fff}
+.a48-v1024{background:#d16fd6}
+.a48-v2048,.a48-vx{background:linear-gradient(135deg,#f7c531,#f4a6b8 60%,#d16fd6);box-shadow:0 0 0 .18rem rgba(255,246,168,.9),0 0 1.2rem rgba(var(--miel-rgb),.9)}
+.a48-t.nv{animation:a48-nv .22s .1s backwards}
+.a48-t.pop{animation:a48-pop .22s}
+@keyframes a48-nv{from{scale:.3;opacity:0}to{scale:1;opacity:1}}
+@keyframes a48-pop{0%{scale:.7}60%{scale:1.14}100%{scale:1}}
+.a48-boutons{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+.a48-boutons [hidden]{display:none}
+#a48-statut{min-height:1.5em;margin:.5rem 0 0}
+@media (prefers-reduced-motion:reduce){.a48-t{transition:none}.a48-t.nv,.a48-t.pop{animation:none}}
+/* ===== Installer l’appli (PWA) ===== */
+.pwa-zone{display:block;margin-top:.75rem;font-style:normal}
+.pwa-zone[hidden],.pwa-zone [hidden]{display:none}
+.pwa-btn{min-height:2.75rem;padding:.3rem 1.1rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(16px,.95rem);color:#142b05;background:var(--rose);border:2px solid var(--rose);border-radius:999px;cursor:pointer}
+.pwa-btn:hover{border-color:var(--barbie)}
+.pwa-btn:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
 </style>
 </head>
 <body>
@@ -589,8 +664,8 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   <nav aria-label="Navigation principale">
     <a href="#accueil" data-t="accueil">Accueil</a>
     <a href="#theatre" data-t="theatre">Pièce de théâtre</a>
-    <a href="#jeux" data-t="jeux">Jeux</a>
-    <a href="#archives" data-t="archives">e-Miel</a>
+    <a href="#jeux" data-t="jeux">Jeux<span class="pastille" data-nouveau-any="abeille-2048,pots-de-miel" hidden>Nouveau</span></a>
+    <a href="#archives" data-t="archives">e-Miel<span class="pastille" data-pastille-mail hidden>Nouveau</span></a>
     <a href="#a-venir" data-t="a-venir">À Venir</a>
     <button type="button" class="pollin" aria-pressed="false"><img class="pollin-ic" alt="" width="64" height="64"><span>Pollinisation</span></button>
   </nav>
@@ -599,8 +674,8 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     <ul id="menu-liste" class="menu-liste" hidden>
       <li><a href="#accueil" data-t="accueil">Accueil</a></li>
       <li><a href="#theatre" data-t="theatre">Pièce de théâtre</a></li>
-      <li><a href="#jeux" data-t="jeux">Jeux</a></li>
-      <li><a href="#archives" data-t="archives">e-Miel</a></li>
+      <li><a href="#jeux" data-t="jeux">Jeux<span class="pastille" data-nouveau-any="abeille-2048,pots-de-miel" hidden>Nouveau</span></a></li>
+      <li><a href="#archives" data-t="archives">e-Miel<span class="pastille" data-pastille-mail hidden>Nouveau</span></a></li>
       <li><a href="#a-venir" data-t="a-venir">À Venir</a></li>
       <li><button type="button" class="pollin" aria-pressed="false"><img class="pollin-ic" alt="" width="64" height="64"><span>Pollinisation</span></button></li>
     </ul>
@@ -1011,6 +1086,8 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       <li><a class="carte-acte" href="#juste-miel"><b>Juste Miel</b><span>Devine le prix en pots de miel.</span></a></li>
       <li><a class="carte-acte" href="#memory"><b>MielMory</b><span>Retrouve les paires de la ruche.</span></a></li>
       <li><a class="carte-acte" href="#bzzz-en-vol"><b>Bzzz en vol</b><span>Évite les ronces, butine les fleurs.</span></a></li>
+      <li><a class="carte-acte" href="#abeille-2048"><b>2048 Abeille<span class="pastille" data-nouveau="abeille-2048">Nouveau</span></b><span>Fusionne les œufs jusqu’à la reine des abeilles.</span></a></li>
+      <li><a class="carte-acte" href="#pots-de-miel"><b>Pots de Miel<span class="pastille" data-nouveau="pots-de-miel">Nouveau</span></b><span>30 succès à collectionner, pot après pot.</span></a></li>
     </ul>
   </section>
 
@@ -1202,7 +1279,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     <h2>Bzzz en vol</h2>
     <div class="sn-cols">
     <div class="sn-jeu">
-    <div class="jeu-score" role="group" aria-label="Score"><span>Fleurs <b id="bv-score">0</b></span><span>Record <b id="bv-best">0</b></span></div>
+    <div class="jeu-score" role="group" aria-label="Score"><span>Fleurs <b id="bv-score">0</b></span><span>Record <b id="bv-best">0</b></span><span>Vitesse <b id="bv-vit">×1,0</b></span></div>
     <div class="sn-pseudo"><label for="bv-pseudo">Pseudo</label><input type="text" id="bv-pseudo" maxlength="16" placeholder="Abeille" autocomplete="nickname" autocapitalize="words" spellcheck="false"></div>
     <div class="sn-plateau">
       <canvas id="bv-cv" role="img" aria-label="Plateau de jeu : une abeille bat des ailes entre des ronces pour butiner des fleurs"></canvas>
@@ -1212,7 +1289,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
         <button type="button" class="sn-btn" id="bv-btn">Jouer</button>
       </div>
     </div>
-    <p class="sn-aide">Touche le jeu, ou appuie sur espace (ou sur la flèche du haut), pour battre des ailes. P pour faire une pause.</p>
+    <p class="sn-aide">Touche le jeu, ou appuie sur espace (ou sur la flèche du haut), pour battre des ailes. P pour faire une pause. La ruche accélère à chaque fleur butinée.</p>
     </div>
     <div class="sn-tableau">
       <h3 id="bv-tab-titre">Meilleurs scores</h3>
@@ -1249,6 +1326,47 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     <p class="suite"><a class="back" href="#a-venir">← Retour au calendrier</a></p>
   </section>
 
+  <section id="abeille-2048" class="page jeu">
+    <p><a class="back" href="#jeux">← Jeux</a></p>
+    <h2>2048 Abeille</h2>
+    <div class="sn-cols">
+    <div class="sn-jeu">
+    <div class="jeu-score" role="group" aria-label="Score"><span>Score <b id="a48-score">0</b></span><span>Record <b id="a48-best">0</b></span><span>Tuile <b id="a48-max">Œuf</b></span></div>
+    <div class="sn-pseudo"><label for="a48-pseudo">Pseudo</label><input type="text" id="a48-pseudo" maxlength="16" placeholder="Abeille" autocomplete="nickname" autocapitalize="words" spellcheck="false"></div>
+    <div class="sd-actions"><button type="button" class="sd-btn" id="a48-annuler">Annuler (3)</button><button type="button" class="sd-btn" id="a48-nouv">Nouvelle partie</button></div>
+    <div class="sn-plateau a48-plateau" id="a48-plateau" role="group" aria-label="Plateau du 2048 Abeille : fais glisser les tuiles, ou utilise les flèches du clavier">
+      <div class="a48-fond" id="a48-fond" aria-hidden="true"></div>
+      <div class="a48-tuiles" id="a48-tuiles" aria-hidden="true"></div>
+      <div class="sn-voile" id="a48-voile" aria-live="polite" hidden>
+        <div class="sn-titre" id="a48-vtitre"></div>
+        <div class="sn-texte" id="a48-vtexte"></div>
+        <div class="a48-boutons"><button type="button" class="sn-btn" id="a48-vcont" hidden>Continuer</button><button type="button" class="sn-btn" id="a48-vbtn">Rejouer</button></div>
+      </div>
+    </div>
+    <p class="sn-aide" id="a48-statut" aria-live="polite"></p>
+    <p class="sn-aide">Fais glisser les tuiles, ou utilise les flèches (ou ZQSD). Deux tuiles identiques fusionnent et grandissent : Œuf, Larve, Nymphe… jusqu’à la Reine des abeilles (2048). Ta partie est gardée sur cet appareil, et tu peux annuler 3 coups par partie.</p>
+    </div>
+    <div class="sn-tableau">
+      <h3 id="a48-tab-titre">Meilleurs scores</h3>
+      <ol id="a48-liste" aria-labelledby="a48-tab-titre"></ol>
+      <p class="sn-vide" id="a48-vide">Aucun score pour l’instant. Sois la première reine !</p>
+      <p class="sn-note" id="a48-note">Chargement du classement…</p>
+    </div>
+    </div>
+    <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
+  </section>
+
+  <section id="pots-de-miel" class="page jeu">
+    <p><a class="back" href="#jeux">← Jeux</a></p>
+    <h2>Pots de Miel</h2>
+    <p>À chaque défi relevé, l’abeille range un nouveau pot sur l’étagère. Il y en a 30 à remplir, sans aucune pression : ils arrivent tout seuls, en jouant et en lisant.</p>
+    <div class="pm-resume" role="group" aria-label="Progression des pots"><span><b id="pm-nb">0</b> / <span id="pm-total">30</span> pots remplis</span><div class="pm-jauge" aria-hidden="true"><i id="pm-barre"></i></div></div>
+    <div class="sn-pseudo"><label for="pm-pseudo">Pseudo</label><input type="text" id="pm-pseudo" maxlength="16" placeholder="Abeille" autocomplete="nickname" autocapitalize="words" spellcheck="false"></div>
+    <p class="sn-note" id="pm-note"></p>
+    <div id="pm-liste"></div>
+    <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
+  </section>
+
   <section id="archives" class="page">
     <h2>e-Miel</h2>
     <p>Tous les mails que l’abeille a transportés sont rassemblés ici, du plus récent au plus ancien.</p>
@@ -1261,12 +1379,14 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
         <div class="bm-rail" role="group" aria-label="Filtrer les mails">
           <button type="button" class="bm-filtre" data-f="tous" aria-pressed="true">Boîte de réception <i id="bm-n-tous">0</i></button>
           <button type="button" class="bm-filtre" data-f="nonlus" aria-pressed="false">Non lus <i id="bm-n-nonlus">0</i></button>
+          <button type="button" class="bm-filtre" data-f="favoris" aria-pressed="false">Favoris <i id="bm-n-fav">0</i></button>
         </div>
         <ul class="bm-liste" id="bm-liste" aria-label="Liste des mails"></ul>
         <div class="bm-lecture" id="bm-lecture">
           <div class="bm-barre">
             <button type="button" class="bm-btn bm-retour" id="bm-retour">← Retour</button>
             <span class="esp"></span>
+            <button type="button" class="bm-btn bm-fav" id="bm-fav" aria-pressed="false" disabled><span class="bm-fav-ic" id="bm-fav-ic" aria-hidden="true">☆</span><span>Favori</span></button>
             <button type="button" class="bm-btn" id="bm-plus-recent" aria-label="Mail plus récent" disabled>↑</button>
             <button type="button" class="bm-btn" id="bm-plus-ancien" aria-label="Mail plus ancien" disabled>↓</button>
           </div>
@@ -1323,10 +1443,16 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     </ol>
   </section>
 </main>
-<footer>Fait avec patience, sincérité et tendresse.</footer>
+<footer>Fait avec patience, sincérité et tendresse.
+  <span class="pwa-zone" id="pwa-zone" hidden>
+    <button type="button" class="pwa-btn" id="pwa-btn" hidden>Installer l’appli sur l’écran d’accueil</button>
+    <span id="pwa-ios" hidden>Pour garder l’abeille sur ton écran d’accueil : touche « Partager », puis « Sur l’écran d’accueil ».</span>
+  </span>
+</footer>
+<div id="pm-toast" role="status" aria-live="polite"></div>
 <script>
 (function(){
-  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "acte-4", "acte-5", "acte-6", "acte-7", "acte-8", "acte-9", "acte-10", "jeux", "snake", "sudoku", "juste-miel", "miel-fleche", "memory", "bzzz-en-vol", "petales", "archives", "a-venir"];
+  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "acte-4", "acte-5", "acte-6", "acte-7", "acte-8", "acte-9", "acte-10", "jeux", "snake", "sudoku", "juste-miel", "miel-fleche", "memory", "bzzz-en-vol", "abeille-2048", "pots-de-miel", "petales", "archives", "a-venir"];
   var premier=true;
   var mBtn=document.getElementById("menu-btn"),mListe=document.getElementById("menu-liste"),mLabel=document.getElementById("menu-label");
   function mFermer(){if(!mBtn)return;mListe.hidden=true;mBtn.setAttribute("aria-expanded","false");}
@@ -1410,19 +1536,21 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     }
     raf=requestAnimationFrame(frame);
   }
+  var JEUX_NAV=["snake","sudoku","juste-miel","miel-fleche","memory","bzzz-en-vol","abeille-2048","pots-de-miel"];
+  function cleNav(h){return h.indexOf("acte-")===0?"theatre":h==="petales"?"a-venir":(JEUX_NAV.indexOf(h)>=0?"jeux":h);}
   function show(){
     var h=(location.hash||"").replace("#","");
     if(ids.indexOf(h)<0)h="accueil";
     var avant=!premier&&preparer();
     ids.forEach(function(i){var el=document.getElementById(i);if(el)el.classList.toggle("on",i===h)});
     document.querySelectorAll("nav a").forEach(function(a){
-      if(a.dataset.t===(h.indexOf("acte-")===0?"theatre":h==="petales"?"a-venir":((h==="snake"||h==="sudoku"||h==="juste-miel"||h==="miel-fleche"||h==="memory"||h==="bzzz-en-vol")?"jeux":h)))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+      if(a.dataset.t===cleNav(h))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
     });
     document.title=(h==="accueil"?"":document.querySelector('#'+h+' h2').textContent+" · ")+"L’abeille voyageuse";
     if(mBtn){
-      var cle=(h.indexOf("acte-")===0?"theatre":h==="petales"?"a-venir":((h==="snake"||h==="sudoku"||h==="juste-miel"||h==="miel-fleche"||h==="memory"||h==="bzzz-en-vol")?"jeux":h));
+      var cle=cleNav(h);
       document.querySelectorAll("#menu-liste a").forEach(function(a){
-        if(a.dataset.t===cle){a.setAttribute("aria-current","page");mLabel.textContent=a.textContent;}
+        if(a.dataset.t===cle){a.setAttribute("aria-current","page");mLabel.textContent=a.childNodes[0]?a.childNodes[0].textContent:a.textContent;}
         else a.removeAttribute("aria-current");
       });
       mFermer();
@@ -1664,6 +1792,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     enregistrer(score,nom,numero);
     montrerVoile(gagne?"Bravo, le jardin est butiné !":"Bzzz… c’est fini !",texte,"Rejouer");
     if(gagne||nouveau){if(window.abeilleReussite)abeilleReussite();}
+    if(window.abeilleSucces)abeilleSucces("snake",{score:score,gagne:!!gagne});
     bouton.focus({preventScroll:true});
   }
 
@@ -1997,6 +2126,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     if(distant!==null)distant++;
     jauge();
     vTitre.textContent="Grille terminée !";if(window.abeilleReussite)abeilleReussite();
+    if(window.abeilleSucces)abeilleSucces("sudoku",{niveau:niveau,ind:nInd});
     vTexte.textContent=texteFin(total());
     elStatut.textContent="";voile.hidden=false;vBtn.focus({preventScroll:true});
     fetch(SB+"?select=id",{method:"POST",headers:{apikey:SB_CLE,"Content-Type":"application/json",Prefer:"return=representation"},body:corps})
@@ -2204,13 +2334,14 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   function gagner(){
     var k=ESSAIS-essais,pts=20*(essais+1);
     score+=pts;serie++;if(window.abeilleReussite)abeilleReussite();
+    if(window.abeilleSucces)abeilleSucces("juste-miel",{ok:true,k:k,serie:serie});
     if(score>record)record=score;
     if(serie>meilleure)meilleure=serie;
     historique.unshift({e:obj[0],n:obj[1],ok:true,k:k,pts:pts,p:obj[2]});
     terminer("Juste miel ! "+obj[1]+" vaut exactement "+pot(obj[2])+". Trouvé en "+k+" essai"+(k>1?"s":"")+", +"+pts+" points.");
   }
   function perdre(){
-    serie=0;
+    serie=0;if(window.abeilleSucces)abeilleSucces("juste-miel",{ok:false});
     historique.unshift({e:obj[0],n:obj[1],ok:false,p:obj[2]});
     terminer("Raté ! "+obj[1]+" valait "+pot(obj[2])+".");
   }
@@ -2368,7 +2499,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       b.setAttribute("aria-label","Ligne "+(Math.floor(i/C)+1)+", colonne "+(i%C+1)+(ent[i]?" : "+ent[i]:", vide"));
     });
     elNb.textContent=ok+"/"+total;elInd.textContent=indices;
-    if(!fini&&total>0&&ok===total){fini=true;elVx.textContent=indices?"Avec "+indices+" indice"+(indices>1?"s":"")+".":"Sans aucun indice, bravo !";elV.hidden=false;prTermine();if(window.abeilleReussite)abeilleReussite();}
+    if(!fini&&total>0&&ok===total){fini=true;elVx.textContent=indices?"Avec "+indices+" indice"+(indices>1?"s":"")+".":"Sans aucun indice, bravo !";elV.hidden=false;prTermine();if(window.abeilleReussite)abeilleReussite();if(window.abeilleSucces)abeilleSucces("miel-fleche",{niveau:niveau,ind:indices});}
   }
   function choisir(i){
     var c=g.cell[i];
@@ -2776,7 +2907,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     chutes.push({x:CX+c*d,y:CY+s*d,vx:c*22+(Math.random()-.5)*10,vy:s*14-20,ang:p.a,va:(Math.random()-.5)*5,col:idx<4?ROSE:BLEU,sol:SOL+4+Math.random()*14,s:Math.random()*6.28});
     elNb.textContent=k+"/"+N;elPh.textContent=PH[idx];
     if(k>=N){fin=true;minuteur=setTimeout(function(){
-      elVt.textContent=PH[idx];elVx.textContent=FIN[idx];elV.hidden=false;if(window.abeilleReussite)abeilleReussite();
+      elVt.textContent=PH[idx];elVx.textContent=FIN[idx];elV.hidden=false;if(window.abeilleReussite)abeilleReussite();if(window.abeilleSucces)abeilleSucces("petales",{});
       var b=$("pt-vbtn");if(b&&actif())b.focus();
     },1300);}
   }
@@ -2930,6 +3061,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     dire("Bravo, toutes les paires sont trouvées en "+coups+" coups.");
     elV.hidden=false;
     if(window.abeilleReussite)abeilleReussite();
+    if(window.abeilleSucces)abeilleSucces("memory",{niveau:niveau,coups:coups,paires:NIV[niveau].p});
     $("mm-vbtn").focus({preventScroll:true});
   }
 
@@ -3025,12 +3157,12 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   var sec=document.getElementById("bzzz-en-vol");if(!sec)return;
   var cv=document.getElementById("bv-cv"),cx=cv.getContext("2d"),plateau=sec.querySelector(".sn-plateau"),
       voile=document.getElementById("bv-voile"),vTitre=document.getElementById("bv-titre"),vTexte=document.getElementById("bv-texte"),bouton=document.getElementById("bv-btn"),
-      elScore=document.getElementById("bv-score"),elBest=document.getElementById("bv-best");
+      elScore=document.getElementById("bv-score"),elBest=document.getElementById("bv-best"),elVit=document.getElementById("bv-vit");
   /* Le monde fait 300 × 400 unités, quelle que soit la taille de l’écran */
   var WW=300,HH=400,SOL=26,BX=84,BR=13,LARG=40,ECART=185,TROU0=140,TROUMIN=110,
-      GRAV=1150,SAUT=-330,VX0=105,VXMAX=175,CLE="abeille-bzzz-record",
+      GRAV=1150,SAUT=-330,VX0=100,VXMAX=230,CLE="abeille-bzzz-record",
       reduit=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var s=1,d=1,raf=0,etat="pret",y,vy,vx,obs,score,best=0,tPrev=0,dist=0,tFin=-1e9,tChute=0,nouveau=false,ink="20,43,5",tCoul=-1e9,tAile=-1e9;
+  var s=1,d=1,raf=0,etat="pret",y,vy,vx,obs,score,best=0,tPrev=0,dist=0,tFin=-1e9,tChute=0,nouveau=false,ink="20,43,5",tCoul=-1e9,tAile=-1e9,tVit=-1e9,palier=0;
 
   /* Sprites : l’abeille et la fleur déjà présentes dans le site (comme dans La Ruche) */
   var imgAbeille=new Image(),imgFleur=new Image();
@@ -3125,7 +3257,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     obs.push({x:x,cy:cy,t:t,fy:cy+(Math.random()-.5)*t*.5,f:true});
   }
   function reset(){
-    y=HH*.45;vy=0;vx=VX0;score=0;dist=0;obs=[];nouveau=false;
+    y=HH*.45;vy=0;vx=VX0;score=0;dist=0;obs=[];nouveau=false;palier=0;tVit=-1e9;elVit.textContent="×1,0";
     ajouterObstacle(WW+90,null);
     elScore.textContent="0";etat="pret";
     montrerVoile("Prête à voler ?","Touche le jeu pour battre des ailes. Évite les ronces et butine les fleurs.","Jouer");
@@ -3153,9 +3285,11 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     if(score>best){best=score;nouveau=true;try{localStorage.setItem(CLE,String(best));}catch(e){}elBest.textContent=best;}
     var texte=score>0?"Tu as butiné "+score+(score>1?" fleurs.":" fleur."):"Aucune fleur butinée cette fois.";
     if(nouveau)texte+=" Nouveau record !";
+    if(score>0)texte+=" Vitesse atteinte : "+elVit.textContent+".";
     var numero=++partie;enregistrer(score,pseudo(),numero);
     montrerVoile("Bzzz… aïe !",texte,"Rejouer");
     if(nouveau&&window.abeilleReussite)abeilleReussite();
+    if(window.abeilleSucces)abeilleSucces("bzzz",{score:score});
     bouton.focus({preventScroll:true});
     dessiner(performance.now());
   }
@@ -3165,13 +3299,22 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     var nx=Math.max(rx,Math.min(cxp,rx+rw)),ny=Math.max(ry,Math.min(cyp,ry+rh)),dx=cxp-nx,dy=cyp-ny;
     return dx*dx+dy*dy<r*r;
   }
+  /* Vitesse progressive : elle monte vite au début, puis de plus en plus doucement vers le maximum ; l’écart entre les ronces s’élargit un peu avec elle */
+  function vitesse(n){return VX0+(VXMAX-VX0)*(1-Math.exp(-n/22));}
+  function ecart(){return ECART+(vx-VX0)*.9;}
+  function majVitesse(){
+    var m=vx/VX0,txt="×"+m.toFixed(1).replace(".",",");
+    if(elVit.textContent!==txt)elVit.textContent=txt;
+    var p=Math.floor((m-1)*5+.0001);
+    if(p>palier){palier=p;tVit=performance.now();}
+  }
   function majJeu(dt){
     var i,o,r=BR*.78,fin=false;
-    vx=Math.min(VXMAX,VX0+score*3.5);
+    vx=vitesse(score);majVitesse();
     vy+=GRAV*dt;y+=vy*dt;dist+=vx*dt;
     if(y<BR){y=BR;if(vy<0)vy=0;}
     for(i=0;i<obs.length;i++)obs[i].x-=vx*dt;
-    while(obs[obs.length-1].x<WW+ECART)ajouterObstacle(obs[obs.length-1].x+ECART,obs[obs.length-1].cy);
+    var ec=ecart();while(obs[obs.length-1].x<WW+ec)ajouterObstacle(obs[obs.length-1].x+ec,obs[obs.length-1].cy);
     while(obs.length&&obs[0].x+LARG<-10)obs.shift();
     if(y+r>HH-SOL)fin=true;
     for(i=0;i<obs.length&&!fin;i++){
@@ -3259,6 +3402,13 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     if(pret(imgAbeille))cx.drawImage(imgAbeille,-bw/2,-bh/2,bw,bh);
     else{cx.fillStyle="#f7dc5b";cx.beginPath();cx.arc(0,0,BR,0,6.2832);cx.fill();}
     cx.restore();
+
+    /* annonce brève à chaque palier de vitesse */
+    if(!reduit&&etat==="jeu"&&t-tVit<1100){
+      var al=1-(t-tVit)/1100;
+      cx.save();cx.globalAlpha=Math.max(0,Math.min(1,al*1.6));cx.font="700 15px Poppins,Arial,sans-serif";cx.textAlign="center";cx.fillStyle="rgb("+ink+")";
+      cx.fillText("Plus vite ! "+elVit.textContent,WW/2,46-(1-al)*14);cx.restore();
+    }
   }
 
   function taille(){
@@ -3339,6 +3489,13 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   var rang={};tri.slice().reverse().forEach(function(m,i){rang[m.id]=i+1;});
   var lus={};try{(JSON.parse(localStorage.getItem(CLE)||"[]")||[]).forEach(function(i){lus[i]=1;});}catch(e){}
   function sauver(){try{localStorage.setItem(CLE,JSON.stringify(Object.keys(lus)));}catch(e){}}
+  /* Favoris (gardés sur l’appareil) et pastille « Nouveau » sur l’onglet e-Miel */
+  var CLE_FAV="bzzz-mails-favoris",favs={};try{(JSON.parse(localStorage.getItem(CLE_FAV)||"[]")||[]).forEach(function(i){favs[i]=1;});}catch(e){}
+  function sauverFav(){try{localStorage.setItem(CLE_FAV,JSON.stringify(Object.keys(favs)));}catch(e){}}
+  function majPastille(){
+    var n=tri.filter(function(m){return !lus[m.id];}).length;
+    [].forEach.call(document.querySelectorAll("[data-pastille-mail]"),function(p){p.hidden=!n;p.title=n+(n>1?" mails non lus":" mail non lu");});
+  }
   var $=function(i){return document.getElementById(i);};
   var bm=$("bm"),liste=$("bm-liste"),mailEl=$("bm-mail"),rech=$("bm-rech"),scroll=$("bm-scroll");
   if(!bm)return;
@@ -3387,22 +3544,23 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     var q=rech.value.trim().toLowerCase();
     return tri.filter(function(m){
       if(filtre==="nonlus"&&lus[m.id])return false;
+      if(filtre==="favoris"&&!favs[m.id])return false;
       return !q||(m.objet+" "+m.corps.join(" ")).toLowerCase().indexOf(q)>=0;
     });
   }
   function dessinerListe(){
-    $("bm-n-tous").textContent=tri.length;
+    $("bm-n-tous").textContent=tri.length;$("bm-n-fav").textContent=tri.filter(function(m){return favs[m.id];}).length;majPastille();
     $("bm-n-nonlus").textContent=tri.filter(function(m){return !lus[m.id];}).length;
     liste.innerHTML="";
     var v=visibles();
-    if(!v.length){var l=el("li");l.appendChild(el("div","bm-vide",filtre==="nonlus"&&!rech.value?"Tous les mails sont lus. Bzzz est content.":"Aucun mail ne correspond."));liste.appendChild(l);return;}
+    if(!v.length){var l=el("li");l.appendChild(el("div","bm-vide",filtre==="favoris"&&!rech.value?"Aucun favori pour l’instant. Touche l’étoile dans un mail pour le garder ici.":(filtre==="nonlus"&&!rech.value?"Tous les mails sont lus. Bzzz est content.":"Aucun mail ne correspond.")));liste.appendChild(l);return;}
     v.forEach(function(m){
       var li=el("li"),b=el("button","bm-item"+(lus[m.id]?"":" nl"));
       b.type="button";b.dataset.id=m.id;
       if(courant&&courant.id===m.id)b.setAttribute("aria-current","true");
       var t=el("span","bm-it"),l1=el("span","bm-l1");
       l1.appendChild(el("span","bm-exp",EXPEDITEUR.nom));
-      var dr=el("span","bm-droite");if(m.pj&&m.pj.length){var cl=el("span","bm-clip");cl.innerHTML=CLIP;cl.setAttribute("role","img");cl.setAttribute("aria-label",m.pj.length+" pièce(s) jointe(s)");dr.appendChild(cl);}var tm=el("time",null,fmt(m.date));tm.dateTime=m.date;dr.appendChild(tm);l1.appendChild(dr);
+      var dr=el("span","bm-droite");if(m.pj&&m.pj.length){var cl=el("span","bm-clip");cl.innerHTML=CLIP;cl.setAttribute("role","img");cl.setAttribute("aria-label",m.pj.length+" pièce(s) jointe(s)");dr.appendChild(cl);}if(!lus[m.id])dr.appendChild(el("span","bm-new","Nouveau"));if(favs[m.id]){var et=el("span","bm-etoile","★");et.setAttribute("role","img");et.setAttribute("aria-label","Favori");dr.appendChild(et);}var tm=el("time",null,fmt(m.date));tm.dateTime=m.date;dr.appendChild(tm);l1.appendChild(dr);
       t.appendChild(l1);t.appendChild(el("span","bm-obj",m.objet));t.appendChild(el("span","bm-ext",extrait(m)));
       b.appendChild(avatar(m));b.appendChild(t);
       b.addEventListener("click",function(){lire(m.id);});
@@ -3410,9 +3568,21 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     });
   }
   /* Lecture d’un mail */
+  function majFavBtn(){
+    var b=$("bm-fav");if(!b||!courant)return;
+    var f=!!favs[courant.id];b.disabled=false;b.setAttribute("aria-pressed",f?"true":"false");$("bm-fav-ic").textContent=f?"★":"☆";
+  }
+  $("bm-fav").addEventListener("click",function(){
+    if(!courant)return;
+    var id=courant.id;
+    if(favs[id])delete favs[id];
+    else{favs[id]=1;if(window.abeilleSucces)abeilleSucces("mail-fav",{nb:Object.keys(favs).length});}
+    sauverFav();majFavBtn();dessinerListe();
+  });
   function lire(id){
     var m=tri.filter(function(x){return x.id===id;})[0];if(!m)return;
-    courant=m;lus[id]=1;sauver();
+    courant=m;lus[id]=1;sauver();majFavBtn();majPastille();
+    if(window.abeilleSucces)abeilleSucces("mail-lu",{lus:Object.keys(lus).length,tous:tri.every(function(x){return lus[x.id];})});
     mailEl.innerHTML="";
     var h=el("h2",null,m.objet);h.tabIndex=-1;h.id="bm-titre";mailEl.appendChild(h);
     var meta=el("div","bm-meta");meta.appendChild(avatar(m));
@@ -3493,7 +3663,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     $("bm-visu-prec").hidden=$("bm-visu-suiv").hidden=pjMail.pj.length<2;
   }
   function fondInerte(on){[".bm-top",".bm-corps"].forEach(function(q){var e=bm.querySelector(q);if(e){if(on)e.setAttribute("inert","");else e.removeAttribute("inert");}});}
-  function ouvrirPJ(m,i,depuis){pjMail=m;pjIdx=i;pjFocus=depuis;visu.hidden=false;fondInerte(true);afficherPJ();$("bm-visu-fermer").focus();}
+  function ouvrirPJ(m,i,depuis){if(window.abeilleSucces)abeilleSucces("pj",{});pjMail=m;pjIdx=i;pjFocus=depuis;visu.hidden=false;fondInerte(true);afficherPJ();$("bm-visu-fermer").focus();}
   function fermerPJ(){
     if(visu.hidden)return;
     visu.hidden=true;vCorps.innerHTML="";fondInerte(false);pjMail=null;
@@ -3611,9 +3781,522 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       appliquer(!on);
       try{localStorage.setItem(P.cle,on?"1":"0");}catch(e){}
       if(window.abeilleReussite)abeilleReussite();
+      if(on&&window.abeilleSucces)abeilleSucces("pollin",{});
     });
   });
   if(P.actif)appliquer(true);
+})();
+</script>
+<script>
+/* Pots de Miel : 30 succès à collectionner, sans aucune pression.
+   Les jeux et e-Miel préviennent cette section avec  abeilleSucces("type",{…}).
+   Les pots sont gardés sur l’appareil et synchronisés avec Supabase (table « succes_miel », par pseudo) :
+   hors connexion, ils attendent dans une petite file et partent dès que le réseau revient. */
+(function(){
+  var $=function(i){return document.getElementById(i);};
+  var CLE="abeille-pots",CLE_PSEUDO="abeille-pseudo",CLE_VUS="abeille-nouveautes-vues",
+      SB="https://tsdilkupupyrmihbaqgm.supabase.co/rest/v1/succes_miel",SB_CLE="sb_publishable_orPfv1AkysgjGulNNSTREQ_Q1LFCo-4",
+      PAR_DEFAUT="Abeille";
+  var JEUX=["snake","sudoku","miel-fleche","juste-miel","memory","bzzz","2048"];
+
+  var SUCCES=[
+    {id:"premiere-butinee",cat:"jeux",ic:"🌼",nom:"Première butinée",desc:"Butine ta première fleur dans La Ruche."},
+    {id:"pollen-garros",cat:"jeux",ic:"🎾",nom:"Pollen Garros",desc:"Butine 10 fleurs dans une partie de La Ruche."},
+    {id:"su-doux-ku",cat:"jeux",ic:"🔢",nom:"Su-doux-ku",desc:"Termine une grille de Sudoku."},
+    {id:"sans-piqure",cat:"jeux",ic:"💉",nom:"Sans piqûre de rappel",desc:"Termine un Sudoku sans aucun indice."},
+    {id:"reine-des-alveoles",cat:"jeux",ic:"🧩",nom:"Reine des alvéoles",desc:"Termine un Sudoku de niveau Expert."},
+    {id:"mots-doux",cat:"jeux",ic:"💌",nom:"Mots doux",desc:"Termine une grille de Miel Fléché."},
+    {id:"cire-tain",cat:"jeux",ic:"🕯️",nom:"Cire-tain !",desc:"Termine une grille de Miel Fléché sans aucun indice."},
+    {id:"juste-miel",cat:"jeux",ic:"🍯",nom:"Juste Miel !",desc:"Trouve le prix exact d’un objet à Juste Miel."},
+    {id:"coup-de-pot",cat:"jeux",ic:"🍀",nom:"Coup de pot !",desc:"Trouve un prix du premier coup à Juste Miel."},
+    {id:"pot-de-colle",cat:"jeux",ic:"🧲",nom:"Pot de colle",desc:"Trouve 3 prix d’affilée à Juste Miel."},
+    {id:"memoire-d-abeille",cat:"jeux",ic:"🧠",nom:"Mémoire d’abeille",desc:"Termine une partie de MielMory."},
+    {id:"zero-faux-bourdon",cat:"jeux",ic:"🎯",nom:"Zéro faux-bourdon",desc:"Termine MielMory sans aucune erreur."},
+    {id:"memoire-d-elephante",cat:"jeux",ic:"🐘",nom:"Mémoire d’éléphante ailée",desc:"Termine MielMory en niveau Difficile."},
+    {id:"premier-battement",cat:"jeux",ic:"🐝",nom:"Premier battement d’ailes",desc:"Butine une fleur dans Bzzz en vol."},
+    {id:"to-bee-or-not-to-bee",cat:"jeux",ic:"🎭",nom:"To bee or not to bee",desc:"Butine 15 fleurs dans une partie de Bzzz en vol."},
+    {id:"premiere-alveole",cat:"jeux",ic:"🛡️",nom:"Première alvéole",desc:"Atteins la tuile Gardienne (64) dans 2048 Abeille."},
+    {id:"cire-ieuse",cat:"jeux",ic:"👸",nom:"Une affaire cire-ieuse",desc:"Atteins la tuile Princesse (512) dans 2048 Abeille."},
+    {id:"reine-d-un-jour",cat:"jeux",ic:"👑",nom:"Reine d’un jour, reine toujours",desc:"Atteins la tuile Reine des abeilles (2048)."},
+    {id:"youve-got-miel",cat:"mail",ic:"📬",nom:"You’ve got miel",desc:"Ouvre ton premier mail dans e-Miel."},
+    {id:"mail-lot-jaune",cat:"mail",ic:"🚴",nom:"Mail-lot jaune",desc:"Lis 5 mails dans e-Miel."},
+    {id:"tout-sucre-tout-miel",cat:"mail",ic:"🍬",nom:"Tout sucre, tout miel",desc:"Lis tous les mails d’e-Miel."},
+    {id:"le-miel-leur",cat:"mail",ic:"⭐",nom:"Le Miel-leur",desc:"Mets un mail en favori."},
+    {id:"pot-pourri",cat:"mail",ic:"🌺",nom:"Pot-pourri",desc:"Mets 5 mails en favori."},
+    {id:"ca-colle",cat:"mail",ic:"📎",nom:"Ça colle !",desc:"Ouvre une pièce jointe dans e-Miel."},
+    {id:"bete-a-bon-dieu",cat:"ruche",ic:"🐞",nom:"Bête à bon Dieu",desc:"Active la Pollinisation et laisse la coccinelle butiner.",sec:true},
+    {id:"miel-a-la-folie",cat:"ruche",ic:"🌸",nom:"Miel… à la folie",desc:"Arrache tous les pétales de « Un peu, beaucoup… »."},
+    {id:"noctambzzz",cat:"ruche",ic:"🌙",nom:"Noctambzzz",desc:"Passe à la ruche entre minuit et 5 h du matin.",sec:true},
+    {id:"butineuse-du-dimanche",cat:"ruche",ic:"🧺",nom:"Butineuse du dimanche",desc:"Joue à un jeu un dimanche.",sec:true},
+    {id:"touche-a-miel",cat:"ruche",ic:"🎪",nom:"Touche-à-miel",desc:"Termine une partie de chacun des 7 jeux : La Ruche, Sudoku, Miel Fléché, Juste Miel, MielMory, Bzzz en vol et 2048 Abeille."},
+    {id:"reine-des-pots",cat:"ruche",ic:"🏆",nom:"Reine des pots",desc:"Remplis les 29 autres pots."}
+  ];
+  var GROUPES=[{c:"jeux",t:"Dans les jeux"},{c:"mail",t:"Dans e-Miel"},{c:"ruche",t:"Dans toute la ruche"}];
+  var PAR_ID={};SUCCES.forEach(function(s){PAR_ID[s.id]=s;});
+
+  /* ---------- Données locales : u = pots remplis (date), j = jeux terminés, o = à envoyer à Supabase ---------- */
+  var D={u:{},j:{},o:[]};
+  try{var b=JSON.parse(localStorage.getItem(CLE)||"{}");if(b&&typeof b==="object"){D.u=b.u&&typeof b.u==="object"?b.u:{};D.j=b.j&&typeof b.j==="object"?b.j:{};D.o=Array.isArray(b.o)?b.o:[];}}catch(e){}
+  function sauver(){try{localStorage.setItem(CLE,JSON.stringify(D));}catch(e){}}
+  function nb(){return Object.keys(D.u).filter(function(id){return PAR_ID[id];}).length;}
+
+  /* ---------- Heure de Paris ---------- */
+  function heureParis(){
+    try{return parseInt(new Date().toLocaleString("fr-FR",{timeZone:"Europe/Paris",hour:"numeric",hour12:false}),10)%24;}catch(e){return new Date().getHours();}
+  }
+  function jourParis(){
+    try{return new Date().toLocaleDateString("fr-FR",{timeZone:"Europe/Paris",weekday:"long"});}catch(e){return ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"][new Date().getDay()];}
+  }
+
+  /* ---------- Dessin d’un pot ---------- */
+  function potSvg(on,ic){
+    var f=on?"#f7c531":"rgba(127,127,127,.22)",c=on?"#d16fd6":"rgba(127,127,127,.35)",e=on?"#fff6a8":"rgba(127,127,127,.12)",st='style="stroke:var(--ink)"';
+    return '<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect x="17" y="22" width="30" height="34" rx="9" fill="'+f+'" '+st+' stroke-width="2.5"/>'
+      +'<rect x="19" y="12" width="26" height="11" rx="3.5" fill="'+c+'" '+st+' stroke-width="2.5"/>'
+      +'<rect x="21" y="30" width="22" height="19" rx="4" fill="'+e+'" '+st+' stroke-width="2"/>'
+      +'<text x="32" y="44.5" text-anchor="middle" font-size="13" style="fill:var(--ink)">'+ic+'</text></svg>';
+  }
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+
+  /* ---------- Annonce d’un nouveau pot ---------- */
+  var toast=$("pm-toast"),file=[],enCours=false;
+  function annoncer(s){file.push(s);if(!enCours)suivant();}
+  function suivant(){
+    var s=file.shift();
+    if(!s||!toast){enCours=false;return;}
+    enCours=true;
+    toast.textContent="";
+    var a=el("a","pm-toast-in");a.href="#pots-de-miel";
+    var ic=el("span");ic.innerHTML=potSvg(true,s.ic);
+    var t=el("span");t.appendChild(el("small",null,"Nouveau pot de miel !"));t.appendChild(el("b",null,s.nom));
+    a.appendChild(ic.firstChild);a.appendChild(t);toast.appendChild(a);
+    toast.classList.add("on");
+    setTimeout(function(){toast.classList.remove("on");setTimeout(suivant,380);},4600);
+  }
+
+  /* ---------- Déblocage ---------- */
+  function gagner(id){
+    var s=PAR_ID[id];if(!s||D.u[id])return false;
+    D.u[id]=new Date().toISOString();
+    if(D.o.indexOf(id)<0)D.o.push(id);
+    sauver();annoncer(s);rendre();envoyerBientot();
+    if(id!=="reine-des-pots"&&nb()>=SUCCES.length-1)gagner("reine-des-pots");
+    return true;
+  }
+  function moment(){
+    var h=heureParis();
+    if(h>=0&&h<5)gagner("noctambzzz");
+  }
+  function traiter(t,d){
+    if(JEUX.indexOf(t)>=0){
+      D.j[t]=1;sauver();
+      if(jourParis()==="dimanche")gagner("butineuse-du-dimanche");
+      moment();
+      if(JEUX.every(function(j){return D.j[j];}))gagner("touche-a-miel");
+    }
+    switch(t){
+      case "snake":if(d.score>=1)gagner("premiere-butinee");if(d.score>=10)gagner("pollen-garros");break;
+      case "sudoku":gagner("su-doux-ku");if(d.ind===0)gagner("sans-piqure");if(d.niveau==="expert")gagner("reine-des-alveoles");break;
+      case "miel-fleche":gagner("mots-doux");if(!d.ind)gagner("cire-tain");break;
+      case "juste-miel":if(d.ok){gagner("juste-miel");if(d.k===1)gagner("coup-de-pot");if(d.serie>=3)gagner("pot-de-colle");}break;
+      case "memory":gagner("memoire-d-abeille");if(d.coups<=d.paires)gagner("zero-faux-bourdon");if(d.niveau==="difficile")gagner("memoire-d-elephante");break;
+      case "bzzz":if(d.score>=1)gagner("premier-battement");if(d.score>=15)gagner("to-bee-or-not-to-bee");break;
+      case "2048":case "2048-tuile":
+        if(d.tuile>=64)gagner("premiere-alveole");if(d.tuile>=512)gagner("cire-ieuse");if(d.tuile>=2048)gagner("reine-d-un-jour");break;
+      case "pollin":gagner("bete-a-bon-dieu");break;
+      case "petales":gagner("miel-a-la-folie");break;
+      case "mail-lu":gagner("youve-got-miel");if(d.lus>=5)gagner("mail-lot-jaune");if(d.tous)gagner("tout-sucre-tout-miel");moment();break;
+      case "mail-fav":gagner("le-miel-leur");if(d.nb>=5)gagner("pot-pourri");break;
+      case "pj":gagner("ca-colle");break;
+    }
+  }
+  window.abeilleSucces=function(type,data){try{traiter(type,data||{});}catch(e){}};
+
+  /* ---------- La page « Pots de Miel » ---------- */
+  function rendre(){
+    var liste=$("pm-liste");if(!liste)return;
+    var n=nb();
+    $("pm-nb").textContent=n;$("pm-total").textContent=SUCCES.length;$("pm-barre").style.width=(n/SUCCES.length*100)+"%";
+    liste.textContent="";
+    GROUPES.forEach(function(g){
+      var items=SUCCES.filter(function(s){return s.cat===g.c;}),ok=items.filter(function(s){return D.u[s.id];}).length;
+      liste.appendChild(el("h3","pm-titre",g.t+" · "+ok+"/"+items.length));
+      var ul=el("ul","pm-grille");
+      items.forEach(function(s){
+        var on=!!D.u[s.id],secret=s.sec&&!on,li=el("li","pm-pot "+(on?"on":"off")),tx=el("div");
+        var sv=el("span");sv.innerHTML=potSvg(on,on?s.ic:"?");li.appendChild(sv.firstChild);
+        tx.appendChild(el("b",null,secret?"Pot secret":s.nom));
+        tx.appendChild(el("span",null,secret?"Celui-ci se découvre en butinant…":s.desc));
+        if(on){var d=new Date(D.u[s.id]);tx.appendChild(el("small",null,"Rempli le "+(isNaN(d)?"":d.toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"}))));}
+        li.appendChild(tx);ul.appendChild(li);
+      });
+      liste.appendChild(ul);
+    });
+  }
+
+  /* ---------- Synchronisation Supabase ---------- */
+  function nettoyer(v){return String(v||"").replace(/\s+/g," ").trim().slice(0,16);}
+  function pseudoBrut(){var p="";try{p=nettoyer(localStorage.getItem(CLE_PSEUDO));}catch(e){}return p||PAR_DEFAUT;}
+  function pseudo(){return pseudoBrut().toLowerCase();}
+  var note=$("pm-note");
+  function statut(ok){
+    if(!note)return;
+    note.textContent=ok?"Tes pots sont rangés dans la ruche avec le pseudo « "+pseudoBrut()+" ». Les pseudos sont publics."
+      :"Pas de connexion à la ruche pour l’instant : tes pots sont gardés sur cet appareil et partiront dès que possible.";
+  }
+  var tEnvoi=0,derniereSync=0;
+  function envoyerBientot(){clearTimeout(tEnvoi);tEnvoi=setTimeout(envoyer,1200);}
+  function envoyer(){
+    if(!D.o.length)return Promise.resolve();
+    var ids=D.o.slice(),p=pseudo();
+    var corps=JSON.stringify(ids.map(function(id){return {pseudo:p,succes_id:id};}));
+    return fetch(SB+"?on_conflict=pseudo,succes_id",{method:"POST",headers:{apikey:SB_CLE,"Content-Type":"application/json",Prefer:"resolution=ignore-duplicates,return=minimal"},body:corps})
+      .then(function(r){
+        if(!r.ok)throw new Error("HTTP "+r.status);
+        D.o=D.o.filter(function(x){return ids.indexOf(x)<0;});sauver();statut(true);
+      },function(){statut(false);});
+  }
+  function recuperer(force){
+    if(!force&&Date.now()-derniereSync<20000)return Promise.resolve();
+    derniereSync=Date.now();
+    var p=pseudo();
+    return fetch(SB+"?select=succes_id,created_at&pseudo=eq."+encodeURIComponent(p)+"&limit=200",{headers:{apikey:SB_CLE}})
+      .then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json();})
+      .then(function(a){
+        var vus={};
+        (Array.isArray(a)?a:[]).forEach(function(x){
+          vus[x.succes_id]=1;
+          if(PAR_ID[x.succes_id]&&!D.u[x.succes_id])D.u[x.succes_id]=x.created_at||new Date().toISOString();
+        });
+        Object.keys(D.u).forEach(function(id){if(PAR_ID[id]&&!vus[id]&&D.o.indexOf(id)<0)D.o.push(id);});
+        sauver();rendre();statut(true);
+        return envoyer();
+      },function(){statut(false);});
+  }
+  var inPseudo=$("pm-pseudo");
+  if(inPseudo){
+    try{inPseudo.value=nettoyer(localStorage.getItem(CLE_PSEUDO));}catch(e){}
+    inPseudo.addEventListener("input",function(){try{localStorage.setItem(CLE_PSEUDO,nettoyer(inPseudo.value));}catch(e){}});
+    inPseudo.addEventListener("change",function(){inPseudo.value=nettoyer(inPseudo.value);try{localStorage.setItem(CLE_PSEUDO,inPseudo.value);}catch(e){}recuperer(true);});
+    inPseudo.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();inPseudo.blur();}});
+  }
+  window.addEventListener("online",function(){recuperer(true);});
+
+  /* ---------- Pastilles « Nouveau » sur les nouveautés (disparaissent une fois la page visitée) ---------- */
+  var vus={};try{vus=JSON.parse(localStorage.getItem(CLE_VUS)||"{}")||{};}catch(e){}
+  function majNouveau(){
+    [].forEach.call(document.querySelectorAll("[data-nouveau]"),function(p){p.hidden=!!vus[p.getAttribute("data-nouveau")];});
+    [].forEach.call(document.querySelectorAll("[data-nouveau-any]"),function(p){
+      p.hidden=p.getAttribute("data-nouveau-any").split(",").every(function(k){return vus[k];});
+    });
+  }
+  function marquerVu(){
+    var h=(location.hash||"").replace("#","");
+    if((h==="abeille-2048"||h==="pots-de-miel")&&!vus[h]){vus[h]=1;try{localStorage.setItem(CLE_VUS,JSON.stringify(vus));}catch(e){}}
+    majNouveau();
+  }
+  window.addEventListener("hashchange",function(){marquerVu();if(location.hash==="#pots-de-miel"){if(inPseudo){try{inPseudo.value=nettoyer(localStorage.getItem(CLE_PSEUDO));}catch(e){}}recuperer(false);}});
+
+  /* ---------- Démarrage ---------- */
+  rendre();majNouveau();marquerVu();
+  setTimeout(function(){moment();recuperer(true);},2500);
+})();
+</script>
+<script>
+/* 2048 Abeille : fusionne les tuiles de la ruche, de l’Œuf jusqu’à la Reine des abeilles.
+   La partie en cours et le record sont gardés sur l’appareil ; le classement est partagé (table Supabase « scores_2048 »), avec copie locale en secours. */
+(function(){
+  var sec=document.getElementById("abeille-2048");if(!sec)return;
+  var $=function(i){return document.getElementById(i);};
+  var CLE_ETAT="abeille-2048-etat",CLE_BEST="abeille-2048-record",CLE_SC="abeille-2048-scores",CLE_PSEUDO="abeille-pseudo",
+      SB="https://tsdilkupupyrmihbaqgm.supabase.co/rest/v1/scores_2048",SB_CLE="sb_publishable_orPfv1AkysgjGulNNSTREQ_Q1LFCo-4",
+      MAX=10,PAR_DEFAUT="Abeille",ANNUL0=3,
+      reduit=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var NOMS={2:"Œuf",4:"Larve",8:"Nymphe",16:"Nourrice",32:"Cirière",64:"Gardienne",128:"Butineuse",256:"Éclaireuse",512:"Princesse",1024:"Reine mère",2048:"Reine des abeilles",4096:"Ruche entière",8192:"Essaim"};
+  function nom(v){return NOMS[v]||"Légende";}
+
+  /* ---------- Règles du jeu (fonction pure : testable à part) ----------
+     g : grille 4×4 de tuiles {v,r,c} ou null. dir : 0 haut, 1 droite, 2 bas, 3 gauche.
+     Les tuiles glissent et fusionnent (une seule fusion par tuile et par coup). */
+  function glisser(g,dir){
+    var dr=[-1,0,1,0][dir],dc=[0,1,0,-1][dir],R=[0,1,2,3],C=[0,1,2,3],bouge=false,gain=0,abs=[],fus=[];
+    if(dr===1)R.reverse();
+    if(dc===1)C.reverse();
+    g.forEach(function(l){l.forEach(function(t){if(t)t.f=false;});});
+    R.forEach(function(r){C.forEach(function(c){
+      var t=g[r][c];if(!t)return;
+      var nr=r,nc=c,cible=null,pr,pc,o;
+      for(;;){
+        pr=nr+dr;pc=nc+dc;
+        if(pr<0||pr>3||pc<0||pc>3)break;
+        o=g[pr][pc];
+        if(!o){nr=pr;nc=pc;continue;}
+        if(o.v===t.v&&!o.f)cible=o;
+        break;
+      }
+      if(cible){g[r][c]=null;t.r=cible.r;t.c=cible.c;cible.v*=2;cible.f=true;gain+=cible.v;abs.push(t);fus.push(cible);bouge=true;}
+      else if(nr!==r||nc!==c){g[r][c]=null;g[nr][nc]=t;t.r=nr;t.c=nc;bouge=true;}
+    });});
+    return {bouge:bouge,gain:gain,abs:abs,fus:fus};
+  }
+  function coupPossible(g){
+    var r,c,t;
+    for(r=0;r<4;r++)for(c=0;c<4;c++){
+      t=g[r][c];
+      if(!t)return true;
+      if(c<3&&g[r][c+1]&&g[r][c+1].v===t.v)return true;
+      if(r<3&&g[r+1][c]&&g[r+1][c].v===t.v)return true;
+    }
+    return false;
+  }
+  if(typeof module!=="undefined"&&module.exports)module.exports={glisser:glisser,coupPossible:coupPossible};
+  if(!$("a48-plateau"))return;
+
+  /* ---------- État ---------- */
+  var plateau=$("a48-plateau"),fond=$("a48-fond"),tuilesEl=$("a48-tuiles"),voile=$("a48-voile"),
+      vTitre=$("a48-vtitre"),vTexte=$("a48-vtexte"),vBtn=$("a48-vbtn"),vCont=$("a48-vcont"),
+      elScore=$("a48-score"),elBest=$("a48-best"),elMax=$("a48-max"),elStatut=$("a48-statut"),
+      btnNouv=$("a48-nouv"),btnAnn=$("a48-annuler"),inPseudo=$("a48-pseudo"),
+      elListe=$("a48-liste"),elVide=$("a48-vide"),elNote=$("a48-note");
+  var g,score=0,best=0,etat="jeu",aGagne=false,annul=ANNUL0,prec=null,maxV=2,soumis=0,uid=0,confirmer=0,
+      scores=[],liste=[],dernier=null,enLigne=true;
+  function actif(){return location.hash==="#abeille-2048";}
+  function vide(){return [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]];}
+  function dire(t){elStatut.textContent=t||"";}
+  try{best=parseInt(localStorage.getItem(CLE_BEST),10)||0;}catch(e){}
+
+  /* ---------- Tuiles à l’écran ---------- */
+  function classe(v){return "a48-t a48-v"+(v>2048?"x":v);}
+  function habiller(t){
+    var e=t.el;e.className=classe(t.v);
+    e.setAttribute("data-d",String(String(t.v).length));
+    e.innerHTML="<b>"+t.v+"</b><small>"+nom(t.v)+"</small>";
+  }
+  function placer(t){t.el.style.setProperty("--r",t.r);t.el.style.setProperty("--c",t.c);}
+  function pop(t){if(reduit)return;t.el.classList.remove("pop");void t.el.offsetWidth;t.el.classList.add("pop");}
+  function ajouterTuile(r,c,v,nouveau){
+    var t={id:++uid,v:v,r:r,c:c,f:false,el:document.createElement("div")};
+    habiller(t);placer(t);
+    if(nouveau&&!reduit)t.el.classList.add("nv");
+    tuilesEl.appendChild(t.el);g[r][c]=t;
+    return t;
+  }
+  function apparaitre(){
+    var libres=[],r,c;
+    for(r=0;r<4;r++)for(c=0;c<4;c++)if(!g[r][c])libres.push([r,c]);
+    if(!libres.length)return;
+    var p=libres[Math.floor(Math.random()*libres.length)];
+    ajouterTuile(p[0],p[1],Math.random()<.9?2:4,true);
+  }
+  function plusGrosse(){
+    var m=2;g.forEach(function(l){l.forEach(function(t){if(t&&t.v>m)m=t.v;});});return m;
+  }
+  function maj(){
+    elScore.textContent=score;elBest.textContent=best;elMax.textContent=nom(maxV);
+    btnAnn.textContent="Annuler ("+annul+")";btnAnn.disabled=!prec||annul<=0||etat==="fin";
+  }
+
+  /* ---------- Sauvegarde de la partie ---------- */
+  function mat(){return g.map(function(l){return l.map(function(t){return t?t.v:0;});});}
+  function sauverEtat(){
+    try{localStorage.setItem(CLE_ETAT,JSON.stringify({m:mat(),s:score,g:aGagne,a:annul,e:etat,x:soumis}));}catch(e){}
+  }
+  function restaurer(m,s){
+    tuilesEl.textContent="";g=vide();score=s;
+    m.forEach(function(l,r){l.forEach(function(v,c){if(v)ajouterTuile(r,c,v,false);});});
+    maxV=plusGrosse();
+  }
+  function lireEtat(){
+    try{
+      var o=JSON.parse(localStorage.getItem(CLE_ETAT)||"null");
+      if(!o||!Array.isArray(o.m)||o.m.length!==4)return false;
+      for(var r=0;r<4;r++){if(!Array.isArray(o.m[r])||o.m[r].length!==4)return false;for(var c=0;c<4;c++){var v=o.m[r][c];if(!(v===0||(v>=2&&(v&(v-1))===0&&v<=1048576)))return false;}}
+      if(!(o.s>=0))return false;
+      restaurer(o.m,o.s);aGagne=!!o.g;annul=Math.max(0,Math.min(ANNUL0,o.a|0));soumis=o.x|0;prec=null;
+      etat=o.e==="fin"?"fin":"jeu";
+      return true;
+    }catch(e){return false;}
+  }
+
+  /* ---------- Voile (fin de partie, victoire) ---------- */
+  function montrer(titre,texte,continuer){
+    vTitre.textContent=titre;vTexte.textContent=texte;vCont.hidden=!continuer;voile.hidden=false;
+    (continuer?vCont:vBtn).focus({preventScroll:true});
+  }
+  function cacher(){voile.hidden=true;}
+  function finDePartie(){
+    etat="fin";maj();sauverEtat();
+    var nv=score>0&&score>=best;
+    soumettre();
+    if(window.abeilleSucces)abeilleSucces("2048",{tuile:maxV,score:score});
+    montrer("Plus de place dans la ruche !","Score : "+score+". Plus grosse tuile : "+nom(maxV)+"."+(nv?" Nouveau record !":""),false);
+    if(nv&&window.abeilleReussite)abeilleReussite();
+  }
+  function victoire(){
+    aGagne=true;maj();sauverEtat();soumettre();
+    if(window.abeilleSucces)abeilleSucces("2048",{tuile:maxV,score:score});
+    if(window.abeilleReussite)abeilleReussite();
+    montrer("Reine des abeilles !","Tu as atteint 2048 avec "+score+" points. Tu peux continuer pour battre ton record.",true);
+  }
+
+  /* ---------- Un coup ---------- */
+  function bouger(dir){
+    if(etat!=="jeu"||!voile.hidden)return;
+    var avant={m:mat(),s:score},r=glisser(g,dir);
+    if(!r.bouge)return;
+    prec=avant;score+=r.gain;
+    r.fus.forEach(function(t){habiller(t);pop(t);});
+    r.abs.forEach(function(t){
+      t.el.classList.add("abs");
+      setTimeout(function(){if(t.el&&t.el.parentNode)t.el.parentNode.removeChild(t.el);},reduit?0:160);
+    });
+    g.forEach(function(l){l.forEach(function(t){if(t)placer(t);});});
+    apparaitre();
+    if(score>best){best=score;try{localStorage.setItem(CLE_BEST,String(best));}catch(e){}}
+    var m=plusGrosse();
+    if(m>maxV){
+      maxV=m;dire("Nouvelle tuile : "+nom(m)+" ("+m+").");
+      if(window.abeilleSucces)abeilleSucces("2048-tuile",{tuile:m});
+    }
+    maj();sauverEtat();
+    if(m>=2048&&!aGagne)victoire();
+    else if(!coupPossible(g))finDePartie();
+  }
+  function annuler(){
+    if(!prec||annul<=0||etat==="fin"||!voile.hidden)return;
+    restaurer(prec.m,prec.s);prec=null;annul--;dire("Coup annulé.");maj();sauverEtat();
+  }
+  function nouvelle(){
+    clearTimeout(confirmer);confirmer=0;btnNouv.textContent="Nouvelle partie";
+    tuilesEl.textContent="";g=vide();score=0;etat="jeu";aGagne=false;annul=ANNUL0;prec=null;soumis=0;maxV=2;
+    apparaitre();apparaitre();maxV=plusGrosse();
+    cacher();dire("");maj();sauverEtat();
+  }
+
+  /* ---------- Pseudo et classement partagé ---------- */
+  function nettoyer(v){return String(v||"").replace(/\s+/g," ").trim().slice(0,16);}
+  function pseudo(){return nettoyer(inPseudo.value)||PAR_DEFAUT;}
+  try{inPseudo.value=nettoyer(localStorage.getItem(CLE_PSEUDO));}catch(e){}
+  function sauverPseudo(){try{localStorage.setItem(CLE_PSEUDO,nettoyer(inPseudo.value));}catch(e){}}
+  try{
+    var brut=JSON.parse(localStorage.getItem(CLE_SC)||"[]");
+    if(Array.isArray(brut))scores=brut.filter(function(x){return x&&typeof x.p==="string"&&x.s>0&&x.t>0;}).map(function(x){x.k=x.t;return x;}).slice(0,MAX);
+  }catch(e){}
+  function requete(suite,corps){
+    var h={apikey:SB_CLE};
+    if(corps){h["Content-Type"]="application/json";h.Prefer="return=representation";}
+    return fetch(SB+suite,{method:corps?"POST":"GET",headers:h,body:corps}).then(function(r){
+      if(!r.ok)throw new Error("HTTP "+r.status);return r.json();
+    });
+  }
+  function afficher(){
+    elListe.textContent="";
+    liste.forEach(function(x,i){
+      var li=document.createElement("li"),r=document.createElement("span"),n=document.createElement("span"),pt=document.createElement("span");
+      r.className="sn-rang";r.textContent=(i+1)+".";
+      n.className="sn-nom";n.appendChild(document.createTextNode(x.p));
+      if(x.t>0){var sm=document.createElement("small");sm.textContent=new Date(x.t).toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});n.appendChild(sm);}
+      pt.className="sn-pts";pt.appendChild(document.createTextNode(x.s));
+      if(x.m){var sp=document.createElement("small");sp.textContent=nom(x.m);pt.appendChild(sp);}
+      if(dernier!==null&&x.k===dernier)li.className="moi";
+      li.appendChild(r);li.appendChild(n);li.appendChild(pt);elListe.appendChild(li);
+    });
+    elVide.hidden=liste.length>0;
+    elNote.textContent=enLigne?"Classement partagé entre tous les visiteurs. Les pseudos et les scores sont publics."
+      :"Classement en ligne indisponible pour le moment : ces scores sont gardés sur cet appareil.";
+  }
+  function charger(){
+    return requete("?select=id,pseudo,score,tuile,created_at&order=score.desc,created_at.asc&limit="+MAX).then(function(a){
+      liste=a.map(function(x){return {p:String(x.pseudo),s:x.score,m:x.tuile,t:Date.parse(x.created_at)||0,k:x.id};});
+      enLigne=true;afficher();
+    },function(){enLigne=false;liste=scores;afficher();});
+  }
+  function enregistrer(pts,tuile,nomJ){
+    if(pts<=0)return;
+    var e={p:nomJ,s:pts,m:tuile,t:Date.now(),k:Date.now()};
+    scores.push(e);
+    scores.sort(function(a,b){return (b.s-a.s)||(a.t-b.t);});
+    scores=scores.slice(0,MAX);
+    try{localStorage.setItem(CLE_SC,JSON.stringify(scores));}catch(err){}
+    requete("?select=id",JSON.stringify({pseudo:nomJ,score:pts,tuile:tuile})).then(function(a){
+      dernier=a&&a[0]?a[0].id:null;return charger();
+    },function(){enLigne=false;dernier=e.k;liste=scores;afficher();});
+  }
+  function soumettre(){
+    if(score<=0||score<=soumis)return;
+    soumis=score;enregistrer(score,maxV,pseudo());
+  }
+  inPseudo.addEventListener("input",sauverPseudo);
+  inPseudo.addEventListener("change",function(){inPseudo.value=nettoyer(inPseudo.value);sauverPseudo();});
+  inPseudo.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();inPseudo.blur();}});
+  liste=scores;afficher();
+
+  /* ---------- Commandes ---------- */
+  var TOUCHES={ArrowUp:0,z:0,w:0,ArrowRight:1,d:1,ArrowDown:2,s:2,ArrowLeft:3,q:3,a:3};
+  document.addEventListener("keydown",function(e){
+    if(!actif()||e.ctrlKey||e.metaKey||e.altKey)return;
+    if(e.target&&e.target.closest&&e.target.closest("input,select,textarea"))return;
+    var k=e.key.length===1?e.key.toLowerCase():e.key;
+    if(TOUCHES.hasOwnProperty(k)){e.preventDefault();bouger(TOUCHES[k]);}
+    else if(k==="u"){e.preventDefault();annuler();}
+  });
+  var sx=0,sy=0,suivi=false;
+  plateau.addEventListener("pointerdown",function(e){
+    if(e.target.closest("button"))return;
+    sx=e.clientX;sy=e.clientY;suivi=true;
+  });
+  plateau.addEventListener("pointerup",function(e){
+    if(!suivi)return;suivi=false;
+    var dx=e.clientX-sx,dy=e.clientY-sy,ax=Math.abs(dx),ay=Math.abs(dy);
+    if(Math.max(ax,ay)<24)return;
+    if(ax>ay)bouger(dx>0?1:3);else bouger(dy>0?2:0);
+  });
+  plateau.addEventListener("pointercancel",function(){suivi=false;});
+  btnAnn.addEventListener("click",annuler);
+  btnNouv.addEventListener("click",function(){
+    if(score>0&&etat==="jeu"&&!confirmer){
+      confirmer=setTimeout(function(){confirmer=0;btnNouv.textContent="Nouvelle partie";},3000);
+      btnNouv.textContent="Sûre ? Retouche";return;
+    }
+    soumettre();nouvelle();
+  });
+  vBtn.addEventListener("click",function(){soumettre();nouvelle();});
+  vCont.addEventListener("click",function(){cacher();});
+
+  /* ---------- Démarrage ---------- */
+  var f,r,c;
+  for(r=0;r<4;r++)for(c=0;c<4;c++){f=document.createElement("div");f.className="a48-cel";f.style.setProperty("--r",r);f.style.setProperty("--c",c);fond.appendChild(f);}
+  g=vide();
+  if(!lireEtat())nouvelle();else maj();
+  if(etat==="fin")montrer("Plus de place dans la ruche !","Score : "+score+". Plus grosse tuile : "+nom(maxV)+".",false);
+  charger();
+  window.addEventListener("hashchange",function(){
+    if(actif()){try{inPseudo.value=nettoyer(localStorage.getItem(CLE_PSEUDO));}catch(e){}charger();}
+  });
+})();
+</script>
+<script>
+/* Appli installable (PWA) : service worker + bouton « Installer ». Le service worker garde le site et les données Supabase
+   déjà consultées (classements, mots, objets…) pour qu’ils restent utilisables hors connexion. */
+(function(){
+  var $=function(i){return document.getElementById(i);};
+  var seur=location.protocol==="https:"||location.hostname==="localhost"||location.hostname==="127.0.0.1";
+  if("serviceWorker" in navigator&&seur){
+    window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});
+  }
+  var zone=$("pwa-zone"),btn=$("pwa-btn"),ios=$("pwa-ios"),inst=null;
+  if(!zone)return;
+  var autonome=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;
+  if(autonome)return;
+  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();inst=e;zone.hidden=false;btn.hidden=false;ios.hidden=true;});
+  window.addEventListener("appinstalled",function(){inst=null;zone.hidden=true;});
+  btn.addEventListener("click",function(){
+    if(!inst)return;
+    inst.prompt();
+    if(inst.userChoice)inst.userChoice.then(function(){inst=null;zone.hidden=true;},function(){});
+  });
+  var iphone=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+  if(iphone){zone.hidden=false;ios.hidden=false;}
 })();
 </script>
 </body>
