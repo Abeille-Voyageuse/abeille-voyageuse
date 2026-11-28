@@ -3,14 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#f3f4e7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#142b05" media="(prefers-color-scheme: dark)">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Abeille">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>L’abeille voyageuse</title>
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -513,6 +507,22 @@ nav a .pastille,.menu-liste a .pastille{margin-left:.5rem}
 .bm-etoile{flex:none;color:var(--miel);font-size:1.05em;line-height:1;text-shadow:0 0 1px rgba(20,43,5,.6)}
 .bm-fav[aria-pressed="true"]{background:var(--miel);border-color:var(--miel);color:#142b05}
 .bm-fav .bm-fav-ic{font-size:1.15em;line-height:1}
+/* ===== Case 1 de l’Avent : le sapin ===== */
+#sapin{--sn-w:min(100%,24rem,max(14rem,calc((100vh - 25rem)*.81)))}
+@supports (height:100svh){#sapin{--sn-w:min(100%,24rem,max(14rem,calc((100svh - 25rem)*.81)))}}
+.sp-scene{width:var(--sn-w);aspect-ratio:300/370;margin-top:1.25rem;border:2px solid var(--line);border-radius:1.25rem;overflow:hidden;background:rgba(var(--abeille-rgb),.14)}
+.sp-scene svg{display:block;width:100%;height:100%}
+.sp-scene svg path,.sp-scene svg rect,.sp-scene svg polygon{stroke-linejoin:round}
+.sp-nouv{transform-box:fill-box;transform-origin:50% 100%;animation:sp-pousse .45s ease-out}
+@keyframes sp-pousse{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+.sp-phrase{width:var(--sn-w);min-height:2.7em;margin:.75rem 0 0;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin);line-height:1.35;text-wrap:balance}
+.sp-ligne{display:flex;flex-wrap:wrap;gap:.5rem;width:var(--sn-w);margin-top:.75rem}
+.sp-ligne .sd-btn{flex:1 1 auto}
+.sp-ligne .sd-btn[aria-pressed="true"]{background:rgba(var(--miel-rgb),.4);border-color:var(--miel)}
+.sp-ligne .sd-btn:disabled{opacity:.45;cursor:default}
+.sp-opt{margin:.75rem 0 0;padding:0;border:0;min-width:0}
+.sp-opt legend{padding:0;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin)}
+@media (prefers-reduced-motion:reduce){.sp-nouv{animation:none}}
 /* ===== Pots de Miel ===== */
 #pots-de-miel{--sn-w:min(100%,36rem)}
 .pm-resume{max-width:36rem;margin-top:1.25rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin)}
@@ -563,12 +573,6 @@ nav a .pastille,.menu-liste a .pastille{margin-left:.5rem}
 .a48-boutons [hidden]{display:none}
 #a48-statut{min-height:1.5em;margin:.5rem 0 0}
 @media (prefers-reduced-motion:reduce){.a48-t{transition:none}.a48-t.nv,.a48-t.pop{animation:none}}
-/* ===== Installer l’appli (PWA) ===== */
-.pwa-zone{display:block;margin-top:.75rem;font-style:normal}
-.pwa-zone[hidden],.pwa-zone [hidden]{display:none}
-.pwa-btn{min-height:2.75rem;padding:.3rem 1.1rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(16px,.95rem);color:#142b05;background:var(--rose);border:2px solid var(--rose);border-radius:999px;cursor:pointer}
-.pwa-btn:hover{border-color:var(--barbie)}
-.pwa-btn:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
 </style>
 </head>
 <body>
@@ -1087,7 +1091,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       <li><a class="carte-acte" href="#memory"><b>MielMory</b><span>Retrouve les paires de la ruche.</span></a></li>
       <li><a class="carte-acte" href="#bzzz-en-vol"><b>Bzzz en vol</b><span>Évite les ronces, butine les fleurs.</span></a></li>
       <li><a class="carte-acte" href="#abeille-2048"><b>2048 Abeille<span class="pastille" data-nouveau="abeille-2048">Nouveau</span></b><span>Fusionne les œufs jusqu’à la reine des abeilles.</span></a></li>
-      <li><a class="carte-acte" href="#pots-de-miel"><b>Pots de Miel<span class="pastille" data-nouveau="pots-de-miel">Nouveau</span></b><span>30 succès à collectionner, pot après pot.</span></a></li>
+      <li><a class="carte-acte" href="#pots-de-miel"><b>Pots de Miel<span class="pastille" data-nouveau="pots-de-miel">Nouveau</span></b><span>Des succès à collectionner, pot après pot.</span></a></li>
     </ul>
   </section>
 
@@ -1301,6 +1305,38 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     <p class="suite"><a class="back" href="#jeux">← Retour aux jeux</a></p>
   </section>
 
+  <section id="sapin" class="page jeu">
+    <p><a class="back" href="#a-venir">← À Venir</a></p>
+    <h2>Le sapin de l’abeille</h2>
+    <div class="sn-cols">
+    <div class="sn-jeu">
+    <div class="jeu-score" role="group" aria-label="Ton sapin"><span>Étages <b id="sp-nb">3/6</b></span></div>
+    <div class="sp-scene">
+      <svg id="sp-svg" viewBox="0 0 300 370" role="img" aria-label="Sapin de Noël" focusable="false">
+        <ellipse cx="150" cy="355" rx="96" ry="9" fill="rgba(127,127,127,.22)"/>
+        <g id="sp-fond" aria-hidden="true"></g>
+        <g id="sp-tronc"></g>
+        <g id="sp-arbre"></g>
+        <g id="sp-pot"></g>
+        <g id="sp-deco"></g>
+        <g id="sp-etoile"></g>
+      </svg>
+    </div>
+    <p class="sp-phrase" id="sp-phrase" aria-live="polite"></p>
+    <div class="sp-ligne">
+      <button type="button" class="sd-btn" id="sp-moins">Retirer un étage</button>
+      <button type="button" class="sd-btn" id="sp-plus">Ajouter un étage</button>
+    </div>
+    <fieldset class="sp-opt"><legend>Couleur</legend><div class="sp-ligne" id="sp-essences"></div></fieldset>
+    <fieldset class="sp-opt"><legend>Pot</legend><div class="sp-ligne" id="sp-pots"></div></fieldset>
+    <div class="sp-ligne">
+      <button type="button" class="sd-btn" id="sp-etoile-btn" aria-pressed="true">Étoile</button>
+      <button type="button" class="sd-btn" id="sp-recom">Recommencer</button>
+    </div>
+    <p class="sn-aide">Ajoute des étages pour faire grandir ton sapin, puis choisis sa couleur, son pot et son étoile.</p>
+    </div>
+    </div>
+  </section>
   <section id="petales" class="page jeu">
     <p><a class="back" href="#a-venir">← À Venir</a></p>
     <h2>Un peu, beaucoup…</h2>
@@ -1359,8 +1395,8 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   <section id="pots-de-miel" class="page jeu">
     <p><a class="back" href="#jeux">← Jeux</a></p>
     <h2>Pots de Miel</h2>
-    <p>À chaque défi relevé, l’abeille range un nouveau pot sur l’étagère. Il y en a 30 à remplir, sans aucune pression : ils arrivent tout seuls, en jouant et en lisant.</p>
-    <div class="pm-resume" role="group" aria-label="Progression des pots"><span><b id="pm-nb">0</b> / <span id="pm-total">30</span> pots remplis</span><div class="pm-jauge" aria-hidden="true"><i id="pm-barre"></i></div></div>
+    <p>À chaque défi relevé, l’abeille range un nouveau pot sur l’étagère. Il y en a <span id="pm-intro-total">29</span> à remplir, sans aucune pression : ils arrivent tout seuls, en jouant et en lisant.</p>
+    <div class="pm-resume" role="group" aria-label="Progression des pots"><span><b id="pm-nb">0</b> / <span id="pm-total">29</span> pots remplis</span><div class="pm-jauge" aria-hidden="true"><i id="pm-barre"></i></div></div>
     <div class="sn-pseudo"><label for="pm-pseudo">Pseudo</label><input type="text" id="pm-pseudo" maxlength="16" placeholder="Abeille" autocomplete="nickname" autocapitalize="words" spellcheck="false"></div>
     <p class="sn-note" id="pm-note"></p>
     <div id="pm-liste"></div>
@@ -1444,15 +1480,11 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   </section>
 </main>
 <footer>Fait avec patience, sincérité et tendresse.
-  <span class="pwa-zone" id="pwa-zone" hidden>
-    <button type="button" class="pwa-btn" id="pwa-btn" hidden>Installer l’appli sur l’écran d’accueil</button>
-    <span id="pwa-ios" hidden>Pour garder l’abeille sur ton écran d’accueil : touche « Partager », puis « Sur l’écran d’accueil ».</span>
-  </span>
 </footer>
 <div id="pm-toast" role="status" aria-live="polite"></div>
 <script>
 (function(){
-  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "acte-4", "acte-5", "acte-6", "acte-7", "acte-8", "acte-9", "acte-10", "jeux", "snake", "sudoku", "juste-miel", "miel-fleche", "memory", "bzzz-en-vol", "abeille-2048", "pots-de-miel", "petales", "archives", "a-venir"];
+  var ids=["accueil","theatre","acte-1","acte-2", "acte-3", "acte-4", "acte-5", "acte-6", "acte-7", "acte-8", "acte-9", "acte-10", "jeux", "snake", "sudoku", "juste-miel", "miel-fleche", "memory", "bzzz-en-vol", "abeille-2048", "pots-de-miel", "petales", "sapin", "archives", "a-venir"];
   var premier=true;
   var mBtn=document.getElementById("menu-btn"),mListe=document.getElementById("menu-liste"),mLabel=document.getElementById("menu-label");
   function mFermer(){if(!mBtn)return;mListe.hidden=true;mBtn.setAttribute("aria-expanded","false");}
@@ -1537,7 +1569,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     raf=requestAnimationFrame(frame);
   }
   var JEUX_NAV=["snake","sudoku","juste-miel","miel-fleche","memory","bzzz-en-vol","abeille-2048","pots-de-miel"];
-  function cleNav(h){return h.indexOf("acte-")===0?"theatre":h==="petales"?"a-venir":(JEUX_NAV.indexOf(h)>=0?"jeux":h);}
+  function cleNav(h){return h.indexOf("acte-")===0?"theatre":(h==="petales"||h==="sapin")?"a-venir":(JEUX_NAV.indexOf(h)>=0?"jeux":h);}
   function show(){
     var h=(location.hash||"").replace("#","");
     if(ids.indexOf(h)<0)h="accueil";
@@ -2755,7 +2787,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     var n=num(li);
     li.className="case ouverte";
     li.removeAttribute("title");
-    li.innerHTML=n===2?'<a href="#petales" aria-label="Case 2 : un jeu t’attend">2</a>':'<span>'+n+'</span>';
+    li.innerHTML=n===2?'<a href="#petales" aria-label="Case 2 : un jeu t’attend">2</a>':n===1?'<a href="#sapin" aria-label="Case 1 : un jeu t’attend">1</a>':'<span>'+n+'</span>';
   }
   function surveiller(){
     lireHeure().then(function(b){
@@ -2778,7 +2810,9 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     window.caseOuverte(n).then(function(ok){
       if(!ok)return;
       noter(n);ouvrir(li);
+      if(window.abeilleSucces)abeilleSucces("avent",{n:n});
       if(n===2)location.hash="#petales";
+      if(n===1)location.hash="#sapin";
     });
   });
   var msg=document.querySelector("#a-venir .msg"),devine=false;
@@ -3788,7 +3822,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
 })();
 </script>
 <script>
-/* Pots de Miel : 30 succès à collectionner, sans aucune pression.
+/* Pots de Miel : 29 succès à collectionner (+ 24 pour le calendrier de l’Avent, dont « Miel… à la folie » pour la case 2), sans aucune pression.
    Les jeux et e-Miel préviennent cette section avec  abeilleSucces("type",{…}).
    Les pots sont gardés sur l’appareil et synchronisés avec Supabase (table « succes_miel », par pseudo) :
    hors connexion, ils attendent dans une petite file et partent dès que le réseau revient. */
@@ -3825,20 +3859,53 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     {id:"pot-pourri",cat:"mail",ic:"🌺",nom:"Pot-pourri",desc:"Mets 5 mails en favori."},
     {id:"ca-colle",cat:"mail",ic:"📎",nom:"Ça colle !",desc:"Ouvre une pièce jointe dans e-Miel."},
     {id:"bete-a-bon-dieu",cat:"ruche",ic:"🐞",nom:"Bête à bon Dieu",desc:"Active la Pollinisation et laisse la coccinelle butiner.",sec:true},
-    {id:"miel-a-la-folie",cat:"ruche",ic:"🌸",nom:"Miel… à la folie",desc:"Arrache tous les pétales de « Un peu, beaucoup… »."},
     {id:"noctambzzz",cat:"ruche",ic:"🌙",nom:"Noctambzzz",desc:"Passe à la ruche entre minuit et 5 h du matin.",sec:true},
     {id:"butineuse-du-dimanche",cat:"ruche",ic:"🧺",nom:"Butineuse du dimanche",desc:"Joue à un jeu un dimanche.",sec:true},
     {id:"touche-a-miel",cat:"ruche",ic:"🎪",nom:"Touche-à-miel",desc:"Termine une partie de chacun des 7 jeux : La Ruche, Sudoku, Miel Fléché, Juste Miel, MielMory, Bzzz en vol et 2048 Abeille."},
-    {id:"reine-des-pots",cat:"ruche",ic:"🏆",nom:"Reine des pots",desc:"Remplis les 29 autres pots."}
+    {id:"reine-des-pots",cat:"ruche",ic:"🏆",nom:"Reine des pots",desc:"Remplis les 28 autres pots (hors calendrier de l’Avent)."},
+    /* Calendrier de l’Avent : un pot par case ouverte (catégorie à part, visible une fois la devinette résolue, hors « Reine des pots ») */
+    {id:"avent-1",cat:"avent",ic:"✨",nom:"Un premier rayon",desc:"Ouvre la case 1 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 1.",sec:true},
+    {id:"miel-a-la-folie",cat:"avent",ic:"🌸",nom:"Miel… à la folie",desc:"Arrache tous les pétales de « Un peu, beaucoup… ».",sd:"Se cache derrière la case 2.",sec:true},
+    {id:"avent-3",cat:"avent",ic:"🕯️",nom:"Allume-cire",desc:"Ouvre la case 3 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 3.",sec:true},
+    {id:"avent-4",cat:"avent",ic:"🎄",nom:"Sapin de ruche",desc:"Ouvre la case 4 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 4.",sec:true},
+    {id:"avent-5",cat:"avent",ic:"⛄",nom:"Bonhomme de cire",desc:"Ouvre la case 5 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 5.",sec:true},
+    {id:"avent-6",cat:"avent",ic:"🍪",nom:"Sablé au miel",desc:"Ouvre la case 6 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 6.",sec:true},
+    {id:"avent-7",cat:"avent",ic:"🧦",nom:"Chaussette à nectar",desc:"Ouvre la case 7 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 7.",sec:true},
+    {id:"avent-8",cat:"avent",ic:"🔔",nom:"Bzzz bells",desc:"Ouvre la case 8 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 8.",sec:true},
+    {id:"avent-9",cat:"avent",ic:"🦌",nom:"Renne-miel",desc:"Ouvre la case 9 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 9.",sec:true},
+    {id:"avent-10",cat:"avent",ic:"❄️",nom:"Flocon de pollen",desc:"Ouvre la case 10 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 10.",sec:true},
+    {id:"avent-11",cat:"avent",ic:"🍫",nom:"Cacao-bzzz",desc:"Ouvre la case 11 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 11.",sec:true},
+    {id:"avent-12",cat:"avent",ic:"🧣",nom:"Cache-nez de ruche",desc:"Ouvre la case 12 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 12.",sec:true},
+    {id:"avent-13",cat:"avent",ic:"🌟",nom:"Étoile de la ruche",desc:"Ouvre la case 13 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 13.",sec:true},
+    {id:"avent-14",cat:"avent",ic:"🍞",nom:"Pain d’épices-miel",desc:"Ouvre la case 14 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 14.",sec:true},
+    {id:"avent-15",cat:"avent",ic:"🎶",nom:"Bourdon-ne nuit",desc:"Ouvre la case 15 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 15.",sec:true},
+    {id:"avent-16",cat:"avent",ic:"🎅",nom:"Père Nectar",desc:"Ouvre la case 16 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 16.",sec:true},
+    {id:"avent-17",cat:"avent",ic:"🛷",nom:"Traîneau à miel",desc:"Ouvre la case 17 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 17.",sec:true},
+    {id:"avent-18",cat:"avent",ic:"🍊",nom:"Clémentine butineuse",desc:"Ouvre la case 18 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 18.",sec:true},
+    {id:"avent-19",cat:"avent",ic:"🥂",nom:"Miel-lésime",desc:"Ouvre la case 19 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 19.",sec:true},
+    {id:"avent-20",cat:"avent",ic:"🎀",nom:"Ruban de cire",desc:"Ouvre la case 20 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 20.",sec:true},
+    {id:"avent-21",cat:"avent",ic:"⏳",nom:"Compte à rebzzz",desc:"Ouvre la case 21 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 21.",sec:true},
+    {id:"avent-22",cat:"avent",ic:"🪵",nom:"Bûche de cire",desc:"Ouvre la case 22 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 22.",sec:true},
+    {id:"avent-23",cat:"avent",ic:"🌙",nom:"Veillée de ruche",desc:"Ouvre la case 23 du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 23.",sec:true},
+    {id:"avent-24",cat:"avent",ic:"💛",nom:"Le miel à deux",desc:"Ouvre la dernière case du calendrier de l’Avent.",sd:"Se remplit en ouvrant la case 24.",sec:true}
   ];
-  var GROUPES=[{c:"jeux",t:"Dans les jeux"},{c:"mail",t:"Dans e-Miel"},{c:"ruche",t:"Dans toute la ruche"}];
+  var GROUPES=[{c:"jeux",t:"Dans les jeux"},{c:"mail",t:"Dans e-Miel"},{c:"ruche",t:"Dans toute la ruche"},{c:"avent",t:"Calendrier de l’Avent"}];
   var PAR_ID={};SUCCES.forEach(function(s){PAR_ID[s.id]=s;});
 
   /* ---------- Données locales : u = pots remplis (date), j = jeux terminés, o = à envoyer à Supabase ---------- */
   var D={u:{},j:{},o:[]};
   try{var b=JSON.parse(localStorage.getItem(CLE)||"{}");if(b&&typeof b==="object"){D.u=b.u&&typeof b.u==="object"?b.u:{};D.j=b.j&&typeof b.j==="object"?b.j:{};D.o=Array.isArray(b.o)?b.o:[];}}catch(e){}
   function sauver(){try{localStorage.setItem(CLE,JSON.stringify(D));}catch(e){}}
-  function nb(){return Object.keys(D.u).filter(function(id){return PAR_ID[id];}).length;}
+  /* Le calendrier est caché tant que la devinette n’est pas résolue : sa catégorie aussi (sinon elle la dévoilerait) */
+  var AVENT_TOUJOURS_VISIBLE=true; /* true : la catégorie est visible tout de suite (aperçu). Mets false avant l’envoi pour la cacher jusqu’à la devinette. */
+  function aventVisible(){
+    if(AVENT_TOUJOURS_VISIBLE)return true;
+    var ol=document.querySelector(".calendrier");if(ol&&!ol.hidden)return true;
+    try{if(localStorage.getItem("calendrier-devine")==="1")return true;}catch(e){}
+    return Object.keys(D.u).some(function(id){return PAR_ID[id]&&PAR_ID[id].cat==="avent";});
+  }
+  function visibles(){var v=aventVisible();return SUCCES.filter(function(s){return s.cat!=="avent"||v;});}
+  function nb(){return visibles().filter(function(s){return D.u[s.id];}).length;}
 
   /* ---------- Heure de Paris ---------- */
   function heureParis(){
@@ -3880,7 +3947,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     D.u[id]=new Date().toISOString();
     if(D.o.indexOf(id)<0)D.o.push(id);
     sauver();annoncer(s);rendre();envoyerBientot();
-    if(id!=="reine-des-pots"&&nb()>=SUCCES.length-1)gagner("reine-des-pots");
+    if(id!=="reine-des-pots"&&SUCCES.every(function(x){return x.cat==="avent"||x.id==="reine-des-pots"||D.u[x.id];}))gagner("reine-des-pots");
     return true;
   }
   function moment(){
@@ -3908,6 +3975,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       case "mail-lu":gagner("youve-got-miel");if(d.lus>=5)gagner("mail-lot-jaune");if(d.tous)gagner("tout-sucre-tout-miel");moment();break;
       case "mail-fav":gagner("le-miel-leur");if(d.nb>=5)gagner("pot-pourri");break;
       case "pj":gagner("ca-colle");break;
+      case "avent":if(d.n>=1&&d.n<=24)gagner("avent-"+d.n);break;
     }
   }
   window.abeilleSucces=function(type,data){try{traiter(type,data||{});}catch(e){}};
@@ -3915,18 +3983,20 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   /* ---------- La page « Pots de Miel » ---------- */
   function rendre(){
     var liste=$("pm-liste");if(!liste)return;
-    var n=nb();
-    $("pm-nb").textContent=n;$("pm-total").textContent=SUCCES.length;$("pm-barre").style.width=(n/SUCCES.length*100)+"%";
+    var n=nb(),vis=visibles(),tot=vis.length;
+    $("pm-nb").textContent=n;$("pm-total").textContent=tot;$("pm-barre").style.width=(n/tot*100)+"%";
+    if($("pm-intro-total"))$("pm-intro-total").textContent=tot;
     liste.textContent="";
     GROUPES.forEach(function(g){
-      var items=SUCCES.filter(function(s){return s.cat===g.c;}),ok=items.filter(function(s){return D.u[s.id];}).length;
+      var items=vis.filter(function(s){return s.cat===g.c;});if(!items.length)return;
+      var ok=items.filter(function(s){return D.u[s.id];}).length;
       liste.appendChild(el("h3","pm-titre",g.t+" · "+ok+"/"+items.length));
       var ul=el("ul","pm-grille");
       items.forEach(function(s){
         var on=!!D.u[s.id],secret=s.sec&&!on,li=el("li","pm-pot "+(on?"on":"off")),tx=el("div");
         var sv=el("span");sv.innerHTML=potSvg(on,on?s.ic:"?");li.appendChild(sv.firstChild);
         tx.appendChild(el("b",null,secret?"Pot secret":s.nom));
-        tx.appendChild(el("span",null,secret?"Celui-ci se découvre en butinant…":s.desc));
+        tx.appendChild(el("span",null,secret?(s.sd||"Celui-ci se découvre en butinant…"):s.desc));
         if(on){var d=new Date(D.u[s.id]);tx.appendChild(el("small",null,"Rempli le "+(isNaN(d)?"":d.toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"}))));}
         li.appendChild(tx);ul.appendChild(li);
       });
@@ -3995,9 +4065,10 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     if((h==="abeille-2048"||h==="pots-de-miel")&&!vus[h]){vus[h]=1;try{localStorage.setItem(CLE_VUS,JSON.stringify(vus));}catch(e){}}
     majNouveau();
   }
-  window.addEventListener("hashchange",function(){marquerVu();if(location.hash==="#pots-de-miel"){if(inPseudo){try{inPseudo.value=nettoyer(localStorage.getItem(CLE_PSEUDO));}catch(e){}}recuperer(false);}});
+  window.addEventListener("hashchange",function(){marquerVu();if(location.hash==="#pots-de-miel"){rendre();if(inPseudo){try{inPseudo.value=nettoyer(localStorage.getItem(CLE_PSEUDO));}catch(e){}}recuperer(false);}});
 
   /* ---------- Démarrage ---------- */
+  try{(JSON.parse(localStorage.getItem("calendrier-ouvertes"))||[]).forEach(function(n){if(n>=1&&n<=24)gagner("avent-"+n);});}catch(e){}
   rendre();majNouveau();marquerVu();
   setTimeout(function(){moment();recuperer(true);},2500);
 })();
@@ -4276,27 +4347,105 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
 })();
 </script>
 <script>
-/* Appli installable (PWA) : service worker + bouton « Installer ». Le service worker garde le site et les données Supabase
-   déjà consultées (classements, mots, objets…) pour qu’ils restent utilisables hors connexion. */
+/* Case 1 du calendrier de l’Avent : le sapin. Étape 1 : on construit l’arbre (étages, couleur, pot, étoile).
+   Le groupe <g id="sp-deco"> est prêt à recevoir les décorations (achat + glisser-déposer) à l’étape suivante.
+   L’état est gardé sur l’appareil (clé « abeille-sapin »). */
 (function(){
+  var sec=document.getElementById("sapin");if(!sec)return;
   var $=function(i){return document.getElementById(i);};
-  var seur=location.protocol==="https:"||location.hostname==="localhost"||location.hostname==="127.0.0.1";
-  if("serviceWorker" in navigator&&seur){
-    window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});
+  var CLE="abeille-sapin",MIN=2,MAX=6,NS="http://www.w3.org/2000/svg",CX=150,BASE0=290,PAS=34,HAUT=74;
+  var ESSENCES={vert:{n:"Vert",c:"#2e6b4c",o:"#1f4d3a"},givre:{n:"Givré",c:"#9fd0c0",o:"#6fa898"},rose:{n:"Rose",c:"#f4a6b8",o:"#e07f9c"}};
+  var POTS={miel:{n:"Pot de miel",c:"#f7c531",r:"#d16fd6"},rose:{n:"Pot rose",c:"#f4a6b8",r:"#1f4d3a"},bois:{n:"Seau en bois",c:"#b9835a",r:"#8a5a38"}};
+  var PHRASES={2:"Un petit sapin tout simple.",3:"Il commence à avoir de l’allure.",4:"Un beau sapin, bien fourni.",5:"Presque aussi haut que la ruche !",6:"Majestueux, digne d’une reine des abeilles."};
+  var DEFAUT={t:3,e:"vert",p:"miel",s:true},etat={t:DEFAUT.t,e:DEFAUT.e,p:DEFAUT.p,s:DEFAUT.s},nouveau=-1;
+  var reduit=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  try{
+    var b=JSON.parse(localStorage.getItem(CLE)||"null");
+    if(b&&typeof b==="object"){
+      if(b.t>=MIN&&b.t<=MAX)etat.t=b.t|0;
+      if(ESSENCES[b.e])etat.e=b.e;
+      if(POTS[b.p])etat.p=b.p;
+      if(typeof b.s==="boolean")etat.s=b.s;
+    }
+  }catch(e){}
+  function sauver(){try{localStorage.setItem(CLE,JSON.stringify(etat));}catch(e){}}
+  function ne(tag,attrs){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);return e;}
+  function vider(g){while(g.firstChild)g.removeChild(g.firstChild);}
+  var INK="var(--ink)";
+
+  /* Un étage : triangle à bord festonné, plus sombre côté droit */
+  function chemin(i,moitie){
+    var base=BASE0-i*PAS,apex=base-HAUT,w=214-i*30,r=CX+w/2,k=4,seg=w/k,n=moitie?k/2:k,x0,x1,j,d="M"+CX+" "+apex+"L"+r+" "+(base-6);
+    for(j=0;j<n;j++){x0=r-j*seg;x1=r-(j+1)*seg;d+="Q"+((x0+x1)/2)+" "+(base+12)+" "+x1+" "+(base-6);}
+    return d+"Z";
   }
-  var zone=$("pwa-zone"),btn=$("pwa-btn"),ios=$("pwa-ios"),inst=null;
-  if(!zone)return;
-  var autonome=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;
-  if(autonome)return;
-  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();inst=e;zone.hidden=false;btn.hidden=false;ios.hidden=true;});
-  window.addEventListener("appinstalled",function(){inst=null;zone.hidden=true;});
-  btn.addEventListener("click",function(){
-    if(!inst)return;
-    inst.prompt();
-    if(inst.userChoice)inst.userChoice.then(function(){inst=null;zone.hidden=true;},function(){});
-  });
-  var iphone=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
-  if(iphone){zone.hidden=false;ios.hidden=false;}
+  function dessinerArbre(){
+    var g=$("sp-arbre"),E=ESSENCES[etat.e],i,gi;
+    vider(g);
+    for(i=0;i<etat.t;i++){
+      gi=ne("g",{});
+      if(i===nouveau&&!reduit)gi.setAttribute("class","sp-nouv");
+      gi.appendChild(ne("path",{d:chemin(i,false),fill:E.c}));
+      gi.appendChild(ne("path",{d:chemin(i,true),fill:E.o,opacity:".5"}));
+      gi.appendChild(ne("path",{d:chemin(i,false),fill:"none",stroke:INK,"stroke-width":"2.5"}));
+      g.appendChild(gi);
+    }
+  }
+  function dessinerTronc(){
+    var g=$("sp-tronc");vider(g);
+    g.appendChild(ne("rect",{x:138,y:292,width:24,height:24,fill:"#8a5a38",stroke:INK,"stroke-width":"2.5"}));
+  }
+  function dessinerPot(){
+    var g=$("sp-pot"),P=POTS[etat.p];vider(g);
+    g.appendChild(ne("path",{d:"M100 320L108 352L192 352L200 320Z",fill:P.c,stroke:INK,"stroke-width":"2.5"}));
+    g.appendChild(ne("rect",{x:92,y:306,width:116,height:15,rx:5,fill:P.r,stroke:INK,"stroke-width":"2.5"}));
+  }
+  function dessinerEtoile(){
+    var g=$("sp-etoile"),i,pts=[],a,rr;vider(g);
+    if(!etat.s)return;
+    var cy=BASE0-(etat.t-1)*PAS-HAUT+4;
+    for(i=0;i<10;i++){a=-Math.PI/2+i*Math.PI/5;rr=i%2?7:16;pts.push((CX+rr*Math.cos(a)).toFixed(1)+","+(cy+rr*Math.sin(a)).toFixed(1));}
+    g.appendChild(ne("polygon",{points:pts.join(" "),fill:"#f7c531",stroke:INK,"stroke-width":"2.5"}));
+  }
+  function dessinerFond(){
+    var g=$("sp-fond"),pts=[[30,50,3],[262,70,2.5],[48,150,2],[250,170,3],[22,250,2.5],[274,260,2],[70,95,2],[232,38,2]],i;
+    vider(g);
+    pts.forEach(function(p){g.appendChild(ne("circle",{cx:p[0],cy:p[1],r:p[2],fill:"rgba(247,197,49,.55)"}));});
+  }
+
+  /* Boutons de choix (couleur, pot) */
+  function boutons(idZone,liste,cle){
+    var z=$(idZone);vider(z);
+    Object.keys(liste).forEach(function(k){
+      var bt=document.createElement("button");bt.type="button";bt.className="sd-btn";bt.textContent=liste[k].n;
+      bt.setAttribute("aria-pressed",etat[cle]===k?"true":"false");
+      bt.addEventListener("click",function(){etat[cle]=k;sauver();rendre();});
+      z.appendChild(bt);
+    });
+  }
+  function rendre(){
+    dessinerArbre();dessinerPot();dessinerEtoile();
+    $("sp-nb").textContent=etat.t+"/"+MAX;
+    $("sp-phrase").textContent=PHRASES[etat.t]||"";
+    $("sp-moins").disabled=etat.t<=MIN;$("sp-plus").disabled=etat.t>=MAX;
+    $("sp-etoile-btn").setAttribute("aria-pressed",etat.s?"true":"false");
+    boutons("sp-essences",ESSENCES,"e");boutons("sp-pots",POTS,"p");
+    $("sp-svg").setAttribute("aria-label","Sapin de Noël de "+etat.t+" étages, "+ESSENCES[etat.e].n.toLowerCase()+", dans un "+POTS[etat.p].n.toLowerCase()+(etat.s?", avec une étoile au sommet":""));
+    nouveau=-1;
+  }
+  $("sp-plus").addEventListener("click",function(){if(etat.t<MAX){nouveau=etat.t;etat.t++;sauver();rendre();}});
+  $("sp-moins").addEventListener("click",function(){if(etat.t>MIN){etat.t--;sauver();rendre();}});
+  $("sp-etoile-btn").addEventListener("click",function(){etat.s=!etat.s;sauver();rendre();});
+  $("sp-recom").addEventListener("click",function(){etat={t:DEFAUT.t,e:DEFAUT.e,p:DEFAUT.p,s:DEFAUT.s};sauver();rendre();});
+  dessinerFond();dessinerTronc();rendre();
+})();
+</script>
+<script>
+/* Nettoyage de l’ancienne appli installable (PWA) : désinscrit le service worker et vide ses caches chez les visiteurs qui l’avaient reçu.
+   Peut être supprimé dans quelques semaines. */
+(function(){
+  try{if("serviceWorker" in navigator)navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(x){x.unregister();});},function(){});}catch(e){}
+  try{if(window.caches&&caches.keys)caches.keys().then(function(k){k.forEach(function(n){caches.delete(n);});},function(){});}catch(e){}
 })();
 </script>
 </body>
