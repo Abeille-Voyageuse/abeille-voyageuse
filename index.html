@@ -4767,7 +4767,16 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   function nomsDecos(){return Object.keys(DECOS).filter(function(k){return etat.d[k];}).map(function(k){return ", décoration "+DECOS[k].n;}).join("")+(etat.o.length?", "+etat.o.length+" décorations suspendues":"");}
 
   /* Cadeaux : un seul paquet, une lettre, posée au pied du sapin (à droite du pot) */
-  var LETTRE=["Chère Inès,","Ici, le texte de ta lettre (à remplacer dans la constante LETTRE du script)."];
+  var LETTRE=[
+    "Chère Inès,",
+    "Nous sommes le premier jour de ce calendrier de l’avent. J’avais envie que tu construises ton propre sapin de Noël virtuel, et je sais qu’il est magnifique. J’avais aussi envie de te dire quelques raisons pour lesquelles je t’aime. Ce ne sont pas des raisons à peser ou à juger, juste des choses que je vois de toi.",
+    "J’aime ta force, la façon dont tu ne te laisses jamais abattre. Même quand tu as mal quelque part, pendant tes migraines ou tes soucis de santé, tu encaisses et tu gardes toujours de l’espoir en te disant que ça va passer.",
+    "J’aime aussi voir tes yeux briller dès que tu me parles d’un truc qui te fait vibrer, que ce soit ton passage à The Voice, l’AICOM, un concert de Taylor Swift, ou quand tu essaies un vêtement et que tu fais cette tête en mode « ah ouais c’est banger ». Et j’aime la façon dont tu t’intéresses sincèrement aux autres, même à des gens que tu as vus qu’une ou deux fois, comme Thomas ou Theba.",
+    "J’admire chez toi ce mélange entre le fait d’être simple et complexe. Tu analyses toujours tout à fond, même une musique que tu n’aimes pas trop pour essayer d’y trouver un truc bien, mais tu restes d’une honnêteté rare : tu ne triches jamais, même pour un partiel où l’IA est autorisée, tu ne fais pas semblant, tu ne te forces pas.",
+    "J’aime quand tu me parles de ta famille, parce qu’on sent direct qu’ils passent avant tout pour toi. À chaque fois que tu me racontes des souvenirs avec tes grands-parents, comme ton Amatxi qui t’attendait derrière la vitre ou qui allumait les radiateurs 5 minutes avant que vous arriviez, je vois tes yeux pétiller de nostalgie, et ça me touche à chaque fois.",
+    "Enfin, j’aime ton regard sur ce qui t’entoure : tu remarques des trucs que personne d’autre ne voit, d’un changement dans une DA jusqu’à un bouton sur mon visage ou le papier toilette qui manque à la maison. Et j’aime ton cœur, cette façon que tu as d’aider les gens par instinct, sans réfléchir, comme pour Candide ou Sibylle.",
+    "Je t’aime pour la personne que tu es vraiment, avec ton caractère entier : même quand tu te prends la tête à tout analyser, même quand tu tiens bon alors qu’il serait plus simple de lâcher. Ce n’est pas malgré ça que je t’aime, c’est aussi avec ça. C’est tout."
+  ];
   var apres=null;
   function foc(e){try{e.focus();}catch(x){}}
   function ouvrirLettre(){
