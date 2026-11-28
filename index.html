@@ -565,7 +565,19 @@ nav a .pastille,.menu-liste a .pastille{margin-left:.5rem}
   .sp-panneau-in{position:absolute;inset:0;box-sizing:border-box}
   .sp-vues{overflow:auto}
 }
-@media (prefers-reduced-motion:reduce){.sp-nouv,.sp-on .sp-led .sp-halo{animation:none}.sp-scene::before{transition:none}}
+/* Personnalisation : décos suspendues, rythme des LED, fonds, neige */
+.sp-bal{transform-origin:0 0;animation:sp-bal 3.6s ease-in-out infinite alternate}
+@keyframes sp-bal{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+.sp-sel{filter:drop-shadow(0 0 2px var(--barbie)) drop-shadow(0 0 4px var(--barbie))}
+.sp-on.sp-fixe .sp-led .sp-halo{animation:none;opacity:.6}
+.sp-on.sp-vite .sp-led .sp-halo{animation-duration:.55s}
+.sp-scene[data-fond="rose"]{background:linear-gradient(rgba(244,166,184,.5),rgba(244,166,184,.16))}
+.sp-scene[data-fond="ciel"]{background:linear-gradient(rgba(110,180,235,.5),rgba(200,230,250,.18))}
+.sp-scene[data-fond="foret"]{background:linear-gradient(rgba(80,150,90,.45),rgba(150,200,140,.16))}
+.sp-flo{animation:sp-neige 8s linear infinite}
+@keyframes sp-neige{from{transform:translate(0,-10px)}to{transform:translate(18px,380px)}}
+.sp-add{flex:0 1 auto}
+@media (prefers-reduced-motion:reduce){.sp-nouv,.sp-on .sp-led .sp-halo,.sp-bal,.sp-flo{animation:none}.sp-scene::before{transition:none}}
 /* ===== Pots de Miel ===== */
 #pots-de-miel{--sn-w:min(100%,36rem)}
 .pm-resume{max-width:36rem;margin-top:1.25rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin)}
@@ -1362,10 +1374,12 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
           <g id="sp-arbre"></g>
           <g id="sp-pot"></g>
           <g id="sp-cadeaux"></g>
+          <g id="sp-guir2"></g>
           <g id="sp-deco"></g>
           <g id="sp-ornements"></g>
           <g id="sp-etoile"></g>
         </g>
+        <g id="sp-neige" pointer-events="none" aria-hidden="true"></g>
       </svg>
     </div>
     <div class="sp-panneau">
@@ -1374,6 +1388,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
         <button type="button" role="tab" class="sp-onglet" id="sp-t-arbre" aria-controls="sp-v-arbre" aria-selected="true">Sapin</button>
         <button type="button" role="tab" class="sp-onglet" id="sp-t-lumieres" aria-controls="sp-v-lumieres" aria-selected="false" tabindex="-1">Lumières</button>
         <button type="button" role="tab" class="sp-onglet" id="sp-t-decos" aria-controls="sp-v-decos" aria-selected="false" tabindex="-1">Décos</button>
+        <button type="button" role="tab" class="sp-onglet" id="sp-t-ambiance" aria-controls="sp-v-ambiance" aria-selected="false" tabindex="-1">Ambiance</button>
         <button type="button" role="tab" class="sp-onglet" id="sp-t-cadeaux" aria-controls="sp-v-cadeaux" aria-selected="false" tabindex="-1">Cadeaux</button>
       </div>
       <div class="sp-vues">
@@ -1386,7 +1401,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
           </div>
           <fieldset class="sp-opt"><legend>Couleur</legend><div class="sp-ligne" id="sp-essences"></div></fieldset>
           <fieldset class="sp-opt"><legend>Pot</legend><div class="sp-ligne" id="sp-pots"></div></fieldset>
-          <fieldset class="sp-opt"><legend>Sommet</legend><div class="sp-ligne"><button type="button" class="sd-btn" id="sp-etoile-btn" aria-pressed="true">Étoile</button></div></fieldset>
+          <fieldset class="sp-opt"><legend>Sommet</legend><div class="sp-ligne" id="sp-sommets"></div></fieldset>
         </div>
         <div class="sp-vue" role="tabpanel" id="sp-v-lumieres" aria-labelledby="sp-t-lumieres" hidden>
           <p class="sn-aide">Pose la guirlande sur le sapin, puis allume-la : les LED scintillent dans la nuit. Un clic sur la guirlande les allume aussi.</p>
@@ -1394,13 +1409,23 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
             <button type="button" class="sd-btn" id="sp-guirlande-btn" aria-pressed="false">Guirlande LED</button>
             <button type="button" class="sd-btn sp-allumer" id="sp-allumer" aria-pressed="false" disabled>Allumer les LED</button>
           </div>
+          <fieldset class="sp-opt"><legend>Couleur des LED</legend><div class="sp-ligne" id="sp-lcol"></div></fieldset>
+          <fieldset class="sp-opt"><legend>Rythme</legend><div class="sp-ligne" id="sp-lry"></div></fieldset>
+          <fieldset class="sp-opt"><legend>Deuxième guirlande</legend><div class="sp-ligne" id="sp-gp"></div></fieldset>
         </div>
         <div class="sp-vue" role="tabpanel" id="sp-v-decos" aria-labelledby="sp-t-decos" hidden>
-          <p class="sn-aide">Une fois posées, les décorations se déplacent en la faisant glisser (ou avec les flèches du clavier).</p>
-          <div class="sp-ligne">
+          <p class="sn-aide">Clique sur une décoration pour l’accrocher (autant d’exemplaires que tu veux). Glisse-la ou utilise les flèches du clavier ; touche-la pour la sélectionner (Suppr pour la retirer).</p>
+          <div id="sp-palette"></div>
+          <div class="sp-ligne"><button type="button" class="sd-btn" id="sp-retirer" disabled>Retirer la sélection</button><button type="button" class="sd-btn" id="sp-decrocher">Tout décrocher</button></div>
+          <p class="sn-aide" id="sp-nbdeco" aria-live="polite"></p>
+          <fieldset class="sp-opt"><legend>Monuments</legend><div class="sp-ligne">
             <button type="button" class="sd-btn" id="sp-bigben-btn" aria-pressed="false">Big Ben</button>
             <button type="button" class="sd-btn" id="sp-maison-btn" aria-pressed="false">Maison de canal</button>
-          </div>
+          </div></fieldset>
+        </div>
+        <div class="sp-vue" role="tabpanel" id="sp-v-ambiance" aria-labelledby="sp-t-ambiance" hidden>
+          <fieldset class="sp-opt"><legend>Fond</legend><div class="sp-ligne" id="sp-fonds"></div></fieldset>
+          <fieldset class="sp-opt"><legend>Météo</legend><div class="sp-ligne"><button type="button" class="sd-btn" id="sp-neige-btn" aria-pressed="false">Neige qui tombe</button><button type="button" class="sd-btn" id="sp-sol-btn" aria-pressed="false">Tapis de neige</button></div></fieldset>
         </div>
         <div class="sp-vue" role="tabpanel" id="sp-v-cadeaux" aria-labelledby="sp-t-cadeaux" hidden>
           <p class="sn-aide">Un seul paquet au pied du sapin : une lettre.</p>
@@ -4441,11 +4466,15 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   var sec=document.getElementById("sapin");if(!sec)return;
   var $=function(i){return document.getElementById(i);};
   var CLE="abeille-sapin",MIN=2,MAX=6,NS="http://www.w3.org/2000/svg",CX=150,BASE0=290,PAS=34,HAUT=74;
-  var ESSENCES={vert:{n:"Vert",c:"#2e6b4c",o:"#1f4d3a"},givre:{n:"Givré",c:"#9fd0c0",o:"#6fa898"},rose:{n:"Rose",c:"#f4a6b8",o:"#e07f9c"}};
-  var POTS={miel:{n:"Pot de miel",c:"#f7c531",r:"#d16fd6"},rose:{n:"Pot rose",c:"#f4a6b8",r:"#1f4d3a"},bois:{n:"Seau en bois",c:"#b9835a",r:"#8a5a38"}};
-  var LEDS=["#f4a6b8","#f7dc5b","#00dcf9","#d16fd6","#8bd96b"];
+  var ESSENCES={vert:{n:"Vert",c:"#2e6b4c",o:"#1f4d3a"},givre:{n:"Givré",c:"#9fd0c0",o:"#6fa898"},rose:{n:"Rose",c:"#f4a6b8",o:"#e07f9c"},bleu:{n:"Bleu nuit",c:"#3f63a8",o:"#2b467f"},neige:{n:"Neigeux",c:"#eef4fa",o:"#c3d3e6"},violet:{n:"Violet",c:"#b07cd6",o:"#8c55b8"},or:{n:"Doré",c:"#e6bf4f",o:"#c49a2c"},rouge:{n:"Rouge",c:"#e8523f",o:"#b8372b"}};
+  var POTS={miel:{n:"Pot de miel",c:"#f7c531",r:"#d16fd6"},rose:{n:"Pot rose",c:"#f4a6b8",r:"#1f4d3a"},bois:{n:"Seau en bois",c:"#b9835a",r:"#8a5a38"},coccinelle:{n:"Pot coccinelle",c:"#e8352b",r:"#2b2416"},delft:{n:"Bleu de Delft",c:"#f8fbff",r:"#1f4fb0"},or:{n:"Pot doré",c:"#e6bf4f",r:"#b8860b"},violet:{n:"Pot violet",c:"#b07cd6",r:"#f7c531"}};
+  var LEDSETS={multi:{n:"Multicolore",c:["#f4a6b8","#f7dc5b","#00dcf9","#d16fd6","#8bd96b"]},chaud:{n:"Blanc chaud",c:["#ffe9a8","#ffd36b","#fff3c9"]},rose:{n:"Rose",c:["#f4a6b8","#ff7fa8","#ffc4d6"]},glace:{n:"Glacé",c:["#bfeaff","#7fd0ff","#e6f7ff","#8fb4ff"]},feu:{n:"Rouge & or",c:["#ff5a44","#ffb030","#f7dc5b"]}};
+  var RYTHMES={scint:{n:"Scintillement"},fixe:{n:"Fixe"},vite:{n:"Clignotant"}};
+  var GIRL={aucune:{n:"Aucune"},perles:{n:"Perles"},or:{n:"Cheveux d’ange"},pompons:{n:"Pompons"}};
+  var FONDS={miel:{n:"Miel"},rose:{n:"Rose"},ciel:{n:"Ciel d’hiver"},foret:{n:"Forêt"}};
+  var SOMMETS={etoile:{n:"Étoile"},coeur:{n:"Cœur"},flocon:{n:"Flocon"},abeille:{n:"Abeille"},coccinelle:{n:"Coccinelle"},aucun:{n:"Aucun"}};
   var PHRASES={2:"Un petit sapin tout simple.",3:"Il commence à avoir de l’allure.",4:"Un beau sapin, bien fourni.",5:"Presque aussi haut que la ruche !",6:"Majestueux, digne d’une reine des abeilles."};
-  var DEFAUT={t:3,e:"vert",p:"miel",s:true,g:false,l:false,c:false,d:{}},DEC=110,etat=copie(DEFAUT),nouveau=-1;
+  var DEFAUT={t:3,e:"vert",p:"miel",s:"etoile",g:false,l:false,c:false,d:{},o:[],lp:"multi",ry:"scint",gp:"aucune",f:"miel",n:false,so:false},DEC=110,etat=copie(DEFAUT),nouveau=-1;
   var reduit=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
   function copie(o){return JSON.parse(JSON.stringify(o));}
   try{
@@ -4454,7 +4483,9 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       if(b.t>=MIN&&b.t<=MAX)etat.t=b.t|0;
       if(ESSENCES[b.e])etat.e=b.e;
       if(POTS[b.p])etat.p=b.p;
-      if(typeof b.s==="boolean")etat.s=b.s;
+      if(SOMMETS[b.s])etat.s=b.s;else if(b.s===false)etat.s="aucun";
+      if(LEDSETS[b.lp])etat.lp=b.lp;if(RYTHMES[b.ry])etat.ry=b.ry;if(GIRL[b.gp])etat.gp=b.gp;if(FONDS[b.f])etat.f=b.f;
+      if(b.n===true)etat.n=true;if(b.so===true)etat.so=true;
       if(typeof b.g==="boolean")etat.g=b.g;
       if(etat.g&&typeof b.l==="boolean")etat.l=b.l;
       /* décorations posées : { clé: {x,y} } (ancien format : Big Ben seul avec o / ox / oy) */
@@ -4494,26 +4525,41 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   function dessinerPot(){
     var g=$("sp-pot"),P=POTS[etat.p];vider(g);
     g.appendChild(ne("path",{d:"M100 320L108 352L192 352L200 320Z",fill:P.c,stroke:INK,"stroke-width":"2.5"}));
+    if(etat.p==="coccinelle")[[122,333],[150,343],[178,333]].forEach(function(c){g.appendChild(ne("circle",{cx:c[0],cy:c[1],r:4.5,fill:"#2b2416"}));});
     g.appendChild(ne("rect",{x:92,y:306,width:116,height:15,rx:5,fill:P.r,stroke:INK,"stroke-width":"2.5"}));
   }
+  function flocon(){var P="M0 -15V15M-13 -7.5L13 7.5M-13 7.5L13 -7.5";return '<g fill="none" stroke-linecap="round"><path d="'+P+'" stroke="'+INK+'" stroke-width="6"/><path d="'+P+'" stroke="#bfe6ff" stroke-width="3"/></g>';}
   function dessinerEtoile(){
-    var g=$("sp-etoile"),i,pts=[],a,rr;vider(g);
-    if(!etat.s)return;
-    var cy=BASE0-(etat.t-1)*PAS-HAUT+4;
-    for(i=0;i<10;i++){a=-Math.PI/2+i*Math.PI/5;rr=i%2?7:16;pts.push((CX+rr*Math.cos(a)).toFixed(1)+","+(cy+rr*Math.sin(a)).toFixed(1));}
-    g.appendChild(ne("polygon",{points:pts.join(" "),fill:"#f7c531",stroke:INK,"stroke-width":"2.5"}));
+    var g=$("sp-etoile"),i,pts=[],a,rr,h,cy=BASE0-(etat.t-1)*PAS-HAUT+4,s=etat.s;vider(g);
+    if(s==="aucun")return;
+    if(s==="etoile"){
+      for(i=0;i<10;i++){a=-Math.PI/2+i*Math.PI/5;rr=i%2?7:16;pts.push((CX+rr*Math.cos(a)).toFixed(1)+","+(cy+rr*Math.sin(a)).toFixed(1));}
+      g.appendChild(ne("polygon",{points:pts.join(" "),fill:"#f7c531",stroke:INK,"stroke-width":"2.5"}));return;
+    }
+    h=ne("g",{transform:"translate("+CX+" "+(cy-3)+")"});
+    h.innerHTML=s==="coeur"?'<path d="M0 10C-24 -8-10-21 0-9C10-21 24-8 0 10Z" fill="#e8352b" stroke="'+INK+'" stroke-width="2.5" stroke-linejoin="round"/>'
+      :s==="flocon"?flocon():'<g transform="translate(0 -8) scale(.9)">'+(s==="abeille"?abeilleCorps():coccinelleCorps())+'</g>';
+    g.appendChild(h);
   }
   function dessinerFond(){
-    var g=$("sp-fond"),pts=[[40,50,3],[470,70,2.5],[90,150,2],[430,170,3],[30,260,2.5],[490,250,2],[150,90,2],[380,40,2],[210,30,2],[320,110,2.5],[60,330,2],[460,320,2.5]],i;
+    var g=$("sp-fond"),pts=[[40,50,3],[470,70,2.5],[90,150,2],[430,170,3],[30,260,2.5],[490,250,2],[150,90,2],[380,40,2],[210,30,2],[320,110,2.5],[60,330,2],[460,320,2.5]];
     vider(g);
     pts.forEach(function(p){g.appendChild(ne("circle",{cx:p[0],cy:p[1],r:p[2],fill:"rgba(247,197,49,.55)"}));});
+    if(etat.so)g.appendChild(ne("ellipse",{cx:260,cy:358,rx:218,ry:20,fill:"#f4f8ff",stroke:INK,"stroke-width":"2.5"}));
+    $("sp-scene").setAttribute("data-fond",etat.f);
+  }
+  function dessinerNeige(){
+    var g=$("sp-neige"),i;vider(g);
+    if(!etat.n)return;
+    for(i=0;i<34;i++)g.appendChild(ne("circle",{"class":"sp-flo",cx:(i*89)%520+4,cy:0,r:(1.5+(i%3)*.8).toFixed(1),fill:"#fff",stroke:"rgba(90,140,200,.6)","stroke-width":".8",
+      style:"animation-duration:"+(6+(i%5)*1.8).toFixed(1)+"s;animation-delay:-"+((i*1.3)%9).toFixed(1)+"s;transform:translateY("+((i*83)%360)+"px)"}));
   }
 
   /* Guirlande LED : un feston par étage, ampoules réparties le long du fil */
   function dessinerGuirlande(){
     var g=$("sp-deco"),i,j,k,idx=0,base,y0,w,hw,sag,x0,x2,cy,n,t,u,x,y,bulbe,lumiere;
     vider(g);
-    g.setAttribute("class",etat.l?"sp-on":"");
+    g.setAttribute("class",(etat.l?"sp-on ":"")+"sp-"+etat.ry);
     if(!etat.g)return;
     for(i=0;i<etat.t;i++){
       base=BASE0-i*PAS;y0=base-22;w=214-i*30;
@@ -4524,8 +4570,8 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       for(j=0;j<n;j++){
         t=(j+.5)/n;u=1-t;
         x=u*u*x0+2*u*t*CX+t*t*x2;y=u*u*y0+2*u*t*cy+t*t*y0;
-        k=idx%LEDS.length;
-        bulbe=ne("g",{"class":"sp-led",style:"--c:"+LEDS[k]});
+        k=idx%LEDSETS[etat.lp].c.length;
+        bulbe=ne("g",{"class":"sp-led",style:"--c:"+LEDSETS[etat.lp].c[k]});
         lumiere=ne("circle",{"class":"sp-halo",cx:x.toFixed(1),cy:(y+4).toFixed(1),r:9,filter:"url(#sp-flou)",style:"animation-delay:"+((idx%4)*.45).toFixed(2)+"s"});
         bulbe.appendChild(lumiere);
         bulbe.appendChild(ne("rect",{x:(x-1.4).toFixed(1),y:(y-1).toFixed(1),width:2.8,height:3.4,fill:INK}));
@@ -4535,6 +4581,18 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     }
   }
 
+
+  /* Deuxième guirlande (sans lumière) : perles, cheveux d’ange ou pompons, un feston par étage */
+  function dessinerGuir2(){
+    var g=$("sp-guir2"),S,i,base,y0,hw,sag,cy,d;vider(g);
+    if(etat.gp==="aucune")return;
+    S={perles:[[8,INK,"0 9",0],[5.6,"#fff6e0","0 9",0]],or:[[7,"#b8860b","",0],[4.4,"#f7c531","1.8 1.4",0]],pompons:[[11,INK,"0 16",0],[11,INK,"0 16",8],[8,"#f4a6b8","0 16",0],[8,"#d16fd6","0 16",8]]}[etat.gp];
+    for(i=0;i<etat.t;i++){
+      base=BASE0-i*PAS;y0=base-34;hw=((214-i*30)/2)*((y0-(base-HAUT))/(HAUT-6))*.9;sag=7+hw*.07;cy=y0+2*sag;
+      d="M"+(CX-hw).toFixed(1)+" "+y0+"Q"+CX+" "+cy.toFixed(1)+" "+(CX+hw).toFixed(1)+" "+y0;
+      S.forEach(function(s){g.appendChild(ne("path",{d:d,fill:"none",stroke:s[1],"stroke-width":s[0],"stroke-linecap":etat.gp==="or"?"butt":"round","stroke-dasharray":s[2]||"none","stroke-dashoffset":s[3]}));});
+    }
+  }
 
   /* Décorations à suspendre : chacune se pose d’un clic, se déplace en glissant (ou aux flèches) et reste sur l’arbre */
   function largeurArbre(y){
@@ -4585,41 +4643,102 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     bigben:{n:"Big Ben",bt:"sp-bigben-btn",dessin:bigBen,ech:.46,ht:150,x:CX+36,y:222},
     maison:{n:"Maison de canal",bt:"sp-maison-btn",dessin:maison,ech:.6,ht:104,x:CX-38,y:226}
   };
-  function placer(o,k){var d=etat.d[k];o.setAttribute("transform","translate("+d.x.toFixed(1)+" "+d.y.toFixed(1)+") scale("+DECOS[k].ech+")");}
+  function placer(o,d,D){o.setAttribute("transform","translate("+d.x.toFixed(1)+" "+d.y.toFixed(1)+") scale("+(D.ech||1)+")");}
   function pointeur(e){
     var sv=$("sp-svg"),pt=sv.createSVGPoint(),q;
     pt.x=e.clientX;pt.y=e.clientY;q=pt.matrixTransform(sv.getScreenCTM().inverse());
     return {x:q.x-DEC,y:q.y};
   }
+
+  /* Catalogue des décorations suspendues : chaque dessin est tracé autour de (0,0), le crochet, et se balance doucement. On en accroche autant qu’on veut. */
+  var MAXO=40,sel=null,TYPES={},N="#2b2416";
+  function fil(l){return '<path d="M0 0V'+l+'" stroke="#c9a43a" stroke-width="1.6" fill="none"/>';}
+  function si(c,w){return ' fill="'+c+'" stroke="'+INK+'" stroke-width="'+(w||2.2)+'" stroke-linejoin="round"';}
+  function T(k,g,e,n,ht,d){TYPES[k]={g:g,e:e,n:n,ht:ht,dessin:d,bal:true};}
+  function abeilleCorps(){
+    return '<ellipse cx="-11" cy="-2" rx="7" ry="10" transform="rotate(-25 -11 -2)"'+si("#eaf6ff",1.8)+' fill-opacity=".85"/><ellipse cx="11" cy="-2" rx="7" ry="10" transform="rotate(25 11 -2)"'+si("#eaf6ff",1.8)+' fill-opacity=".85"/>'
+      +'<ellipse cx="0" cy="6" rx="9.5" ry="12"'+si("#f7c531")+'/><path d="M-9 3Q0 7 9 3M-8.6 10.5Q0 14.5 8.6 10.5" stroke="'+N+'" stroke-width="3.4" fill="none"/><path d="M-1.8 18L0 23.5L1.8 18Z" fill="'+N+'"/>'
+      +'<circle cx="0" cy="-9" r="7.5"'+si("#f7c531")+'/><circle cx="-3" cy="-10" r="1.5" fill="'+N+'"/><circle cx="3" cy="-10" r="1.5" fill="'+N+'"/><circle cx="-5.3" cy="-7" r="1.5" fill="#f4a6b8"/><circle cx="5.3" cy="-7" r="1.5" fill="#f4a6b8"/>'
+      +'<path d="M-2.6 -6Q0 -3.8 2.6 -6" stroke="'+N+'" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M-3 -16L-6 -21M3 -16L6 -21" stroke="'+INK+'" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="-6" cy="-21" r="1.7" fill="'+N+'"/><circle cx="6" cy="-21" r="1.7" fill="'+N+'"/>';
+  }
+  function coccinelleCorps(){
+    return '<path d="M-10 6L-16 10M10 6L16 10M-12 0L-18 -1M12 0L18 -1M-10 -6L-15 -10M10 -6L15 -10" stroke="'+INK+'" stroke-width="1.8" fill="none" stroke-linecap="round"/>'
+      +'<ellipse cx="0" cy="-12" rx="7" ry="5.5"'+si(N)+'/><circle cx="0" cy="3" r="13"'+si("#e8352b")+'/><path d="M0 -10V16" stroke="'+N+'" stroke-width="1.8"/>'
+      +'<circle cx="-6.5" cy="-1" r="2.6" fill="'+N+'"/><circle cx="6.5" cy="-1" r="2.6" fill="'+N+'"/><circle cx="-6" cy="8.5" r="2.3" fill="'+N+'"/><circle cx="6" cy="8.5" r="2.3" fill="'+N+'"/>'
+      +'<circle cx="-2.6" cy="-13" r="1.3" fill="#fff"/><circle cx="2.6" cy="-13" r="1.3" fill="#fff"/><path d="M-2.5 -16.5Q-4 -21 -7 -21M2.5 -16.5Q4 -21 7 -21" stroke="'+INK+'" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
+  }
+  T("abeille","Les petites bêtes","🐝","Abeille qui pend",58,function(){return fil(18)+'<g transform="translate(0 34.5)">'+abeilleCorps()+'</g>';});
+  T("coccinelle","Les petites bêtes","🐞","Coccinelle qui pend",52,function(){return fil(18)+'<g transform="translate(0 35.5)">'+coccinelleCorps()+'</g>';});
+  function boule(c){var y=24;return fil(8)+'<rect x="-3.5" y="6" width="7" height="6" rx="1.5"'+si("#e6b422",1.6)+'/><circle cx="0" cy="'+y+'" r="13"'+si(c)+'/><ellipse cx="-5" cy="19" rx="2.6" ry="4.2" fill="#fff" opacity=".6" transform="rotate(30 -5 19)"/>';}
+  [["rouge","🔴","#e8352b","rouge"],["doree","🟡","#f7c531","dorée"],["bleue","🔵","#3b7de0","bleue"],["rose","🩷","#f4a6b8","rose"],["violette","🟣","#d16fd6","violette"],["argent","⚪","#dfe4ec","argentée"]].forEach(function(c){
+    T("boule-"+c[0],"Boules",c[1],"Boule "+c[3],38,function(){return boule(c[2]);});
+  });
+  T("flocon","Nature","❄️","Flocon",38,function(){return fil(6)+'<g transform="translate(0 22)">'+flocon()+'</g>';});
+  T("marguerite","Nature","🌼","Marguerite",46,function(){
+    var s="",i;for(i=0;i<10;i++)s+='<ellipse cx="0" cy="-11" rx="4" ry="7.5" transform="rotate('+i*36+')"'+si("#fff",1.5)+'/>';
+    return fil(8)+'<g transform="translate(0 26)">'+s+'<circle r="5"'+si("#f7c531",1.8)+'/></g>';});
+  T("champignon","Nature","🍄","Champignon",41,function(){return fil(8)+'<path d="M-6 26V37Q0 41 6 37V26Z"'+si("#f3f4e7")+'/><path d="M-15 26Q-15 8 0 8Q15 8 15 26Z"'+si("#e8352b")+'/><circle cx="-6" cy="17" r="2.2" fill="#fff"/><circle cx="5" cy="14" r="2" fill="#fff"/><circle cx="8" cy="21" r="1.8" fill="#fff"/>';});
+  T("pomme","Nature","🌰","Pomme de pin",40,function(){return fil(6)+'<path d="M0 6C-12 6 -14 24 -10 32C-6 40 6 40 10 32C14 24 12 6 0 6Z"'+si("#8a5a38")+'/><path d="M-9 16Q0 22 9 16M-10 24Q0 30 10 24M-7 32Q0 37 7 32" stroke="#5a3a22" stroke-width="1.6" fill="none"/>';});
+  T("canne","Gourmandises","🍬","Canne à bonbon",51,function(){var P="M10 46V20Q10 6 0 6Q-10 6 -10 16";return fil(6)+'<g fill="none" stroke-linecap="round"><path d="'+P+'" stroke="'+INK+'" stroke-width="10.5"/><path d="'+P+'" stroke="#fff" stroke-width="7.5"/><path d="'+P+'" stroke="#e8352b" stroke-width="7.5" stroke-dasharray="4 5" stroke-linecap="butt"/></g>';});
+  T("pain","Gourmandises","🍪","Bonhomme d’épice",46,function(){return fil(10)+'<g transform="translate(0 8)"'+si("#b9835a")+'><circle cx="0" cy="9" r="7"/><path d="M-6 15L-17 18Q-20 22 -15 24L-7 22L-9 34L-3 36L0 30L3 36L9 34L7 22L15 24Q20 22 17 18L6 15Z"/><circle cx="-2.6" cy="8" r="1" fill="'+INK+'" stroke="none"/><circle cx="2.6" cy="8" r="1" fill="'+INK+'" stroke="none"/><path d="M-2.5 11.5Q0 13.5 2.5 11.5" stroke="#fff" fill="none" stroke-width="1.2" stroke-linecap="round"/><circle cx="0" cy="21" r="1.3" fill="#e8352b" stroke="none"/><circle cx="0" cy="26" r="1.3" fill="#e8352b" stroke="none"/></g>';});
+  T("miel","Gourmandises","🍯","Pot de miel",46,function(){return fil(12)+'<path d="M-13 21Q-16 35 -12 41Q0 45 12 41Q16 35 13 21Z"'+si("#f7c531")+'/><rect x="-14" y="12" width="28" height="9" rx="3"'+si("#d16fd6")+'/><ellipse cx="0" cy="32" rx="7" ry="5" fill="#fff6a8" stroke="'+INK+'" stroke-width="1.2"/>';});
+  T("coeur","Fêtes","❤️","Cœur",34,function(){return fil(14)+'<path d="M0 34C-24 16-10 4 0 16C10 4 24 16 0 34Z"'+si("#e8352b")+'/><ellipse cx="-8" cy="15" rx="2" ry="3.2" fill="#fff" opacity=".6" transform="rotate(35 -8 15)"/>';});
+  T("etoile","Fêtes","⭐","Étoile",40,function(){var p=[],i,a,r;for(i=0;i<10;i++){a=-Math.PI/2+i*Math.PI/5;r=i%2?6.5:15;p.push((r*Math.cos(a)).toFixed(1)+","+(25+r*Math.sin(a)).toFixed(1));}return fil(10)+'<polygon points="'+p.join(" ")+'"'+si("#f7c531")+'/>';});
+  T("cloche","Fêtes","🔔","Clochette",47,function(){return fil(9)+'<path d="M-13 40Q-12 24 -10 17Q-8 9 0 9Q8 9 10 17Q12 24 13 40Z"'+si("#f7c531")+'/><circle cx="0" cy="43" r="3.4"'+si("#b8860b",1.8)+'/>';});
+  T("noeud","Fêtes","🎀","Nœud",42,function(){return fil(14)+'<g'+si("#d16fd6")+'><path d="M0 18L-17 8Q-21 18 -17 28Z"/><path d="M0 18L17 8Q21 18 17 28Z"/><path d="M-2 22L-10 41L-3 37Z"/><path d="M2 22L10 41L3 37Z"/><circle cx="0" cy="18" r="4" fill="#f4a6b8"/></g>';});
+  T("cadeau","Fêtes","🎁","Mini-cadeau",33,function(){return fil(7)+'<rect x="-11" y="10" width="22" height="22"'+si("#3b7de0")+'/><path d="M0 10V32M-11 21H11" stroke="#f7c531" stroke-width="4"/><ellipse cx="-4.5" cy="7.5" rx="4.5" ry="3"'+si("#f7c531",1.6)+' transform="rotate(-20 -4.5 7.5)"/><ellipse cx="4.5" cy="7.5" rx="4.5" ry="3"'+si("#f7c531",1.6)+' transform="rotate(20 4.5 7.5)"/>';});
+  T("bonnet","Fêtes","🎅","Bonnet de Noël",41,function(){return fil(14)+'<path d="M-14 36Q-10 12 8 10Q16 22 14 36Z"'+si("#e8352b")+'/><rect x="-16" y="33" width="32" height="7" rx="3"'+si("#f3f4e7")+'/><circle cx="9" cy="10" r="4.5"'+si("#f3f4e7")+'/>';});
+  try{if(b&&Array.isArray(b.o))b.o.slice(0,MAXO).forEach(function(v){if(v&&TYPES[v.k]&&isFinite(v.x)&&isFinite(v.y))etat.o.push({k:v.k,x:+v.x,y:+v.y});});}catch(e){}
+
+  function marquer(){
+    var g=$("sp-ornements"),i;
+    for(i=0;i<g.children.length;i++)g.children[i].classList.toggle("sp-sel",g.children[i]._d===sel);
+    $("sp-retirer").disabled=!sel;
+  }
+  function retirer(d){
+    var i=etat.o.indexOf(d);
+    if(i>=0)etat.o.splice(i,1);else Object.keys(etat.d).forEach(function(k){if(etat.d[k]===d)delete etat.d[k];});
+    if(sel===d)sel=null;sauver();rendre();
+  }
+  function ajouter(k){
+    if(etat.o.length>=MAXO)return;
+    var n=etat.o.length,d={k:k,x:CX+((n*47)%113)-56,y:120+(n*53)%130};
+    etat.o.push(d);sel=d;sauver();rendre();
+  }
   function dessinerOrnements(){
-    var g=$("sp-ornements");
+    var g=$("sp-ornements"),liste=[];
     vider(g);
-    Object.keys(DECOS).forEach(function(k){
-      var D=DECOS[k],d=etat.d[k],h=D.ht*D.ech,drag=null,o,p;
-      if(!d)return;
+    Object.keys(DECOS).forEach(function(k){if(etat.d[k])liste.push({d:etat.d[k],D:DECOS[k]});});
+    etat.o.forEach(function(d){liste.push({d:d,D:TYPES[d.k]});});
+    liste.forEach(function(it,n){
+      var d=it.d,D=it.D,h=D.ht*(D.ech||1),drag=null,o,p;
       p=caler(d.x,d.y,h);d.x=p.x;d.y=p.y;
-      o=ne("g",{"class":"sp-orn",tabindex:"0",role:"img","aria-label":"Décoration "+D.n+". Glisse-la ou utilise les flèches du clavier pour la déplacer sur le sapin."});
-      o.innerHTML=D.dessin();placer(o,k);
+      o=ne("g",{"class":"sp-orn",tabindex:"0",role:"img","aria-label":"Décoration "+D.n+". Glisse-la ou utilise les flèches du clavier pour la déplacer ; Suppr pour la retirer."});
+      o.innerHTML=D.bal?'<g class="sp-bal" style="animation-delay:-'+((n*.7)%3.6).toFixed(1)+'s">'+D.dessin()+'</g>':D.dessin();
+      o._d=d;placer(o,d,D);
       o.addEventListener("pointerdown",function(e){
         if(!$("sp-svg").getScreenCTM)return;
-        e.preventDefault();var q=pointeur(e);drag={dx:d.x-q.x,dy:d.y-q.y};
+        e.preventDefault();sel=d;marquer();var q=pointeur(e);drag={dx:d.x-q.x,dy:d.y-q.y};
         try{o.setPointerCapture(e.pointerId);}catch(x){}
       });
       o.addEventListener("pointermove",function(e){
         if(!drag)return;
-        var q=pointeur(e),c=caler(q.x+drag.dx,q.y+drag.dy,h);d.x=c.x;d.y=c.y;placer(o,k);
+        var q=pointeur(e),c=caler(q.x+drag.dx,q.y+drag.dy,h);d.x=c.x;d.y=c.y;placer(o,d,D);
       });
       function fin(){if(drag){drag=null;sauver();}}
       o.addEventListener("pointerup",fin);o.addEventListener("pointercancel",fin);
+      o.addEventListener("focus",function(){sel=d;marquer();});
       o.addEventListener("keydown",function(e){
+        if(e.key==="Delete"||e.key==="Backspace"){e.preventDefault();retirer(d);return;}
         var v={ArrowLeft:[-4,0],ArrowRight:[4,0],ArrowUp:[0,-4],ArrowDown:[0,4]}[e.key];
         if(!v)return;
-        e.preventDefault();var c=caler(d.x+v[0],d.y+v[1],h);d.x=c.x;d.y=c.y;placer(o,k);sauver();
+        e.preventDefault();var c=caler(d.x+v[0],d.y+v[1],h);d.x=c.x;d.y=c.y;placer(o,d,D);sauver();
       });
       g.appendChild(o);
     });
+    marquer();
   }
-  function nomsDecos(){return Object.keys(DECOS).filter(function(k){return etat.d[k];}).map(function(k){return ", décoration "+DECOS[k].n;}).join("");}
+  function nomsDecos(){return Object.keys(DECOS).filter(function(k){return etat.d[k];}).map(function(k){return ", décoration "+DECOS[k].n;}).join("")+(etat.o.length?", "+etat.o.length+" décorations suspendues":"");}
 
   /* Cadeaux : un seul paquet, une lettre, posée au pied du sapin (à droite du pot) */
   var LETTRE=["Chère Inès,","Ici, le texte de ta lettre (à remplacer dans la constante LETTRE du script)."];
@@ -4649,7 +4768,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   }
 
   /* Menu par catégories (la dernière : les cadeaux) */
-  var ORDRE=["arbre","lumieres","decos","cadeaux"];
+  var ORDRE=["arbre","lumieres","decos","ambiance","cadeaux"];
   function onglet(n,focus){
     ORDRE.forEach(function(k){
       var t=$("sp-t-"+k),v=$("sp-v-"+k),on=k===n;
@@ -4678,23 +4797,28 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     });
   }
   function rendre(){
-    dessinerArbre();dessinerPot();dessinerEtoile();dessinerGuirlande();dessinerOrnements();dessinerCadeaux();
+    dessinerFond();dessinerArbre();dessinerPot();dessinerEtoile();dessinerGuir2();dessinerGuirlande();dessinerOrnements();dessinerCadeaux();dessinerNeige();
     var sc=$("sp-scene");if(sc){if(etat.l)sc.classList.add("sp-nuit");else sc.classList.remove("sp-nuit");}
     $("sp-nb").textContent=etat.t+"/"+MAX;
     $("sp-phrase").textContent=PHRASES[etat.t]||"";
     $("sp-moins").disabled=etat.t<=MIN;$("sp-plus").disabled=etat.t>=MAX;
-    $("sp-etoile-btn").setAttribute("aria-pressed",etat.s?"true":"false");
+    $("sp-neige-btn").setAttribute("aria-pressed",etat.n?"true":"false");$("sp-sol-btn").setAttribute("aria-pressed",etat.so?"true":"false");
+    $("sp-nbdeco").textContent=etat.o.length+" / "+MAXO+" décorations suspendues";
+    Array.prototype.forEach.call(document.querySelectorAll(".sp-add"),function(b){b.disabled=etat.o.length>=MAXO;});
     $("sp-guirlande-btn").setAttribute("aria-pressed",etat.g?"true":"false");
     $("sp-allumer").setAttribute("aria-pressed",etat.l?"true":"false");$("sp-allumer").disabled=!etat.g;
     Object.keys(DECOS).forEach(function(k){$(DECOS[k].bt).setAttribute("aria-pressed",etat.d[k]?"true":"false");});
     $("sp-lettre-btn").setAttribute("aria-pressed",etat.c?"true":"false");$("sp-lire").disabled=!etat.c;
-    boutons("sp-essences",ESSENCES,"e");boutons("sp-pots",POTS,"p");
-    $("sp-svg").setAttribute("aria-label","Sapin de Noël de "+etat.t+" étages, "+ESSENCES[etat.e].n.toLowerCase()+", dans un "+POTS[etat.p].n.toLowerCase()+(etat.s?", avec une étoile au sommet":"")+(etat.g?(etat.l?", guirlande LED allumée":", guirlande LED éteinte"):"")+nomsDecos()+(etat.c?", une lettre au pied du sapin":""));
+    boutons("sp-essences",ESSENCES,"e");boutons("sp-pots",POTS,"p");boutons("sp-sommets",SOMMETS,"s");boutons("sp-lcol",LEDSETS,"lp");boutons("sp-lry",RYTHMES,"ry");boutons("sp-gp",GIRL,"gp");boutons("sp-fonds",FONDS,"f");
+    $("sp-svg").setAttribute("aria-label","Sapin de Noël de "+etat.t+" étages, "+ESSENCES[etat.e].n.toLowerCase()+", dans un "+POTS[etat.p].n.toLowerCase()+(etat.s!=="aucun"?", sommet : "+SOMMETS[etat.s].n.toLowerCase():"")+(etat.g?(etat.l?", guirlande LED allumée":", guirlande LED éteinte"):"")+nomsDecos()+(etat.c?", une lettre au pied du sapin":""));
     nouveau=-1;
   }
   $("sp-plus").addEventListener("click",function(){if(etat.t<MAX){nouveau=etat.t;etat.t++;sauver();rendre();}});
   $("sp-moins").addEventListener("click",function(){if(etat.t>MIN){etat.t--;sauver();rendre();}});
-  $("sp-etoile-btn").addEventListener("click",function(){etat.s=!etat.s;sauver();rendre();});
+  $("sp-neige-btn").addEventListener("click",function(){etat.n=!etat.n;sauver();rendre();});
+  $("sp-sol-btn").addEventListener("click",function(){etat.so=!etat.so;sauver();rendre();});
+  $("sp-retirer").addEventListener("click",function(){if(sel)retirer(sel);});
+  $("sp-decrocher").addEventListener("click",function(){etat.o=[];sel=null;sauver();rendre();});
   $("sp-guirlande-btn").addEventListener("click",function(){etat.g=!etat.g;if(!etat.g)etat.l=false;sauver();rendre();});
   $("sp-allumer").addEventListener("click",function(){if(!etat.g)return;etat.l=!etat.l;sauver();rendre();});
   $("sp-lettre-btn").addEventListener("click",function(){etat.c=!etat.c;sauver();rendre();});
@@ -4709,8 +4833,19 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     });
   });
   $("sp-deco").addEventListener("click",function(){if(!etat.g)return;etat.l=!etat.l;sauver();rendre();});
-  $("sp-recom").addEventListener("click",function(){etat=copie(DEFAUT);sauver();rendre();});
-  dessinerFond();dessinerTronc();rendre();
+  $("sp-recom").addEventListener("click",function(){etat=copie(DEFAUT);sel=null;sauver();rendre();});
+  var grp={};
+  Object.keys(TYPES).forEach(function(k){(grp[TYPES[k].g]=grp[TYPES[k].g]||[]).push(k);});
+  Object.keys(grp).forEach(function(gn){
+    var f=document.createElement("fieldset"),lg=document.createElement("legend"),ln=document.createElement("div");
+    f.className="sp-opt";lg.textContent=gn;ln.className="sp-ligne";f.appendChild(lg);f.appendChild(ln);
+    grp[gn].forEach(function(k){
+      var bt=document.createElement("button");bt.type="button";bt.className="sd-btn sp-add";bt.textContent=TYPES[k].e+" "+TYPES[k].n;
+      bt.addEventListener("click",function(){ajouter(k);});ln.appendChild(bt);
+    });
+    $("sp-palette").appendChild(f);
+  });
+  dessinerTronc();rendre();
 })();
 </script>
 <script>
