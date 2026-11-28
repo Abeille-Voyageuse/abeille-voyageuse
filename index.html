@@ -515,6 +515,16 @@ nav a .pastille,.menu-liste a .pastille{margin-left:.5rem}
 .sp-scene svg{position:relative;display:block;width:100%;height:100%}
 .sp-scene svg path,.sp-scene svg rect,.sp-scene svg polygon{stroke-linejoin:round}
 .sp-panneau{width:min(100%,30rem)}
+.sp-panneau-in{display:flex;flex-direction:column;gap:.75rem;padding:.9rem;border:2px solid var(--line);border-radius:1.25rem}
+.sp-onglets{display:flex;flex-wrap:wrap;gap:.4rem;flex:none}
+.sp-onglet{flex:1 1 auto;min-height:2.5rem;padding:.2rem .7rem;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:max(14px,.9rem);color:var(--ink);background:transparent;border:2px solid var(--line);border-radius:999px;cursor:pointer}
+.sp-onglet[aria-selected="true"]{background:rgba(var(--miel-rgb),.4);border-color:var(--miel)}
+.sp-onglet:focus-visible{outline:3px solid var(--barbie);outline-offset:2px}
+.sp-vues{flex:1 1 auto;min-height:0}
+.sp-vue[hidden]{display:none}
+.sp-vue>:first-child{margin-top:0}
+.sp-bas{flex:none}
+.sp-bas .sd-btn{width:100%}
 .sp-panneau .jeu-score{width:auto;margin-top:0}
 .sp-nouv{transform-box:fill-box;transform-origin:50% 100%;animation:sp-pousse .45s ease-out}
 @keyframes sp-pousse{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
@@ -535,16 +545,25 @@ nav a .pastille,.menu-liste a .pastille{margin-left:.5rem}
 #sp-deco.sp-on{cursor:pointer}
 .sp-orn{cursor:grab;touch-action:none}
 .sp-orn:active{cursor:grabbing}
-.sp-orn:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+.sp-orn:focus-visible,.sp-cad:focus-visible{outline:3px solid var(--barbie);outline-offset:3px}
+.sp-cad{cursor:pointer}
+/* La lettre */
+.sp-lettre{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(20,43,5,.55)}
+.sp-lettre[hidden]{display:none}
+.sp-lettre-in{display:flex;flex-direction:column;gap:1rem;align-items:flex-start;width:min(100%,34rem);max-height:90vh;overflow:auto;padding:1.5rem;border:2px solid var(--miel);border-radius:1.25rem;background:var(--bg);color:var(--ink)}
+.sp-lettre-in h3{margin:0;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin)}
+.sp-lettre-in p{margin:0 0 .75rem}
 @media (min-width:48rem){
   .sp-scene{width:min(100%,calc((100vh - 9rem)*1.405));width:min(100%,calc((100svh - 9rem)*1.405));aspect-ratio:520/370}
   .sp-panneau{width:min(100%,34rem)}
 }
 @media (min-width:62rem){
-  /* sur ordinateur, le jeu déborde de la colonne du site et occupe presque toute la largeur de l’écran */
-  .sp-cols{position:relative;left:50%;transform:translateX(-50%);width:min(calc(100vw - 3rem),90rem);flex-direction:row;align-items:flex-start;gap:2rem}
-  .sp-scene{flex:1 1 0;min-width:0;width:auto;max-width:calc((100vh - 9rem)*1.405);max-width:calc((100svh - 9rem)*1.405)}
-  .sp-panneau{flex:none;width:20rem}
+  /* sur ordinateur, le jeu déborde de la colonne du site ; le panneau de droite a exactement la hauteur de la scène */
+  .sp-cols{position:relative;left:50%;transform:translateX(-50%);width:min(calc(100vw - 3rem),90rem);flex-direction:row;align-items:stretch;gap:2rem}
+  .sp-scene{flex:1 1 0;min-width:0;width:auto;align-self:flex-start;max-width:calc((100vh - 9rem)*1.405);max-width:calc((100svh - 9rem)*1.405)}
+  .sp-panneau{flex:none;position:relative;align-self:stretch;width:21rem}
+  .sp-panneau-in{position:absolute;inset:0;box-sizing:border-box}
+  .sp-vues{overflow:auto}
 }
 @media (prefers-reduced-motion:reduce){.sp-nouv,.sp-on .sp-led .sp-halo{animation:none}.sp-scene::before{transition:none}}
 /* ===== Pots de Miel ===== */
@@ -1342,6 +1361,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
           <g id="sp-tronc"></g>
           <g id="sp-arbre"></g>
           <g id="sp-pot"></g>
+          <g id="sp-cadeaux"></g>
           <g id="sp-deco"></g>
           <g id="sp-ornements"></g>
           <g id="sp-etoile"></g>
@@ -1349,27 +1369,56 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       </svg>
     </div>
     <div class="sp-panneau">
-      <div class="jeu-score" role="group" aria-label="Ton sapin"><span>Étages <b id="sp-nb">3/6</b></span></div>
-      <p class="sp-phrase" id="sp-phrase" aria-live="polite"></p>
-      <div class="sp-ligne">
-        <button type="button" class="sd-btn" id="sp-moins">Retirer un étage</button>
-        <button type="button" class="sd-btn" id="sp-plus">Ajouter un étage</button>
+     <div class="sp-panneau-in">
+      <div class="sp-onglets" role="tablist" aria-label="Catégories du sapin">
+        <button type="button" role="tab" class="sp-onglet" id="sp-t-arbre" aria-controls="sp-v-arbre" aria-selected="true">Sapin</button>
+        <button type="button" role="tab" class="sp-onglet" id="sp-t-lumieres" aria-controls="sp-v-lumieres" aria-selected="false" tabindex="-1">Lumières</button>
+        <button type="button" role="tab" class="sp-onglet" id="sp-t-decos" aria-controls="sp-v-decos" aria-selected="false" tabindex="-1">Décos</button>
+        <button type="button" role="tab" class="sp-onglet" id="sp-t-cadeaux" aria-controls="sp-v-cadeaux" aria-selected="false" tabindex="-1">Cadeaux</button>
       </div>
-      <fieldset class="sp-opt"><legend>Couleur</legend><div class="sp-ligne" id="sp-essences"></div></fieldset>
-      <fieldset class="sp-opt"><legend>Pot</legend><div class="sp-ligne" id="sp-pots"></div></fieldset>
-      <fieldset class="sp-opt"><legend>Décorations</legend>
-        <div class="sp-ligne">
-          <button type="button" class="sd-btn" id="sp-etoile-btn" aria-pressed="true">Étoile</button>
-          <button type="button" class="sd-btn" id="sp-guirlande-btn" aria-pressed="false">Guirlande LED</button>
-          <button type="button" class="sd-btn" id="sp-bigben-btn" aria-pressed="false">Big Ben</button>
+      <div class="sp-vues">
+        <div class="sp-vue" role="tabpanel" id="sp-v-arbre" aria-labelledby="sp-t-arbre">
+          <div class="jeu-score" role="group" aria-label="Ton sapin"><span>Étages <b id="sp-nb">3/6</b></span></div>
+          <p class="sp-phrase" id="sp-phrase" aria-live="polite"></p>
+          <div class="sp-ligne">
+            <button type="button" class="sd-btn" id="sp-moins">Retirer un étage</button>
+            <button type="button" class="sd-btn" id="sp-plus">Ajouter un étage</button>
+          </div>
+          <fieldset class="sp-opt"><legend>Couleur</legend><div class="sp-ligne" id="sp-essences"></div></fieldset>
+          <fieldset class="sp-opt"><legend>Pot</legend><div class="sp-ligne" id="sp-pots"></div></fieldset>
+          <fieldset class="sp-opt"><legend>Sommet</legend><div class="sp-ligne"><button type="button" class="sd-btn" id="sp-etoile-btn" aria-pressed="true">Étoile</button></div></fieldset>
         </div>
-        <div class="sp-ligne">
-          <button type="button" class="sd-btn sp-allumer" id="sp-allumer" aria-pressed="false" disabled>Allumer les LED</button>
+        <div class="sp-vue" role="tabpanel" id="sp-v-lumieres" aria-labelledby="sp-t-lumieres" hidden>
+          <p class="sn-aide">Pose la guirlande sur le sapin, puis allume-la : les LED scintillent dans la nuit. Un clic sur la guirlande les allume aussi.</p>
+          <div class="sp-ligne">
+            <button type="button" class="sd-btn" id="sp-guirlande-btn" aria-pressed="false">Guirlande LED</button>
+            <button type="button" class="sd-btn sp-allumer" id="sp-allumer" aria-pressed="false" disabled>Allumer les LED</button>
+          </div>
         </div>
-      </fieldset>
-      <div class="sp-ligne"><button type="button" class="sd-btn" id="sp-recom">Recommencer</button></div>
-      <p class="sn-aide">Ajoute des étages pour faire grandir ton sapin, puis choisis sa couleur, son pot et ses décorations. Pense à allumer les LED ! Une fois posé, Big Ben se déplace en le faisant glisser (ou avec les flèches du clavier).</p>
+        <div class="sp-vue" role="tabpanel" id="sp-v-decos" aria-labelledby="sp-t-decos" hidden>
+          <p class="sn-aide">Une fois posée, la décoration se déplace en la faisant glisser (ou avec les flèches du clavier).</p>
+          <div class="sp-ligne">
+            <button type="button" class="sd-btn" id="sp-bigben-btn" aria-pressed="false">Big Ben</button>
+          </div>
+        </div>
+        <div class="sp-vue" role="tabpanel" id="sp-v-cadeaux" aria-labelledby="sp-t-cadeaux" hidden>
+          <p class="sn-aide">Un seul paquet au pied du sapin : une lettre.</p>
+          <div class="sp-ligne">
+            <button type="button" class="sd-btn" id="sp-lettre-btn" aria-pressed="false">Poser la lettre</button>
+            <button type="button" class="sd-btn" id="sp-lire" disabled>Lire la lettre</button>
+          </div>
+        </div>
+      </div>
+      <div class="sp-bas"><button type="button" class="sd-btn" id="sp-recom">Recommencer</button></div>
+     </div>
     </div>
+    </div>
+    <div class="sp-lettre" id="sp-lettre" role="dialog" aria-modal="true" aria-labelledby="sp-lettre-titre" hidden>
+      <div class="sp-lettre-in">
+        <h3 id="sp-lettre-titre">Une lettre pour toi</h3>
+        <div id="sp-lettre-texte"></div>
+        <button type="button" class="sn-btn" id="sp-lettre-fermer">Fermer</button>
+      </div>
     </div>
   </section>
   <section id="petales" class="page jeu">
@@ -4383,7 +4432,8 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
 </script>
 <script>
 /* Case 1 du calendrier de l’Avent : le sapin. On construit l’arbre (étages, couleur, pot, étoile) puis on le décore :
-   une guirlande LED qu’on peut allumer (la scène passe alors « de nuit ») et une décoration Big Ben qu’on déplace sur l’arbre.
+   une guirlande LED qu’on peut allumer (la scène passe alors « de nuit »), une décoration Big Ben qu’on déplace sur l’arbre,
+   et, en dernière catégorie, un unique cadeau : une lettre posée au pied du sapin. Menu par catégories dans le panneau de droite.
    Le groupe <g id="sp-deco"> reçoit les décorations ; d’autres arriveront (achat + glisser-déposer).
    L’état est gardé sur l’appareil (clé « abeille-sapin »). */
 (function(){
@@ -4394,7 +4444,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   var POTS={miel:{n:"Pot de miel",c:"#f7c531",r:"#d16fd6"},rose:{n:"Pot rose",c:"#f4a6b8",r:"#1f4d3a"},bois:{n:"Seau en bois",c:"#b9835a",r:"#8a5a38"}};
   var LEDS=["#f4a6b8","#f7dc5b","#00dcf9","#d16fd6","#8bd96b"];
   var PHRASES={2:"Un petit sapin tout simple.",3:"Il commence à avoir de l’allure.",4:"Un beau sapin, bien fourni.",5:"Presque aussi haut que la ruche !",6:"Majestueux, digne d’une reine des abeilles."};
-  var DEFAUT={t:3,e:"vert",p:"miel",s:true,g:false,l:false,o:false,ox:CX+36,oy:222},DEC=110,ECH=.46,etat=copie(DEFAUT),nouveau=-1;
+  var DEFAUT={t:3,e:"vert",p:"miel",s:true,g:false,l:false,o:false,c:false,ox:CX+36,oy:222},DEC=110,ECH=.46,etat=copie(DEFAUT),nouveau=-1;
   var reduit=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
   function copie(o){var r={};for(var k in o)r[k]=o[k];return r;}
   try{
@@ -4407,6 +4457,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       if(typeof b.g==="boolean")etat.g=b.g;
       if(etat.g&&typeof b.l==="boolean")etat.l=b.l;
       if(typeof b.o==="boolean")etat.o=b.o;
+      if(typeof b.c==="boolean")etat.c=b.c;
       if(isFinite(b.ox))etat.ox=+b.ox;
       if(isFinite(b.oy))etat.oy=+b.oy;
     }
@@ -4543,6 +4594,52 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     g.appendChild(o);
   }
 
+  /* Cadeaux : un seul paquet, une lettre, posée au pied du sapin (à droite du pot) */
+  var LETTRE=["Chère Inès,","Ici, le texte de ta lettre (à remplacer dans la constante LETTRE du script)."];
+  var apres=null;
+  function foc(e){try{e.focus();}catch(x){}}
+  function ouvrirLettre(){
+    var ov=$("sp-lettre"),t=$("sp-lettre-texte");
+    vider(t);
+    LETTRE.forEach(function(l){var q=document.createElement("p");q.textContent=l;t.appendChild(q);});
+    apres=document.activeElement;ov.hidden=false;foc($("sp-lettre-fermer"));
+  }
+  function fermerLettre(){$("sp-lettre").hidden=true;if(apres)foc(apres);apres=null;}
+  function dessinerCadeaux(){
+    var g=$("sp-cadeaux"),c;
+    vider(g);
+    if(!etat.c)return;
+    c=ne("g",{"class":"sp-cad",tabindex:"0",role:"button","aria-label":"Lire la lettre",transform:"translate(236 334) rotate(-5)"});
+    c.innerHTML='<rect x="-27" y="-17" width="54" height="34" rx="3" fill="#f3f4e7" stroke="#142b05" stroke-width="2.5"/>'
+      +'<path d="M-27 -17L0 4L27 -17" fill="#e8e9d3" stroke="#142b05" stroke-width="2.2"/>'
+      +'<rect x="-4.5" y="-17" width="9" height="34" fill="#d16fd6" stroke="#142b05" stroke-width="1.8"/>'
+      +'<ellipse cx="-6.5" cy="-20" rx="7" ry="4.2" fill="#d16fd6" stroke="#142b05" stroke-width="1.8" transform="rotate(-18 -6.5 -20)"/>'
+      +'<ellipse cx="6.5" cy="-20" rx="7" ry="4.2" fill="#d16fd6" stroke="#142b05" stroke-width="1.8" transform="rotate(18 6.5 -20)"/>'
+      +'<circle cx="0" cy="-19" r="2.6" fill="#f4a6b8" stroke="#142b05" stroke-width="1.5"/>';
+    c.addEventListener("click",ouvrirLettre);
+    c.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();ouvrirLettre();}});
+    g.appendChild(c);
+  }
+
+  /* Menu par catégories (la dernière : les cadeaux) */
+  var ORDRE=["arbre","lumieres","decos","cadeaux"];
+  function onglet(n,focus){
+    ORDRE.forEach(function(k){
+      var t=$("sp-t-"+k),v=$("sp-v-"+k),on=k===n;
+      t.setAttribute("aria-selected",on?"true":"false");t.setAttribute("tabindex",on?"0":"-1");v.hidden=!on;
+    });
+    if(focus)foc($("sp-t-"+n));
+  }
+  ORDRE.forEach(function(k,i){
+    var t=$("sp-t-"+k);
+    t.addEventListener("click",function(){onglet(k,false);});
+    t.addEventListener("keydown",function(e){
+      var j=e.key==="ArrowRight"?(i+1)%ORDRE.length:e.key==="ArrowLeft"?(i+ORDRE.length-1)%ORDRE.length:e.key==="Home"?0:e.key==="End"?ORDRE.length-1:-1;
+      if(j<0)return;
+      e.preventDefault();onglet(ORDRE[j],true);
+    });
+  });
+
   /* Boutons de choix (couleur, pot) */
   function boutons(idZone,liste,cle){
     var z=$(idZone);vider(z);
@@ -4554,7 +4651,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     });
   }
   function rendre(){
-    dessinerArbre();dessinerPot();dessinerEtoile();dessinerGuirlande();dessinerOrnement();
+    dessinerArbre();dessinerPot();dessinerEtoile();dessinerGuirlande();dessinerOrnement();dessinerCadeaux();
     var sc=$("sp-scene");if(sc){if(etat.l)sc.classList.add("sp-nuit");else sc.classList.remove("sp-nuit");}
     $("sp-nb").textContent=etat.t+"/"+MAX;
     $("sp-phrase").textContent=PHRASES[etat.t]||"";
@@ -4563,8 +4660,9 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     $("sp-guirlande-btn").setAttribute("aria-pressed",etat.g?"true":"false");
     $("sp-allumer").setAttribute("aria-pressed",etat.l?"true":"false");$("sp-allumer").disabled=!etat.g;
     $("sp-bigben-btn").setAttribute("aria-pressed",etat.o?"true":"false");
+    $("sp-lettre-btn").setAttribute("aria-pressed",etat.c?"true":"false");$("sp-lire").disabled=!etat.c;
     boutons("sp-essences",ESSENCES,"e");boutons("sp-pots",POTS,"p");
-    $("sp-svg").setAttribute("aria-label","Sapin de Noël de "+etat.t+" étages, "+ESSENCES[etat.e].n.toLowerCase()+", dans un "+POTS[etat.p].n.toLowerCase()+(etat.s?", avec une étoile au sommet":"")+(etat.g?(etat.l?", guirlande LED allumée":", guirlande LED éteinte"):"")+(etat.o?", décoration Big Ben":""));
+    $("sp-svg").setAttribute("aria-label","Sapin de Noël de "+etat.t+" étages, "+ESSENCES[etat.e].n.toLowerCase()+", dans un "+POTS[etat.p].n.toLowerCase()+(etat.s?", avec une étoile au sommet":"")+(etat.g?(etat.l?", guirlande LED allumée":", guirlande LED éteinte"):"")+(etat.o?", décoration Big Ben":"")+(etat.c?", une lettre au pied du sapin":""));
     nouveau=-1;
   }
   $("sp-plus").addEventListener("click",function(){if(etat.t<MAX){nouveau=etat.t;etat.t++;sauver();rendre();}});
@@ -4572,6 +4670,11 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   $("sp-etoile-btn").addEventListener("click",function(){etat.s=!etat.s;sauver();rendre();});
   $("sp-guirlande-btn").addEventListener("click",function(){etat.g=!etat.g;if(!etat.g)etat.l=false;sauver();rendre();});
   $("sp-allumer").addEventListener("click",function(){if(!etat.g)return;etat.l=!etat.l;sauver();rendre();});
+  $("sp-lettre-btn").addEventListener("click",function(){etat.c=!etat.c;sauver();rendre();});
+  $("sp-lire").addEventListener("click",ouvrirLettre);
+  $("sp-lettre-fermer").addEventListener("click",fermerLettre);
+  $("sp-lettre").addEventListener("click",function(e){if(e.target===$("sp-lettre"))fermerLettre();});
+  $("sp-lettre").addEventListener("keydown",function(e){if(e.key==="Escape"){e.preventDefault();fermerLettre();}else if(e.key==="Tab"){e.preventDefault();foc($("sp-lettre-fermer"));}});
   $("sp-bigben-btn").addEventListener("click",function(){etat.o=!etat.o;sauver();rendre();});
   $("sp-deco").addEventListener("click",function(){if(!etat.g)return;etat.l=!etat.l;sauver();rendre();});
   $("sp-recom").addEventListener("click",function(){etat=copie(DEFAUT);sauver();rendre();});
