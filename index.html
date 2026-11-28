@@ -1396,9 +1396,10 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
           </div>
         </div>
         <div class="sp-vue" role="tabpanel" id="sp-v-decos" aria-labelledby="sp-t-decos" hidden>
-          <p class="sn-aide">Une fois posée, la décoration se déplace en la faisant glisser (ou avec les flèches du clavier).</p>
+          <p class="sn-aide">Une fois posées, les décorations se déplacent en la faisant glisser (ou avec les flèches du clavier).</p>
           <div class="sp-ligne">
             <button type="button" class="sd-btn" id="sp-bigben-btn" aria-pressed="false">Big Ben</button>
+            <button type="button" class="sd-btn" id="sp-maison-btn" aria-pressed="false">Maison de canal</button>
           </div>
         </div>
         <div class="sp-vue" role="tabpanel" id="sp-v-cadeaux" aria-labelledby="sp-t-cadeaux" hidden>
@@ -4432,7 +4433,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
 </script>
 <script>
 /* Case 1 du calendrier de l’Avent : le sapin. On construit l’arbre (étages, couleur, pot, étoile) puis on le décore :
-   une guirlande LED qu’on peut allumer (la scène passe alors « de nuit »), une décoration Big Ben qu’on déplace sur l’arbre,
+   une guirlande LED qu’on peut allumer (la scène passe alors « de nuit »), des décorations (Big Ben, maison de canal) qu’on déplace sur l’arbre,
    et, en dernière catégorie, un unique cadeau : une lettre posée au pied du sapin. Menu par catégories dans le panneau de droite.
    Le groupe <g id="sp-deco"> reçoit les décorations ; d’autres arriveront (achat + glisser-déposer).
    L’état est gardé sur l’appareil (clé « abeille-sapin »). */
@@ -4444,9 +4445,9 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   var POTS={miel:{n:"Pot de miel",c:"#f7c531",r:"#d16fd6"},rose:{n:"Pot rose",c:"#f4a6b8",r:"#1f4d3a"},bois:{n:"Seau en bois",c:"#b9835a",r:"#8a5a38"}};
   var LEDS=["#f4a6b8","#f7dc5b","#00dcf9","#d16fd6","#8bd96b"];
   var PHRASES={2:"Un petit sapin tout simple.",3:"Il commence à avoir de l’allure.",4:"Un beau sapin, bien fourni.",5:"Presque aussi haut que la ruche !",6:"Majestueux, digne d’une reine des abeilles."};
-  var DEFAUT={t:3,e:"vert",p:"miel",s:true,g:false,l:false,o:false,c:false,ox:CX+36,oy:222},DEC=110,ECH=.46,etat=copie(DEFAUT),nouveau=-1;
+  var DEFAUT={t:3,e:"vert",p:"miel",s:true,g:false,l:false,c:false,d:{}},DEC=110,etat=copie(DEFAUT),nouveau=-1;
   var reduit=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function copie(o){var r={};for(var k in o)r[k]=o[k];return r;}
+  function copie(o){return JSON.parse(JSON.stringify(o));}
   try{
     var b=JSON.parse(localStorage.getItem(CLE)||"null");
     if(b&&typeof b==="object"){
@@ -4456,10 +4457,11 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       if(typeof b.s==="boolean")etat.s=b.s;
       if(typeof b.g==="boolean")etat.g=b.g;
       if(etat.g&&typeof b.l==="boolean")etat.l=b.l;
-      if(typeof b.o==="boolean")etat.o=b.o;
+      /* décorations posées : { clé: {x,y} } (ancien format : Big Ben seul avec o / ox / oy) */
+      if(b.d&&typeof b.d==="object"){
+        Object.keys(b.d).forEach(function(k){var v=b.d[k];if(v&&isFinite(v.x)&&isFinite(v.y))etat.d[k]={x:+v.x,y:+v.y};});
+      }else if(b.o===true&&isFinite(b.ox)&&isFinite(b.oy)){etat.d.bigben={x:+b.ox,y:+b.oy};}
       if(typeof b.c==="boolean")etat.c=b.c;
-      if(isFinite(b.ox))etat.ox=+b.ox;
-      if(isFinite(b.oy))etat.oy=+b.oy;
     }
   }catch(e){}
   function sauver(){try{localStorage.setItem(CLE,JSON.stringify(etat));}catch(e){}}
@@ -4534,16 +4536,16 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   }
 
 
-  /* Décoration Big Ben (broderie dorée) : se déplace en glissant ou avec les flèches, toujours posée sur l’arbre */
+  /* Décorations à suspendre : chacune se pose d’un clic, se déplace en glissant (ou aux flèches) et reste sur l’arbre */
   function largeurArbre(y){
     var m=0,i,base,apex,f;
     for(i=0;i<etat.t;i++){base=BASE0-i*PAS;apex=base-HAUT;if(y<apex)continue;f=Math.min(1,(y-apex)/(HAUT-6));m=Math.max(m,(214-i*30)/2*f);}
     return m;
   }
-  function caler(x,y){
-    var ymin=BASE0-(etat.t-1)*PAS-HAUT+24,ymax=BASE0-54,h;
-    y=Math.max(ymin,Math.min(ymax,y));h=largeurArbre(y)*.8;
-    return {x:Math.max(CX-h,Math.min(CX+h,x)),y:y};
+  function caler(x,y,h){
+    var ymin=BASE0-(etat.t-1)*PAS-HAUT+24,ymax=Math.max(ymin,305-h),l;
+    y=Math.max(ymin,Math.min(ymax,y));l=largeurArbre(y)*.8;
+    return {x:Math.max(CX-l,Math.min(CX+l,x)),y:y};
   }
   function bigBen(){
     var t="",k,a,x1,y1,x2,y2;
@@ -4562,37 +4564,62 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       +'<circle cx="0" cy="92" r="10.2" fill="#f3f4e7" stroke="#b8860b" stroke-width="1.4"/>'+t
       +'<path d="M0 92V84.5M0 92H6.5" stroke="#b8860b" stroke-width="1.5" stroke-linecap="round" fill="none"/>';
   }
-  function placerOrnement(o){o.setAttribute("transform","translate("+etat.ox.toFixed(1)+" "+etat.oy.toFixed(1)+") scale("+ECH+")");}
+  /* Maison de canal d’Amsterdam, en faïence blanche peinte en bleu de Delft */
+  function fen(cx,y,w,h){
+    var x=cx-w/2;
+    return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="#f8fbff" stroke="#1f4fb0" stroke-width="1.2"/>'
+      +'<path d="M'+cx+' '+y+'V'+(y+h)+'M'+x+' '+(y+h/3).toFixed(1)+'H'+(x+w)+'M'+x+' '+(y+2*h/3).toFixed(1)+'H'+(x+w)+'" stroke="#1f4fb0" stroke-width=".9" fill="none"/>';
+  }
+  function maison(){
+    return '<path d="M-4 25L-2.5 4Q0 -1 2.5 4L4 25" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'
+      +'<polygon points="-4,24 4,24 4,30 8,30 8,37 12,37 12,44 16,44 16,104 -16,104 -16,44 -12,44 -12,37 -8,37 -8,30 -4,30" fill="#f8fbff" stroke="#1f4fb0" stroke-width="2.4" stroke-linejoin="round"/>'
+      +'<path d="M-4 30H-8M4 30H8M-8 37H-12M8 37H12M-12 44H-16M12 44H16M-4 24H4" stroke="#1f4fb0" stroke-width="3" stroke-linecap="round" fill="none"/>'
+      +'<rect x="-2.6" y="33" width="5.2" height="5.2" fill="none" stroke="#1f4fb0" stroke-width="1.3"/>'
+      +fen(-9,53,7,13)+fen(0,53,7,13)+fen(9,53,7,13)
+      +fen(-9,71,7,13)+fen(0,71,7,13)+fen(9,71,7,13)
+      +'<rect x="-13.5" y="87" width="8" height="17" fill="#f8fbff" stroke="#1f4fb0" stroke-width="1.2"/>'
+      +'<path d="M-13.5 95.5H-5.5M-9.5 95.5V104M-13.5 99.5H-5.5" stroke="#1f4fb0" stroke-width=".9" fill="none"/>'
+      +fen(3.5,88,6,7)+fen(11,88,6,7)+fen(3.5,97,6,7)+fen(11,97,6,7);
+  }
+  var DECOS={
+    bigben:{n:"Big Ben",bt:"sp-bigben-btn",dessin:bigBen,ech:.46,ht:150,x:CX+36,y:222},
+    maison:{n:"Maison de canal",bt:"sp-maison-btn",dessin:maison,ech:.6,ht:104,x:CX-38,y:226}
+  };
+  function placer(o,k){var d=etat.d[k];o.setAttribute("transform","translate("+d.x.toFixed(1)+" "+d.y.toFixed(1)+") scale("+DECOS[k].ech+")");}
   function pointeur(e){
     var sv=$("sp-svg"),pt=sv.createSVGPoint(),q;
     pt.x=e.clientX;pt.y=e.clientY;q=pt.matrixTransform(sv.getScreenCTM().inverse());
     return {x:q.x-DEC,y:q.y};
   }
-  function dessinerOrnement(){
-    var g=$("sp-ornements"),o,drag=null,p;
+  function dessinerOrnements(){
+    var g=$("sp-ornements");
     vider(g);
-    if(!etat.o)return;
-    p=caler(etat.ox,etat.oy);etat.ox=p.x;etat.oy=p.y;
-    o=ne("g",{"class":"sp-orn",tabindex:"0",role:"img","aria-label":"Décoration Big Ben. Glisse-la ou utilise les flèches du clavier pour la déplacer sur le sapin."});
-    o.innerHTML=bigBen();placerOrnement(o);
-    o.addEventListener("pointerdown",function(e){
-      if(!$("sp-svg").getScreenCTM)return;
-      e.preventDefault();var q=pointeur(e);drag={dx:etat.ox-q.x,dy:etat.oy-q.y};
-      try{o.setPointerCapture(e.pointerId);}catch(x){}
-    });
-    o.addEventListener("pointermove",function(e){
-      if(!drag)return;
-      var q=pointeur(e),c=caler(q.x+drag.dx,q.y+drag.dy);etat.ox=c.x;etat.oy=c.y;placerOrnement(o);
-    });
-    function fin(){if(drag){drag=null;sauver();}}
-    o.addEventListener("pointerup",fin);o.addEventListener("pointercancel",fin);
-    o.addEventListener("keydown",function(e){
-      var d={ArrowLeft:[-4,0],ArrowRight:[4,0],ArrowUp:[0,-4],ArrowDown:[0,4]}[e.key];
+    Object.keys(DECOS).forEach(function(k){
+      var D=DECOS[k],d=etat.d[k],h=D.ht*D.ech,drag=null,o,p;
       if(!d)return;
-      e.preventDefault();var c=caler(etat.ox+d[0],etat.oy+d[1]);etat.ox=c.x;etat.oy=c.y;placerOrnement(o);sauver();
+      p=caler(d.x,d.y,h);d.x=p.x;d.y=p.y;
+      o=ne("g",{"class":"sp-orn",tabindex:"0",role:"img","aria-label":"Décoration "+D.n+". Glisse-la ou utilise les flèches du clavier pour la déplacer sur le sapin."});
+      o.innerHTML=D.dessin();placer(o,k);
+      o.addEventListener("pointerdown",function(e){
+        if(!$("sp-svg").getScreenCTM)return;
+        e.preventDefault();var q=pointeur(e);drag={dx:d.x-q.x,dy:d.y-q.y};
+        try{o.setPointerCapture(e.pointerId);}catch(x){}
+      });
+      o.addEventListener("pointermove",function(e){
+        if(!drag)return;
+        var q=pointeur(e),c=caler(q.x+drag.dx,q.y+drag.dy,h);d.x=c.x;d.y=c.y;placer(o,k);
+      });
+      function fin(){if(drag){drag=null;sauver();}}
+      o.addEventListener("pointerup",fin);o.addEventListener("pointercancel",fin);
+      o.addEventListener("keydown",function(e){
+        var v={ArrowLeft:[-4,0],ArrowRight:[4,0],ArrowUp:[0,-4],ArrowDown:[0,4]}[e.key];
+        if(!v)return;
+        e.preventDefault();var c=caler(d.x+v[0],d.y+v[1],h);d.x=c.x;d.y=c.y;placer(o,k);sauver();
+      });
+      g.appendChild(o);
     });
-    g.appendChild(o);
   }
+  function nomsDecos(){return Object.keys(DECOS).filter(function(k){return etat.d[k];}).map(function(k){return ", décoration "+DECOS[k].n;}).join("");}
 
   /* Cadeaux : un seul paquet, une lettre, posée au pied du sapin (à droite du pot) */
   var LETTRE=["Chère Inès,","Ici, le texte de ta lettre (à remplacer dans la constante LETTRE du script)."];
@@ -4651,7 +4678,7 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     });
   }
   function rendre(){
-    dessinerArbre();dessinerPot();dessinerEtoile();dessinerGuirlande();dessinerOrnement();dessinerCadeaux();
+    dessinerArbre();dessinerPot();dessinerEtoile();dessinerGuirlande();dessinerOrnements();dessinerCadeaux();
     var sc=$("sp-scene");if(sc){if(etat.l)sc.classList.add("sp-nuit");else sc.classList.remove("sp-nuit");}
     $("sp-nb").textContent=etat.t+"/"+MAX;
     $("sp-phrase").textContent=PHRASES[etat.t]||"";
@@ -4659,10 +4686,10 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     $("sp-etoile-btn").setAttribute("aria-pressed",etat.s?"true":"false");
     $("sp-guirlande-btn").setAttribute("aria-pressed",etat.g?"true":"false");
     $("sp-allumer").setAttribute("aria-pressed",etat.l?"true":"false");$("sp-allumer").disabled=!etat.g;
-    $("sp-bigben-btn").setAttribute("aria-pressed",etat.o?"true":"false");
+    Object.keys(DECOS).forEach(function(k){$(DECOS[k].bt).setAttribute("aria-pressed",etat.d[k]?"true":"false");});
     $("sp-lettre-btn").setAttribute("aria-pressed",etat.c?"true":"false");$("sp-lire").disabled=!etat.c;
     boutons("sp-essences",ESSENCES,"e");boutons("sp-pots",POTS,"p");
-    $("sp-svg").setAttribute("aria-label","Sapin de Noël de "+etat.t+" étages, "+ESSENCES[etat.e].n.toLowerCase()+", dans un "+POTS[etat.p].n.toLowerCase()+(etat.s?", avec une étoile au sommet":"")+(etat.g?(etat.l?", guirlande LED allumée":", guirlande LED éteinte"):"")+(etat.o?", décoration Big Ben":"")+(etat.c?", une lettre au pied du sapin":""));
+    $("sp-svg").setAttribute("aria-label","Sapin de Noël de "+etat.t+" étages, "+ESSENCES[etat.e].n.toLowerCase()+", dans un "+POTS[etat.p].n.toLowerCase()+(etat.s?", avec une étoile au sommet":"")+(etat.g?(etat.l?", guirlande LED allumée":", guirlande LED éteinte"):"")+nomsDecos()+(etat.c?", une lettre au pied du sapin":""));
     nouveau=-1;
   }
   $("sp-plus").addEventListener("click",function(){if(etat.t<MAX){nouveau=etat.t;etat.t++;sauver();rendre();}});
@@ -4675,7 +4702,12 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
   $("sp-lettre-fermer").addEventListener("click",fermerLettre);
   $("sp-lettre").addEventListener("click",function(e){if(e.target===$("sp-lettre"))fermerLettre();});
   $("sp-lettre").addEventListener("keydown",function(e){if(e.key==="Escape"){e.preventDefault();fermerLettre();}else if(e.key==="Tab"){e.preventDefault();foc($("sp-lettre-fermer"));}});
-  $("sp-bigben-btn").addEventListener("click",function(){etat.o=!etat.o;sauver();rendre();});
+  Object.keys(DECOS).forEach(function(k){
+    $(DECOS[k].bt).addEventListener("click",function(){
+      if(etat.d[k])delete etat.d[k];else etat.d[k]={x:DECOS[k].x,y:DECOS[k].y};
+      sauver();rendre();
+    });
+  });
   $("sp-deco").addEventListener("click",function(){if(!etat.g)return;etat.l=!etat.l;sauver();rendre();});
   $("sp-recom").addEventListener("click",function(){etat=copie(DEFAUT);sauver();rendre();});
   dessinerFond();dessinerTronc();rendre();
