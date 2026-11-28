@@ -553,6 +553,38 @@ nav a .pastille,.menu-liste a .pastille{margin-left:.5rem}
 .sp-lettre-in{display:flex;flex-direction:column;gap:1rem;align-items:flex-start;width:min(100%,34rem);max-height:90vh;overflow:auto;padding:1.5rem;border:2px solid var(--miel);border-radius:1.25rem;background:var(--bg);color:var(--ink)}
 .sp-lettre-in h3{margin:0;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--sapin)}
 .sp-lettre-in p{margin:0 0 .75rem}
+.sp-lettre-in{animation:sp-fondu .3s ease-out both}
+@keyframes sp-fondu{from{opacity:0;transform:scale(.97)}}
+/* Ouverture de la lettre : l’enveloppe s’ouvre, deux abeilles sortent le papier et l’apportent à l’écran */
+.sp-anim{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(20,43,5,.55);cursor:pointer}
+.sp-anim[hidden]{display:none}
+.sp-env{position:relative;width:min(78vw,22rem);aspect-ratio:3/2}
+.sp-env i{position:absolute;display:block}
+.sp-dos{inset:0;background:#d98aa3;border-radius:.5rem}
+.sp-pap{position:absolute;left:7%;top:6%;width:86%;height:88%;z-index:2;background:#fffdf3;border-radius:.3rem;box-shadow:0 .2rem .8rem rgba(0,0,0,.25)}
+.sp-pap::before{content:"";position:absolute;inset:.9rem 1rem;background:repeating-linear-gradient(transparent 0 .85rem,rgba(31,77,58,.22) .85rem calc(.85rem + 1px))}
+.sp-poche{inset:0;z-index:3;background:#f4a6b8;border-radius:.5rem;clip-path:polygon(0 0,50% 62%,100% 0,100% 100%,0 100%)}
+.sp-rab{left:0;top:0;width:100%;height:62%;z-index:4;background:#e98aa5;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0}
+.sp-b{position:absolute;top:-1.6rem;width:3.4rem;height:auto;z-index:2;filter:drop-shadow(0 .2rem .3rem rgba(20,43,5,.3));pointer-events:none}
+.sp-b1{left:-1.9rem}
+.sp-b2{right:-1.9rem;transform:scaleX(-1)}
+.sp-go .sp-env{animation:sp-pop .5s ease-out both}
+.sp-go .sp-rab{animation:sp-flap .5s .6s ease-in-out both}
+.sp-go .sp-pap{animation:sp-monte .7s 1.6s ease-out both,sp-vole .9s 2.4s cubic-bezier(.5,0,.2,1) forwards}
+.sp-go .sp-b{animation:sp-bzz .16s ease-in-out infinite alternate}
+.sp-go .sp-b1{animation:sp-bzz .16s ease-in-out infinite alternate,sp-entre1 .9s 1s ease-out both}
+.sp-go .sp-b2{animation:sp-bzz .16s ease-in-out infinite alternate,sp-entre2 .9s 1s ease-out both}
+.sp-anim.sp-fin{animation:sp-sort .35s forwards}
+@keyframes sp-pop{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:none}}
+@keyframes sp-flap{0%{transform:scaleY(1);z-index:4}49%{z-index:4}50%{z-index:1}100%{transform:scaleY(-1);z-index:1}}
+@keyframes sp-monte{from{transform:none}to{transform:translateY(var(--ry))}}
+@keyframes sp-vole{from{transform:translateY(var(--ry));z-index:9}to{transform:translate(var(--fx),var(--fy)) scale(var(--fs));z-index:9}}
+@keyframes sp-bzz{from{rotate:-7deg}to{rotate:7deg}}
+@keyframes sp-entre1{from{transform:translate(-85vw,-30vh);opacity:0}15%{opacity:1}to{transform:none}}
+@keyframes sp-entre2{from{transform:translate(85vw,-30vh) scaleX(-1);opacity:0}15%{opacity:1}to{transform:scaleX(-1)}}
+@keyframes sp-sort{to{opacity:0}}
+@media (prefers-reduced-motion:reduce){.sp-lettre-in{animation:none}}
+.sp-lettre-in .sp-signature{margin-top:1.25rem;text-align:right;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:1.15rem;color:var(--sapin)}
 @media (min-width:48rem){
   .sp-scene{width:min(100%,calc((100vh - 9rem)*1.405));width:min(100%,calc((100svh - 9rem)*1.405));aspect-ratio:520/370}
   .sp-panneau{width:min(100%,34rem)}
@@ -1438,6 +1470,11 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       <div class="sp-bas"><button type="button" class="sd-btn" id="sp-recom">Recommencer</button></div>
      </div>
     </div>
+    </div>
+    <div class="sp-anim" id="sp-anim" aria-hidden="true" hidden>
+      <div class="sp-env"><i class="sp-dos"></i>
+        <div class="sp-pap"><img class="sp-b sp-b1" alt=""><img class="sp-b sp-b2" alt=""></div>
+        <i class="sp-poche"></i><i class="sp-rab"></i></div>
     </div>
     <div class="sp-lettre" id="sp-lettre" role="dialog" aria-modal="true" aria-labelledby="sp-lettre-titre" hidden>
       <div class="sp-lettre-in">
@@ -4777,13 +4814,47 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     "Enfin, j’aime ton regard sur ce qui t’entoure : tu remarques des trucs que personne d’autre ne voit, d’un changement dans une DA jusqu’à un bouton sur mon visage ou le papier toilette qui manque à la maison. Et j’aime ton cœur, cette façon que tu as d’aider les gens par instinct, sans réfléchir, comme pour Candide ou Sibylle.",
     "Je t’aime pour la personne que tu es vraiment, avec ton caractère entier : même quand tu te prends la tête à tout analyser, même quand tu tiens bon alors qu’il serait plus simple de lâcher. Ce n’est pas malgré ça que je t’aime, c’est aussi avec ça. C’est tout."
   ];
+  var SIGNATURE="Loik";
   var apres=null;
   function foc(e){try{e.focus();}catch(x){}}
   function ouvrirLettre(){
     var ov=$("sp-lettre"),t=$("sp-lettre-texte");
     vider(t);
     LETTRE.forEach(function(l){var q=document.createElement("p");q.textContent=l;t.appendChild(q);});
-    apres=document.activeElement;ov.hidden=false;foc($("sp-lettre-fermer"));
+    if(SIGNATURE){var sg=document.createElement("p");sg.className="sp-signature";sg.textContent=SIGNATURE;t.appendChild(sg);}
+    apres=document.activeElement;
+    if(reduit||!$("sp-anim")){afficher();return;}
+    jouer();
+  }
+  /* Affiche la lettre (toujours rouverte tout en haut : le focus sur « Fermer », en bas, la faisait défiler) */
+  function afficher(){
+    var ov=$("sp-lettre");
+    ov.hidden=false;
+    try{$("sp-lettre-fermer").focus({preventScroll:true});}catch(x){foc($("sp-lettre-fermer"));}
+    ov.scrollTop=0;if(ov.firstElementChild)ov.firstElementChild.scrollTop=0;
+  }
+  /* Animation : l’enveloppe s’ouvre, deux abeilles (celles du site) sortent le papier et l’apportent à la taille de la lettre ; un clic ou une touche la passe */
+  function jouer(){
+    var A=$("sp-anim"),ov=$("sp-lettre"),pap=A.querySelector(".sp-pap"),P=window.POLLEN||{},fini=false,tm,r,d;
+    Array.prototype.forEach.call(A.querySelectorAll(".sp-b"),function(b){if(P.orig){b.src=P.orig;b.hidden=false;}else b.hidden=true;});
+    ov.style.visibility="hidden";ov.hidden=false;d=ov.firstElementChild.getBoundingClientRect();ov.hidden=true;ov.style.visibility="";
+    A.className="sp-anim";A.hidden=false;
+    r=pap.getBoundingClientRect();
+    pap.style.setProperty("--ry",(-r.height*.8).toFixed(0)+"px");
+    pap.style.setProperty("--fx",(d.left+d.width/2-r.left-r.width/2).toFixed(0)+"px");
+    pap.style.setProperty("--fy",(d.top+d.height/2-r.top-r.height/2).toFixed(0)+"px");
+    pap.style.setProperty("--fs",(d.width/r.width).toFixed(3));
+    function fin(){
+      if(fini)return;fini=true;clearTimeout(tm);
+      document.removeEventListener("keydown",touche,true);A.onclick=null;pap.onanimationend=null;
+      A.classList.add("sp-fin");afficher();
+      setTimeout(function(){A.hidden=true;A.className="sp-anim";},360);
+    }
+    function touche(e){e.preventDefault();e.stopPropagation();fin();}
+    document.addEventListener("keydown",touche,true);A.onclick=fin;
+    pap.onanimationend=function(e){if(e.animationName==="sp-vole")fin();};
+    tm=setTimeout(fin,4500);
+    A.classList.add("sp-go");
   }
   function fermerLettre(){$("sp-lettre").hidden=true;if(apres)foc(apres);apres=null;}
   function dessinerCadeaux(){
