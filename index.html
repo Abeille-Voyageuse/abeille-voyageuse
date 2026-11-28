@@ -4538,7 +4538,8 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
     }
     h=ne("g",{transform:"translate("+CX+" "+(cy-3)+")"});
     h.innerHTML=s==="coeur"?'<path d="M0 10C-24 -8-10-21 0-9C10-21 24-8 0 10Z" fill="#e8352b" stroke="'+INK+'" stroke-width="2.5" stroke-linejoin="round"/>'
-      :s==="flocon"?flocon():'<g transform="translate(0 -8) scale(.9)">'+(s==="abeille"?abeilleCorps():coccinelleCorps())+'</g>';
+      :s==="flocon"?flocon():IMGS[s]&&IMGS[s].ok?'<use href="#sp-i-'+s+'" x="'+(-IMGS[s].w*.5).toFixed(1)+'" y="'+(-IMGS[s].h*.8).toFixed(1)+'"/>'
+      :'<g transform="translate(0 -8) scale(.9)">'+(s==="abeille"?abeilleCorps():coccinelleCorps())+'</g>';
     g.appendChild(h);
   }
   function dessinerFond(){
@@ -4652,6 +4653,21 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
 
   /* Catalogue des décorations suspendues : chaque dessin est tracé autour de (0,0), le crochet, et se balance doucement. On en accroche autant qu’on veut. */
   var MAXO=40,sel=null,TYPES={},N="#2b2416";
+  /* L’abeille et la coccinelle du site : mêmes images que l’écran de transition (POLLEN.orig) et le mode coccinelle (POLLEN.coccinelle).
+     Chacune est déclarée une fois dans <defs>, puis réutilisée ; ax/ay = point du dos où s’accroche le fil. */
+  var IMGS={abeille:{w:46,h:35,ax:.52,ay:.46},coccinelle:{w:50,h:38,ax:.52,ay:.47}};
+  (function(){
+    var P=window.POLLEN||{},src={abeille:P.orig,coccinelle:P.coccinelle},df=$("sp-svg").querySelector("defs");
+    Object.keys(IMGS).forEach(function(k){
+      if(!src[k]||!df){IMGS[k].ok=false;return;}
+      df.appendChild(ne("image",{id:"sp-i-"+k,href:src[k],width:IMGS[k].w,height:IMGS[k].h}));IMGS[k].ok=true;
+    });
+  })();
+  function pendu(k,corps){
+    var I=IMGS[k],f=18;
+    if(!I.ok)return fil(f)+'<g transform="translate(0 '+(f+16.5)+')">'+corps()+'</g>';
+    return '<use href="#sp-i-'+k+'" x="'+(-I.w*I.ax).toFixed(1)+'" y="'+(f-I.h*I.ay).toFixed(1)+'"/>'+fil(f);
+  }
   function fil(l){return '<path d="M0 0V'+l+'" stroke="#c9a43a" stroke-width="1.6" fill="none"/>';}
   function si(c,w){return ' fill="'+c+'" stroke="'+INK+'" stroke-width="'+(w||2.2)+'" stroke-linejoin="round"';}
   function T(k,g,e,n,ht,d){TYPES[k]={g:g,e:e,n:n,ht:ht,dessin:d,bal:true};}
@@ -4667,16 +4683,26 @@ icone:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAARtUl
       +'<circle cx="-6.5" cy="-1" r="2.6" fill="'+N+'"/><circle cx="6.5" cy="-1" r="2.6" fill="'+N+'"/><circle cx="-6" cy="8.5" r="2.3" fill="'+N+'"/><circle cx="6" cy="8.5" r="2.3" fill="'+N+'"/>'
       +'<circle cx="-2.6" cy="-13" r="1.3" fill="#fff"/><circle cx="2.6" cy="-13" r="1.3" fill="#fff"/><path d="M-2.5 -16.5Q-4 -21 -7 -21M2.5 -16.5Q4 -21 7 -21" stroke="'+INK+'" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
   }
-  T("abeille","Les petites bêtes","🐝","Abeille qui pend",58,function(){return fil(18)+'<g transform="translate(0 34.5)">'+abeilleCorps()+'</g>';});
-  T("coccinelle","Les petites bêtes","🐞","Coccinelle qui pend",52,function(){return fil(18)+'<g transform="translate(0 35.5)">'+coccinelleCorps()+'</g>';});
+  T("abeille","Les petites bêtes","🐝","Abeille qui pend",IMGS.abeille.ok?18+IMGS.abeille.h*(1-IMGS.abeille.ay):58,function(){return pendu("abeille",abeilleCorps);});
+  T("coccinelle","Les petites bêtes","🐞","Coccinelle qui pend",IMGS.coccinelle.ok?18+IMGS.coccinelle.h*(1-IMGS.coccinelle.ay):52,function(){return pendu("coccinelle",coccinelleCorps);});
   function boule(c){var y=24;return fil(8)+'<rect x="-3.5" y="6" width="7" height="6" rx="1.5"'+si("#e6b422",1.6)+'/><circle cx="0" cy="'+y+'" r="13"'+si(c)+'/><ellipse cx="-5" cy="19" rx="2.6" ry="4.2" fill="#fff" opacity=".6" transform="rotate(30 -5 19)"/>';}
   [["rouge","🔴","#e8352b","rouge"],["doree","🟡","#f7c531","dorée"],["bleue","🔵","#3b7de0","bleue"],["rose","🩷","#f4a6b8","rose"],["violette","🟣","#d16fd6","violette"],["argent","⚪","#dfe4ec","argentée"]].forEach(function(c){
     T("boule-"+c[0],"Boules",c[1],"Boule "+c[3],38,function(){return boule(c[2]);});
   });
   T("flocon","Nature","❄️","Flocon",38,function(){return fil(6)+'<g transform="translate(0 22)">'+flocon()+'</g>';});
-  T("marguerite","Nature","🌼","Marguerite",46,function(){
-    var s="",i;for(i=0;i<10;i++)s+='<ellipse cx="0" cy="-11" rx="4" ry="7.5" transform="rotate('+i*36+')"'+si("#fff",1.5)+'/>';
-    return fil(8)+'<g transform="translate(0 26)">'+s+'<circle r="5"'+si("#f7c531",1.8)+'/></g>';});
+  /* Marguerite : la fleur du site (celle de l’animation de transition), copiée dans un <symbol> avec ses dégradés renommés pour ne pas entrer en conflit */
+  var MARG=(function(){
+    var sv=document.querySelector("#transition .fleur svg"),df=$("sp-svg").querySelector("defs"),sy;
+    if(!sv||!df)return false;
+    sy=ne("symbol",{id:"sp-i-marguerite",viewBox:"-114 -114 228 228"});
+    sy.innerHTML=sv.innerHTML.replace(/id="petale"/g,'id="sp-fl-petale"').replace(/id="coeur"/g,'id="sp-fl-coeur"').replace(/#petale/g,"#sp-fl-petale").replace(/#coeur/g,"#sp-fl-coeur");
+    df.appendChild(sy);return true;
+  })();
+  T("marguerite","Nature","🌼","Marguerite",MARG?50:46,function(){
+    var s2="",i;
+    if(MARG)return fil(8)+'<use href="#sp-i-marguerite" x="-22" y="6" width="44" height="44"/>';
+    for(i=0;i<10;i++)s2+='<ellipse cx="0" cy="-11" rx="4" ry="7.5" transform="rotate('+i*36+')"'+si("#fff",1.5)+'/>';
+    return fil(8)+'<g transform="translate(0 26)">'+s2+'<circle r="5"'+si("#f7c531",1.8)+'/></g>';});
   T("champignon","Nature","🍄","Champignon",41,function(){return fil(8)+'<path d="M-6 26V37Q0 41 6 37V26Z"'+si("#f3f4e7")+'/><path d="M-15 26Q-15 8 0 8Q15 8 15 26Z"'+si("#e8352b")+'/><circle cx="-6" cy="17" r="2.2" fill="#fff"/><circle cx="5" cy="14" r="2" fill="#fff"/><circle cx="8" cy="21" r="1.8" fill="#fff"/>';});
   T("pomme","Nature","🌰","Pomme de pin",40,function(){return fil(6)+'<path d="M0 6C-12 6 -14 24 -10 32C-6 40 6 40 10 32C14 24 12 6 0 6Z"'+si("#8a5a38")+'/><path d="M-9 16Q0 22 9 16M-10 24Q0 30 10 24M-7 32Q0 37 7 32" stroke="#5a3a22" stroke-width="1.6" fill="none"/>';});
   T("canne","Gourmandises","🍬","Canne à bonbon",51,function(){var P="M10 46V20Q10 6 0 6Q-10 6 -10 16";return fil(6)+'<g fill="none" stroke-linecap="round"><path d="'+P+'" stroke="'+INK+'" stroke-width="10.5"/><path d="'+P+'" stroke="#fff" stroke-width="7.5"/><path d="'+P+'" stroke="#e8352b" stroke-width="7.5" stroke-dasharray="4 5" stroke-linecap="butt"/></g>';});
